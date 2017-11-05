@@ -26,19 +26,14 @@ class HomeView extends React.Component {
     render() {
         return (
             <div className="container">
-                <div className="margin-top-medium text-center">
-                    <img className="page-logo margin-bottom-medium"
-                        src={reactLogo}
-                        alt="ReactJs"
-                    />
-                    <img className="page-logo margin-bottom-medium"
-                        src={reduxLogo}
-                        alt="Redux"
-                    />
-                </div>
                 <div className="text-center">
-                    <h1>Django React Redux Demo</h1>
-                    <h4>Hello, {this.props.userName || 'guest'}.</h4>
+                    <h1>Pourquoi ce site ?</h1>
+                    <p>Le zéro déchet c'est une démarche passionnante mais il
+                    parfois difficile de savoir par où commencer ou bien comment
+                    supprimer un déchet. Parfois il y a même des déchets qu'on ne
+                    savait pas exister. Ce site est là pour ça. Vous aider à vous
+                    lancer, vous améliorer, réduire plus, lancer des défis à vos
+                    amis, votre famille.</p>
                 </div>
                 <div className="margin-top-medium text-center">
                     <p>Attempt to access some <a onClick={this.goToProtected}><b>protected content</b></a>.</p>
