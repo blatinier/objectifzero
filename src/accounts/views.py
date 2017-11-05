@@ -65,3 +65,24 @@ class UserEmailConfirmationStatusView(GenericAPIView):
         """Retrieve user current confirmed_email status."""
         user = self.request.user
         return Response({'status': user.confirmed_email}, status=status.HTTP_200_OK)
+
+
+class UserProfileView(GenericAPIView):
+    """Return user profile data."""
+
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        """Process GET request and return profile data."""
+        user = self.request.user
+        data = {
+            'gender': user.gender,
+            'has_garden': user.has_garden,
+            'do_smoke': user.do_smoke,
+            'home_owner': user.home_owner,
+            'email': user.email,
+            'pseudo': user.pseudo
+        }
+
+        return Response(data, status=status.HTTP_200_OK)

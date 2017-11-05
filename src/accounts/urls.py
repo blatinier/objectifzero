@@ -16,5 +16,8 @@ urlpatterns = [
     url(_(r'^status/email/$'),
         accounts.views.UserEmailConfirmationStatusView.as_view(),
         name='status'),
+    url(_(r'^profile/$'),
+        accounts.views.UserProfileView.as_view(),
+        name='profile'),
 
 ]
