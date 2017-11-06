@@ -1,7 +1,4 @@
 language: python
-branches:
-  only: 
-    - master
 python:
   - "3.4"
 services:
@@ -12,7 +9,7 @@ before_script:
   - git submodule update
   - ./scripts/get_static_validation.sh
 # command to install dependencies
-install: 
+install:
   - pip install -r py-requirements/dev.txt
   - nvm install 6
   - npm install
