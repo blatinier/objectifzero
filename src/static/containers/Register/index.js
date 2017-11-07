@@ -12,7 +12,7 @@ const Form = t.form.Form;
 
 const Register = t.struct({
     email: t.String,
-    password: t.String
+    password: t.String,
     password_confirmation: t.String
 });
 
@@ -50,14 +50,12 @@ class RegisterView extends React.Component {
     constructor(props) {
         super(props);
 
-        const redirectRoute = this.props.location ? this.extractRedirect(this.props.location.search) || '/' : '/';
         this.state = {
             formValues: {
                 email: '',
                 password: '',
                 password_confirmation: ''
-            },
-            redirectTo: redirectRoute
+            }
         };
     }
 
@@ -71,16 +69,11 @@ class RegisterView extends React.Component {
         this.setState({ formValues: value });
     };
 
-    extractRedirect = (string) => {
-        const match = string.match(/next=(.*)/);
-        return match ? match[1] : '/';
-    };
-
     register = (e) => {
         e.preventDefault();
         const value = this.registerForm.getValue();
         if (value) {
-            this.props.actions.registerUser(value.email, value.password, value.password_confirmation, this.state.redirectTo);
+            this.props.actions.registerUser(value.email, value.password, value.password_confirmation);
         }
     };
 
@@ -120,7 +113,7 @@ class RegisterView extends React.Component {
                             type="submit"
                             className="btn btn-default btn-block"
                         >
-                            Submit
+                            S'inscrire !
                         </button>
                     </form>
                 </div>
