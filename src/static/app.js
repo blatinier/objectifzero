@@ -29,6 +29,10 @@ class App extends React.Component {
         this.props.dispatch(push('/'));
     };
 
+    goToRegister = () => {
+        this.props.dispatch(push('/register'));
+    };
+
     goToLogin = () => {
         this.props.dispatch(push('/login'));
     };
@@ -43,6 +47,9 @@ class App extends React.Component {
         });
         const loginClass = classNames({
             active: this.props.location && this.props.location.pathname === '/login'
+        });
+        const registerClass = classNames({
+            active: this.props.location && this.props.location.pathname === '/register'
         });
 
         return (
@@ -75,15 +82,20 @@ class App extends React.Component {
                                     </li>
                                     <li>
                                         <a className="js-logout-button" onClick={this.logout}>
-                                            Logout
+                                            Déconnexion
                                         </a>
                                     </li>
                                 </ul>
                                 :
                                 <ul className="nav navbar-nav navbar-right">
+                                    <li className={registerClass}>
+                                        <a className="js-login-button" onClick={this.goToRegister}>
+                                            Inscription
+                                        </a>
+                                    </li>
                                     <li className={loginClass}>
                                         <a className="js-login-button" onClick={this.goToLogin}>
-                                            <i className="fa fa-home" /> Login
+                                            Connexion
                                         </a>
                                     </li>
                                 </ul>

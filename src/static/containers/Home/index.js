@@ -4,19 +4,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import './style.scss';
-import reactLogo from './images/react-logo.png';
-import reduxLogo from './images/redux-logo.png';
 
 class HomeView extends React.Component {
     static propTypes = {
         statusText: PropTypes.string,
-        userName: PropTypes.string,
         dispatch: PropTypes.func.isRequired
     };
 
     static defaultProps = {
         statusText: '',
-        userName: ''
     };
 
     goToProtected = () => {
@@ -54,7 +50,6 @@ class HomeView extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        userName: state.auth.userName,
         statusText: state.auth.statusText
     };
 };
