@@ -1,13 +1,13 @@
 import os
 from django.db import models
-from accounts.models import MyUserManager
+from accounts.models import User
 
-CARDS_STATUS = {
-    'NOT_STARTED': 'Not started',
-    'NOT_CONCERNED': 'Not concerned',
-    'STARTED': 'Started',
-    'DONE': 'Done'
-}
+CARDS_STATUS = (
+    ('NOT_STARTED', 'Not started'),
+    ('NOT_CONCERNED', 'Not concerned'),
+    ('STARTED', 'Started'),
+    ('DONE', 'Done')
+)
 
 
 def get_card_image_path(instance, filename):
@@ -37,8 +37,8 @@ class Card(models.Model):
 
 
 class UserCards(models.Model):
-    user = models.ForeignKey(MyUserManager)
+    user = models.ForeignKey(User)
     card = models.ForeignKey(Card)
     status = models.CharField(max_length=50,
                               choices=CARDS_STATUS,
-                              default=CARDS_STATUS['NOT_STARTED'])
+                              default='NOT_STARTED')

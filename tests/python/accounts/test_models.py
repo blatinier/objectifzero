@@ -5,8 +5,6 @@ from accounts.models import User
 
 
 class UserFactory(factory.DjangoModelFactory):
-    first_name = 'John'
-    last_name = 'Doe'
     is_active = True
 
     class Meta:
@@ -27,13 +25,5 @@ class AccountsModelsTests(TestCase):
 
     def test_user(self):
         user = User.objects.create_user(email='email@test.com',
-                                        first_name='user',
-                                        last_name='test',
                                         password='test')
         self.assertEqual(user.is_superuser, False)
-
-    def test_get_full_name(self):
-        self.assertEqual(self.user.get_full_name(), 'John Doe')
-
-    def test_get_short_name(self):
-        self.assertEqual(self.user.get_short_name(), 'John')

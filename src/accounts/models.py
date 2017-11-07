@@ -9,14 +9,12 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class MyUserManager(BaseUserManager):
-    def _create_user(self, email, password, first_name, last_name, is_staff, is_superuser, **extra_fields):
+    def _create_user(self, email, password, is_staff, is_superuser, **extra_fields):
         """
         Create and save an User with the given email, password, name and phone number.
 
         :param email: string
         :param password: string
-        :param first_name: string
-        :param last_name: string
         :param is_staff: boolean
         :param is_superuser: boolean
         :param extra_fields:
@@ -25,8 +23,6 @@ class MyUserManager(BaseUserManager):
         now = timezone.now()
         email = self.normalize_email(email)
         user = self.model(email=email,
-                          first_name=first_name,
-                          last_name=last_name,
                           is_staff=is_staff,
                           is_active=True,
                           is_superuser=is_superuser,
@@ -37,33 +33,29 @@ class MyUserManager(BaseUserManager):
 
         return user
 
-    def create_user(self, email, first_name, last_name, password, **extra_fields):
+    def create_user(self, email, password, **extra_fields):
         """
         Create and save an User with the given email, password and name.
 
         :param email: string
-        :param first_name: string
-        :param last_name: string
         :param password: string
         :param extra_fields:
         :return: User
         """
 
-        return self._create_user(email, password, first_name, last_name, is_staff=False, is_superuser=False,
+        return self._create_user(email, password, is_staff=False, is_superuser=False,
                                  **extra_fields)
 
-    def create_superuser(self, email, first_name='', last_name='', password=None, **extra_fields):
+    def create_superuser(self, email, password=None, **extra_fields):
         """
         Create a super user.
 
         :param email: string
-        :param first_name: string
-        :param last_name: string
         :param password: string
         :param extra_fields:
         :return: User
         """
-        return self._create_user(email, password, first_name, last_name, is_staff=True, is_superuser=True,
+        return self._create_user(email, password, is_staff=True, is_superuser=True,
                                  **extra_fields)
 
 
@@ -84,7 +76,7 @@ class User(AbstractBaseUser):
     # we want primary key to be called id so need to ignore pytlint
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # pylint: disable=invalid-name
 
-    pseudo = models.CharField(_('Pseudo'), max_length=50)
+    pseudo = models.CharField(_('Pseudo'), max_length=50, blank=True, null=True)
     email = models.EmailField(_('Email address'), unique=True)
 
     confirmed_email = models.BooleanField(default=False)
@@ -99,7 +91,7 @@ class User(AbstractBaseUser):
     activation_key = models.UUIDField(unique=True, default=uuid.uuid4)  # email
 
     # Zero Waste fields
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default=GENDER_MALE)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default=GENDER_MALE, blank=True, null=True)
     has_garden = models.BooleanField(default=False)
     do_smoke = models.BooleanField(default=False)
     home_owner = models.BooleanField(default=False)
@@ -115,22 +107,6 @@ class User(AbstractBaseUser):
         :return: string
         """
         return self.email
-
-    def get_full_name(self):
-        """
-        Return the first_name plus the last_name, with a space in between.
-
-        :return: string
-        """
-        return "{0} {1}".format(self.first_name, self.last_name)
-
-    def get_short_name(self):
-        """
-        Return the first_name.
-
-        :return: string
-        """
-        return self.first_name
 
     def activation_expired(self):
         """

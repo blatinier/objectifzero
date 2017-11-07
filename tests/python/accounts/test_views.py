@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from lib.testutils import CustomTestCase
-from tests.python.accounts.test_serializers import UserRegistrationSerializerTest, UserSerializerTest
+from tests.python.accounts.test_serializers import UserRegistrationSerializerTest
 from .test_models import UserFactory
 
 
@@ -29,9 +29,7 @@ class AccountTests(CustomTestCase, APITestCase):
     ]
 
     def setUp(self):
-        self.user = UserFactory.create(email='emailwilllogin@mydomain.com',
-                                       first_name='Test',
-                                       last_name='User')
+        self.user = UserFactory.create(email='emailwilllogin@mydomain.com')
         self.user.set_password('test')
         self.user.save()
         self.user_2 = UserFactory.create(email='emailwilllogininserializer@mydomain.com')
@@ -49,8 +47,6 @@ class AccountTests(CustomTestCase, APITestCase):
         url = reverse('accounts:register')
         data = {
             'email': 'emailsuccess@mydomain.com',
-            'first_name': 'test',
-            'last_name': 'user',
             'password': 'test'
         }
         response = self.client.post(url, data, format='json')
@@ -68,8 +64,6 @@ class AccountTests(CustomTestCase, APITestCase):
         url = reverse('accounts:register')
         data = {
             'email': 'emailsuccess@mydomain.com',
-            'first_name': 'test',
-            'last_name': 'user',
             'password': 'test'
         }
         response = self.client.post(url, data, format='json')
@@ -85,8 +79,6 @@ class AccountTests(CustomTestCase, APITestCase):
         url = reverse('accounts:register')
         data = {
             'email': 'emailsuccess@mydomain.com',
-            'first_name': 'test',
-            'last_name': 'user',
             'password': 'test'
         }
         response = self.client.post(url, data, format='json')
@@ -115,8 +107,6 @@ class AccountTests(CustomTestCase, APITestCase):
 
     def test_account_confirm_email_successful(self):
         user = UserFactory.create(email='emailtoconfirm@mydomain.com',
-                                  first_name='Test',
-                                  last_name='User',
                                   confirmed_email=False)
 
         # confirm email successful
