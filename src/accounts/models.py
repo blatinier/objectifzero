@@ -77,6 +77,8 @@ class User(AbstractBaseUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # pylint: disable=invalid-name
 
     pseudo = models.CharField(_('Pseudo'), max_length=50, blank=True, null=True)
+    first_name = models.CharField(_('First Name'), max_length=50, blank=True, null=True)
+    last_name = models.CharField(_('Last Name'), max_length=50, blank=True, null=True)
     email = models.EmailField(_('Email address'), unique=True)
 
     confirmed_email = models.BooleanField(default=False)

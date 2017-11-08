@@ -6,7 +6,8 @@ import {
     AUTH_LOGIN_USER_REQUEST,
     AUTH_LOGIN_USER_FAILURE,
     AUTH_LOGIN_USER_SUCCESS,
-    AUTH_LOGOUT_USER
+    AUTH_LOGOUT_USER,
+    AUTH_REGISTER_USER_FAILURE
 } from '../constants';
 
 
@@ -89,5 +90,43 @@ export function authLoginUser(email, password, redirect = '/') {
 
                 return Promise.resolve(); // TODO: we need a promise here because of the tests, find a better way
             });
+    };
+}
+
+export function authRegisterUser(email, password) {
+    return (dispatch) => {
+        dispatch(authLoginUserRequest());
+        return fetch(`${SERVER_URL}/api/v1/accounts/register/`, {
+            method: 'post',
+            body: JSON.stringify({
+                'email': email,
+                'password': password,
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(checkHttpStatus)
+            .then(parseJSON)
+            .then((response) => {
+                dispatch(authLoginUser(email, password, '/dashboard'));
+            })
+            .catch((error) => {
+                if (error && typeof error.response !== 'undefined' && error.response.status < 500) {
+                    dispatch(authRegisterError('Erreur de saisie', 'Email invalide ou déjà enregistré.'));
+                }
+                return Promise.resolve();
+            });
+    };
+}
+
+export function authRegisterError(error, message) {
+    return {
+        type: AUTH_REGISTER_USER_FAILURE,
+        payload: {
+            status: error,
+            statusText: message
+        }
     };
 }

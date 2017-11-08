@@ -35,7 +35,7 @@ class RegisterView extends React.Component {
         isAuthenticating: PropTypes.bool.isRequired,
         statusText: PropTypes.string,
         actions: PropTypes.shape({
-            registerUser: PropTypes.func.isRequired
+            authRegisterUser: PropTypes.func.isRequired
         }).isRequired,
         location: PropTypes.shape({
             search: PropTypes.string.isRequired
@@ -71,9 +71,14 @@ class RegisterView extends React.Component {
 
     register = (e) => {
         e.preventDefault();
+
         const value = this.registerForm.getValue();
         if (value) {
-            this.props.actions.registerUser(value.email, value.password, value.password_confirmation);
+            if (value.password == value.password_confirmation) {
+                this.props.actions.authRegisterUser(value.email, value.password);
+            } else {
+                this.props.actions.authRegisterError('Erreur de saisie', 'Les deux mots de passe saisis ne correspondent pas.');
+            }
         }
     };
 
@@ -99,10 +104,10 @@ class RegisterView extends React.Component {
 
         return (
             <div className="container login">
-                <h1 className="text-center">Register</h1>
+                <h1 className="text-center">S'inscrire</h1>
                 <div className="login-container margin-top-medium">
                     {statusText}
-                    <form onSubmit={this.register}>
+                    <form id='register_form' onSubmit={this.register}>
                         <Form ref={(ref) => { this.registerForm= ref; }}
                             type={Register}
                             options={RegisterFormOptions}
