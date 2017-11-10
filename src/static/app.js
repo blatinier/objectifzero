@@ -37,13 +37,13 @@ class App extends React.Component {
         this.props.dispatch(push('/login'));
     };
 
-    goToProtected = () => {
-        this.props.dispatch(push('/protected'));
+    goToDashboard = () => {
+        this.props.dispatch(push('/dashboard'));
     };
 
     render() {
-        const protectedClass = classNames({
-            active: this.props.location && this.props.location.pathname === '/protected'
+        const dashboardClass = classNames({
+            active: this.props.location && this.props.location.pathname === '/dashboard'
         });
         const loginClass = classNames({
             active: this.props.location && this.props.location.pathname === '/login'
@@ -75,9 +75,9 @@ class App extends React.Component {
                         <div className="collapse navbar-collapse" id="top-navbar">
                             {this.props.isAuthenticated ?
                                 <ul className="nav navbar-nav navbar-right">
-                                    <li className={protectedClass}>
-                                        <a className="js-go-to-protected-button" onClick={this.goToProtected}>
-                                            <i className="fa fa-lock" /> Protected
+                                    <li className={dashboardClass}>
+                                        <a className="js-go-to-protected-button" onClick={this.goToDashboard}>
+                                            <i className="fa fa-lock" /> Dashboard
                                         </a>
                                     </li>
                                     <li>

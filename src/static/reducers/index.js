@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import authReducer from './auth';
-import dataReducer from './data';
+import profileReducer from './profile';
+import cardsReducer from './cards';
 
 export default combineReducers({
     auth: authReducer,
-    data: dataReducer,
+    profile: profileReducer,
+    cards: cardsReducer,
     routing: routerReducer
 });

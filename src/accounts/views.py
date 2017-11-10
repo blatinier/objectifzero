@@ -77,12 +77,21 @@ class UserProfileView(GenericAPIView):
         """Process GET request and return profile data."""
         user = self.request.user
         data = {
+            'email': user.email,
+            'pseudo': user.pseudo,
             'gender': user.gender,
             'has_garden': user.has_garden,
             'do_smoke': user.do_smoke,
-            'home_owner': user.home_owner,
-            'email': user.email,
-            'pseudo': user.pseudo
+            'home_owner': user.home_owner
         }
 
         return Response(data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        """Process POST requtest to update profile"""
+        user = self.request.user
+        for field, value in request.data.items():
+            if field in user.EDITABLE_FIELDS:
+                setattr(user, field, value)
+        user.save()
+        return Response({'status': 'updated'}, status=status.HTTP_200_OK)
