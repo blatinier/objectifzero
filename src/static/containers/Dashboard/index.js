@@ -7,10 +7,8 @@ class DashboardView extends React.Component {
     render() {
         return (
             <div className="protected">
-                <div className="container">
-                    <Profile></Profile>
-                    <CardList></CardList>
-                </div>
+                <Profile></Profile>
+                <CardList></CardList>
             </div>
         );
     }

@@ -97,7 +97,7 @@ export function profileUpdateField(token, field, value) {
             .then(checkHttpStatus)
             .then(parseJSON)
             .then((response) => {
-                dispatch(profileUpdated(response));
+                dispatch(profileReceive(response));
             })
             .catch((error) => {
                 if (error && typeof error.response !== 'undefined' && error.response.status >= 500) {

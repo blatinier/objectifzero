@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import Switch from '../Switch';
+import './style.scss';
 
 import * as actionCreators from '../../actions/profile';
 
@@ -52,37 +53,30 @@ class ProfileView extends React.Component {
 
     render() {
         return (
-          <div className="col-lg-3">
+          <div className="profile-side-block col-lg-3">
             {this.props.isFetching === true ?
               <p className="text-center">Loading profile...</p>
             :
-              <div>
-                <div className="margin-top-small">
-                  <div className="alert alert-info">
-                    <b>{this.props.profile.pseudo}</b>
-                    <ul>
-                      <li>{this.props.profile.email}</li>
-                      <li>Sexe : {this.props.profile.gender}</li>
-                      <li>
-                        Je suis propriétaire :
-                        <Switch
-                            isOn={this.props.profile.home_owner}
-                            action={this.update_home_owner}></Switch>
-                      </li>
-                      <li>
-                        J'ai un jardin :
-                        <Switch
-                            isOn={this.props.profile.has_garden}
-                            action={this.update_has_garden}></Switch>
-                      </li>
-                      <li>
-                        Je suis fumeur :
-                        <Switch
-                            isOn={this.props.profile.do_smoke}
-                            action={this.update_do_smoke}></Switch>
-                      </li>
-                    </ul>
-                  </div>
+              <div className="col-lg-12">
+                <b>{this.props.profile.pseudo}</b>
+                <div className="row">
+                  <div className="col-lg-12">{this.props.profile.email}</div>
+                  <div className="col-lg-12">Sexe : {this.props.profile.gender}</div>
+                  <div className="col-lg-7">Je suis propriétaire :</div>
+                  <Switch
+                      className="col-lg-5"
+                      isOn={this.props.profile.home_owner}
+                      action={this.update_home_owner}></Switch>
+                  <div className="col-lg-7">J'ai un jardin :</div>
+                  <Switch
+                      className="col-lg-5"
+                      isOn={this.props.profile.has_garden}
+                      action={this.update_has_garden}></Switch>
+                  <div className="col-lg-7">Je suis fumeur :</div>
+                  <Switch
+                      className="col-lg-5"
+                      isOn={this.props.profile.do_smoke}
+                      action={this.update_do_smoke}></Switch>
                 </div>
               </div>
             }
