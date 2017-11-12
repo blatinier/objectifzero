@@ -30,7 +30,7 @@ class UserCardView(GenericAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request, card_slug):
+    def get(self, request):
         """Process GET request and return card data."""
         ucards = UserCard.objects.filter(user=request.user)
         list_cards = []

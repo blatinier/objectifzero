@@ -36,7 +36,7 @@ export function usercardsFetchFailure(error, message) {
 export function usercardsFetch(token) {
     return (dispatch, state) => {
         dispatch(usercardsFetchRequest());
-        return fetch(`${SERVER_URL}/api/v1/getdata/`, {
+        return fetch(`${SERVER_URL}/api/v1/cards/user_cards/`, {
             credentials: 'include',
             headers: {
                 Accept: 'application/json',
