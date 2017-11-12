@@ -4,9 +4,8 @@ import { push } from 'react-router-redux';
 import { SERVER_URL } from '../utils/config';
 import { checkHttpStatus, parseJSON } from '../utils';
 import { USER_CARDS_FETCH_REQUEST,
-         USER_CARDS_RECEIVE,
-         USER_CARDS_FETCH_FAILURE } from '../constants';
-import { authLoginUserFailure } from './auth';
+    USER_CARDS_RECEIVE,
+    USER_CARDS_FETCH_FAILURE } from '../constants';
 
 
 export function usercardsReceive(usercards) {

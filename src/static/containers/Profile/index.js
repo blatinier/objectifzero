@@ -11,16 +11,17 @@ class ProfileView extends React.Component {
     static propTypes = {
         isFetching: PropTypes.bool.isRequired,
         profile: PropTypes.shape({
-          pseudo: PropTypes.string,
-          email: PropTypes.string,
-          gender: PropTypes.string,
-          has_garden: PropTypes.bool,
-          do_smoke: PropTypes.bool,
-          home_owner: PropTypes.bool
+            pseudo: PropTypes.string,
+            email: PropTypes.string,
+            gender: PropTypes.string,
+            has_garden: PropTypes.bool,
+            do_smoke: PropTypes.bool,
+            home_owner: PropTypes.bool
         }),
         token: PropTypes.string.isRequired,
         actions: PropTypes.shape({
-            profileFetch: PropTypes.func.isRequired
+            profileFetch: PropTypes.func.isRequired,
+            profileUpdateField: PropTypes.func.isRequired
         }).isRequired
     };
 
@@ -34,59 +35,60 @@ class ProfileView extends React.Component {
         this.props.actions.profileFetch(token);
     }
 
-    update_field = (field, value) => {
+    updateField = (field, value) => {
         const token = this.props.token;
         this.props.actions.profileUpdateField(token, field, value);
     }
 
-    update_home_owner = (val) => {
-        this.update_field('home_owner', val);
+    updateHomeOwner = (val) => {
+        this.updateField('home_owner', val);
     }
 
-    update_has_garden = (val) => {
-        this.update_field('has_garden', val);
+    updateHasGarden = (val) => {
+        this.updateField('has_garden', val);
     }
 
-    update_do_smoke = (val) => {
-        this.update_field('do_smoke', val);
+    updateDoSmoke = (val) => {
+        this.updateField('do_smoke', val);
     }
 
     render() {
+        const profile = this.props.profile;
         return (
-          <div className="profile-side-block col-lg-3">
-            {this.props.isFetching === true ?
-              <p className="text-center">Loading profile...</p>
-            :
-              <div className="col-lg-12">
-                <b>{this.props.profile.pseudo}</b>
-                <div className="row">
-                  <div className="col-lg-12">{this.props.profile.email}</div>
-                  <div className="col-lg-12">Sexe : {this.props.profile.gender}</div>
-                  <div className="col-lg-7">Je suis propriétaire :</div>
-                  <Switch
-                      className="col-lg-5"
-                      isOn={this.props.profile.home_owner}
-                      action={this.update_home_owner}></Switch>
-                  <div className="col-lg-7">J'ai un jardin :</div>
-                  <Switch
-                      className="col-lg-5"
-                      isOn={this.props.profile.has_garden}
-                      action={this.update_has_garden}></Switch>
-                  <div className="col-lg-7">Je suis fumeur :</div>
-                  <Switch
-                      className="col-lg-5"
-                      isOn={this.props.profile.do_smoke}
-                      action={this.update_do_smoke}></Switch>
-                </div>
-              </div>
-            }
-          </div>
+            <div className="profile-side-block col-lg-3">
+                {this.props.isFetching === true ?
+                    <p className="text-center">Loading profile...</p>
+                    :
+                    <div className="col-lg-12">
+                        <b>{profile.pseudo}</b>
+                        <div className="row">
+                            <div className="col-lg-12">{profile.email}</div>
+                            <div className="col-lg-12">Sexe : {profile.gender}</div>
+                            <div className="col-lg-7">Je suis propriétaire :</div>
+                            <Switch className="col-lg-5"
+                                isOn={profile.home_owner}
+                                action={this.updateHomeOwner}
+                            />
+                            <div className="col-lg-7">J&quote;ai un jardin :</div>
+                            <Switch className="col-lg-5"
+                                isOn={profile.has_garden}
+                                action={this.updateHasGarden}
+                            />
+                            <div className="col-lg-7">Je suis fumeur :</div>
+                            <Switch className="col-lg-5"
+                                isOn={profile.do_smoke}
+                                action={this.updateDoSmoke}
+                            />
+                        </div>
+                    </div>
+                }
+            </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    var prof = {};
+    let prof = {};
     if (state.profile) {
         prof = state.profile.profile;
     }

@@ -35,16 +35,13 @@ class RegisterView extends React.Component {
         isAuthenticating: PropTypes.bool.isRequired,
         statusText: PropTypes.string,
         actions: PropTypes.shape({
-            authRegisterUser: PropTypes.func.isRequired
-        }).isRequired,
-        location: PropTypes.shape({
-            search: PropTypes.string.isRequired
-        })
+            authRegisterUser: PropTypes.func.isRequired,
+            authRegisterError: PropTypes.func.isRequired
+        }).isRequired
     };
 
     static defaultProps = {
-        statusText: '',
-        location: null
+        statusText: ''
     };
 
     constructor(props) {
@@ -74,7 +71,7 @@ class RegisterView extends React.Component {
 
         const value = this.registerForm.getValue();
         if (value) {
-            if (value.password == value.password_confirmation) {
+            if (value.password === value.password_confirmation) {
                 this.props.actions.authRegisterUser(value.email, value.password);
             } else {
                 this.props.actions.authRegisterError('Erreur de saisie', 'Les deux mots de passe saisis ne correspondent pas.');
@@ -104,11 +101,11 @@ class RegisterView extends React.Component {
 
         return (
             <div className="container login">
-                <h1 className="text-center">S'inscrire</h1>
+                <h1 className="text-center">S&quote;inscrire</h1>
                 <div className="login-container margin-top-medium">
                     {statusText}
-                    <form id='register_form' onSubmit={this.register}>
-                        <Form ref={(ref) => { this.registerForm= ref; }}
+                    <form id="register_form" onSubmit={this.register}>
+                        <Form ref={(ref) => { this.registerForm = ref; }}
                             type={Register}
                             options={RegisterFormOptions}
                             value={this.state.formValues}
@@ -118,7 +115,7 @@ class RegisterView extends React.Component {
                             type="submit"
                             className="btn btn-default btn-block"
                         >
-                            S'inscrire !
+                            S&quote;inscrire !
                         </button>
                     </form>
                 </div>

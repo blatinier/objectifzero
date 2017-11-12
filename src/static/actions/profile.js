@@ -1,13 +1,12 @@
 import fetch from 'isomorphic-fetch';
-import { push } from 'react-router-redux';
 
 import { SERVER_URL } from '../utils/config';
 import { checkHttpStatus, parseJSON } from '../utils';
 import { PROFILE_FETCH_REQUEST,
-         PROFILE_RECEIVE,
-         PROFILE_FETCH_FAILURE,
-         PROFILE_UPDATE_FAILURE,
-         PROFILE_UPDATE_REQUEST} from '../constants';
+    PROFILE_RECEIVE,
+    PROFILE_FETCH_FAILURE,
+    PROFILE_UPDATE_FAILURE,
+    PROFILE_UPDATE_REQUEST } from '../constants';
 
 
 export function profileReceive(data) {
@@ -82,7 +81,7 @@ export function profileUpdateFailure(error, message) {
 export function profileUpdateField(token, field, value) {
     return (dispatch, state) => {
         dispatch(profileUpdateRequest());
-        var body = {};
+        const body = {};
         body[field] = value;
         return fetch(`${SERVER_URL}/api/v1/accounts/profile/`, {
             credentials: 'include',

@@ -35,10 +35,29 @@ class Card(models.Model):
     sources = models.TextField(blank=True, null=True)
     help_links = models.TextField(blank=True, null=True)
 
+    def dump(self):
+        return {
+            'slug': self.slug,
+            'title': self.title,
+            'description': self.description,
+            'image': self.image,
+            'waste_reduction': self.waste_reduction,
+            'waste_reduction_score': self.waste_reduction_score,
+            'difficulty_score': self.difficulty_score,
+            'cost_score': self.cost_score,
+            'sources': self.sources,
+            'help_links': self.help_links,
+        }
 
-class UserCards(models.Model):
+
+class UserCard(models.Model):
     user = models.ForeignKey(User)
     card = models.ForeignKey(Card)
     status = models.CharField(max_length=50,
                               choices=CARDS_STATUS,
                               default='NOT_STARTED')
+
+    def dump(self):
+        card = self.card.dump()
+        card['status'] = self.status
+        return card

@@ -93,14 +93,24 @@ export function authLoginUser(email, password, redirect = '/') {
     };
 }
 
+export function authRegisterError(error, message) {
+    return {
+        type: AUTH_REGISTER_USER_FAILURE,
+        payload: {
+            status: error,
+            statusText: message
+        }
+    };
+}
+
 export function authRegisterUser(email, password) {
     return (dispatch) => {
         dispatch(authLoginUserRequest());
         return fetch(`${SERVER_URL}/api/v1/accounts/register/`, {
             method: 'post',
             body: JSON.stringify({
-                'email': email,
-                'password': password,
+                email: email,
+                password: password,
             }),
             headers: {
                 'Accept': 'application/json',
@@ -118,15 +128,5 @@ export function authRegisterUser(email, password) {
                 }
                 return Promise.resolve();
             });
-    };
-}
-
-export function authRegisterError(error, message) {
-    return {
-        type: AUTH_REGISTER_USER_FAILURE,
-        payload: {
-            status: error,
-            statusText: message
-        }
     };
 }

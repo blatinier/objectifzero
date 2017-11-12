@@ -65,6 +65,7 @@ class User(AbstractBaseUser):
 
     To be active, the user must register and confirm his email.
     """
+
     EDITABLE_FIELDS = ['pseudo', 'gender', 'has_garden',
                        'do_smoke', 'home_owner']
     GENDER_MALE = 'M'

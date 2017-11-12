@@ -1,5 +1,4 @@
 import React from 'react';
-import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -7,8 +6,7 @@ import './style.scss';
 
 class HomeView extends React.Component {
     static propTypes = {
-        statusText: PropTypes.string,
-        dispatch: PropTypes.func.isRequired
+        statusText: PropTypes.string
     };
 
     static defaultProps = {
@@ -31,7 +29,7 @@ class HomeView extends React.Component {
                     <h1>Pourquoi ce site ?</h1>
                     <p>Le zéro déchet est une démarche passionnante mais il
                     parfois difficile de savoir par où commencer, ou bien comment
-                    supprimer un déchet. Parfois il y a même des déchets qu'on ne
+                    supprimer un déchet. Parfois il y a même des déchets qu&quote;on ne
                     savait pas exister. Ce site est là pour vous aider à vous
                     lancer, vous améliorer, réduire plus, lancer des défis à vos
                     amis, votre famille.</p>
