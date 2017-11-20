@@ -29,18 +29,17 @@ class Card(models.Model):
     # Scores
     waste_reduction_score = models.PositiveSmallIntegerField()
     difficulty_score = models.PositiveSmallIntegerField()
-    cost_score = models.PositiveSmallIntegerField()
+    cost_score = models.SmallIntegerField()
 
     # External links
     sources = models.TextField(blank=True, null=True)
     help_links = models.TextField(blank=True, null=True)
 
     def dump(self):
-        return {
+        card_data = {
             'slug': self.slug,
             'title': self.title,
             'description': self.description,
-            'image': self.image,
             'waste_reduction': self.waste_reduction,
             'waste_reduction_score': self.waste_reduction_score,
             'difficulty_score': self.difficulty_score,
@@ -48,6 +47,9 @@ class Card(models.Model):
             'sources': self.sources,
             'help_links': self.help_links,
         }
+        if self.image and hasattr(self.image, 'url'):
+            card_data['image'] = self.image
+        return card_data
 
 
 class UserCard(models.Model):

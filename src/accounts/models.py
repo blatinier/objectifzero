@@ -2,7 +2,8 @@ import uuid
 from datetime import timedelta
 
 from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib import admin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -59,14 +60,14 @@ class MyUserManager(BaseUserManager):
                                  **extra_fields)
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     """
     Model that represents an user.
 
     To be active, the user must register and confirm his email.
     """
 
-    EDITABLE_FIELDS = ['pseudo', 'gender', 'has_garden',
+    EDITABLE_FIELDS = ['username', 'gender', 'has_garden',
                        'do_smoke', 'home_owner']
     GENDER_MALE = 'M'
     GENDER_FEMALE = 'F'
@@ -78,7 +79,7 @@ class User(AbstractBaseUser):
     # we want primary key to be called id so need to ignore pytlint
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # pylint: disable=invalid-name
 
-    pseudo = models.CharField(_('Pseudo'), max_length=50, blank=True, null=True)
+    username = models.CharField(_('Username'), max_length=50, blank=True, null=True)
     first_name = models.CharField(_('First Name'), max_length=50, blank=True, null=True)
     last_name = models.CharField(_('Last Name'), max_length=50, blank=True, null=True)
     email = models.EmailField(_('Email address'), unique=True)
@@ -131,3 +132,6 @@ class User(AbstractBaseUser):
             self.save()
             return True
         return False
+
+    def get_short_name(self):
+        return self.username

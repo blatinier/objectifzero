@@ -101,7 +101,7 @@ class RegisterView extends React.Component {
 
         return (
             <div className="container login">
-                <h1 className="text-center">S&quote;inscrire</h1>
+                <h1 className="text-center">S&#39;inscrire</h1>
                 <div className="login-container margin-top-medium">
                     {statusText}
                     <form id="register_form" onSubmit={this.register}>
@@ -115,7 +115,7 @@ class RegisterView extends React.Component {
                             type="submit"
                             className="btn btn-default btn-block"
                         >
-                            S&quote;inscrire !
+                            S&#39;inscrire !
                         </button>
                     </form>
                 </div>

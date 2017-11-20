@@ -69,7 +69,7 @@ class ProfileView extends React.Component {
                                 isOn={profile.home_owner}
                                 action={this.updateHomeOwner}
                             />
-                            <div className="col-lg-7">J&quote;ai un jardin :</div>
+                            <div className="col-lg-7">J&#39;ai un jardin :</div>
                             <Switch className="col-lg-5"
                                 isOn={profile.has_garden}
                                 action={this.updateHasGarden}

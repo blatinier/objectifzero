@@ -89,7 +89,7 @@ class UserProfileView(GenericAPIView):
 
     def user_data(self, user):
         return {'email': user.email,
-                'pseudo': user.pseudo,
+                'pseudo': user.username,
                 'gender': user.gender,
                 'has_garden': user.has_garden,
                 'do_smoke': user.do_smoke,

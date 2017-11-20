@@ -3,15 +3,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
+import ShortCardView from '../Card';
 import * as actionCreators from '../../actions/cards';
 
 class CardListView extends React.Component {
     static propTypes = {
         isFetching: PropTypes.bool.isRequired,
         cards: PropTypes.arrayOf(
-            PropTypes.shape({
-                title: PropTypes.string
-            })
+            PropTypes.instanceOf(ShortCardView)
         ),
         token: PropTypes.string.isRequired,
         actions: PropTypes.shape({
@@ -29,17 +28,14 @@ class CardListView extends React.Component {
     }
 
     render() {
+        const { cards } = this.props;
         return (
             <div className="col-lg-9">
-                {this.props.isFetching === true ?
+                {(this.props.isFetching === true || cards === null) ?
                     <p className="text-center">Loading cards...</p>
                     :
                     <div>
-                        <div className="margin-top-small">
-                            <div className="alert alert-info">
-                                <b>YAY</b>
-                            </div>
-                        </div>
+                        {cards.map(card => <ShortCardView card={card} />)}
                     </div>
                 }
             </div>
@@ -48,9 +44,13 @@ class CardListView extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    let cards = {};
+    if (state.cards) {
+        cards = state.cards.cards;
+    }
     return {
         token: state.auth.token,
-        cards: state.cards,
+        cards: cards,
         isFetching: state.cards.isFetchingCards,
     };
 };
