@@ -12,3 +12,10 @@ Coverage devel: [![Coverage Status](https://coveralls.io/repos/github/blatinier/
 
 
 An application to help you get zero waste!
+
+h1. Data Sources
+
+ - http://www.donnees-environnement.com/sources.php
+ - http://www.statistiques.developpement-durable.gouv.fr/
+ - https://www.planetoscope.com/recyclage-dechets
+ - http://cniid.org/Les-dechets-en-France-quelques-chiffres,151
