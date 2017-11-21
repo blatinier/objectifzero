@@ -35,5 +35,5 @@ class UserCardView(GenericAPIView):
         ucards = UserCard.objects.filter(user=request.user)
         list_cards = []
         for ucard in ucards:
-            list_cards.append(ucard.dump())
+            list_cards.append(ucard.dump(short=True))
         return Response(list_cards, status=status.HTTP_200_OK)

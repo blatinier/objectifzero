@@ -26,21 +26,30 @@ class ShortCardView extends React.Component {
     renderGlyph(glyph, score) {
         const classes = "glyphicon glyphicon-" + glyph;
         var nb_glyph = 0;
+        var gray_glyph = 0;
         var last_half = false;
-        var glyphs = array();
+        var glyphs = Array();
         if (score % 2 == 0) {
             nb_glyph = score / 2;
+            gray_glyph = 5 - nb_glyph;
         } else {
-            nb_glyph = score / 2;
+            nb_glyph = Math.floor(score / 2);
             last_half = true;
+            gray_glyph = 5 - nb_glyph - 1;
         }
         for (var i = 0; i < nb_glyph; i++) {
             glyphs.push(<span key={"glyph-" + glyph + "-" + i}
                 className={classes}></span>);
         }
         if (last_half) {
-            glyphs.push(<span key={"glyph-" + glyph + "-last"}
+            glyphs.push(<span key={"glyph-" + glyph + "-half"}
                 className={classes + " half"}></span>);
+            glyphs.push(<span key={"glyph-" + glyph + "-half-2"}
+                className={classes + " other-half"}></span>);
+        }
+        for (var i = 0; i < gray_glyph; i++) {
+            glyphs.push(<span key={"gray-glyph-" + glyph + "-" + i}
+                className={classes + " gray"}></span>);
         }
         return (
             <div className="scoreGlyph">
@@ -57,7 +66,6 @@ class ShortCardView extends React.Component {
                     <div className="col-lg-10">
                         <h2>{card.title}</h2>
                         <p>{card.description}</p>
-                        <em>Sources: {card.sources}</em>
                     </div>
                     <div className="col-lg-2">
                         {this.renderGlyph("trash", card.waste_reduction_score)}
