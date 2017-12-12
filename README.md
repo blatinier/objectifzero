@@ -19,3 +19,28 @@ h1. Data Sources
  - http://www.statistiques.developpement-durable.gouv.fr/
  - https://www.planetoscope.com/recyclage-dechets
  - http://cniid.org/Les-dechets-en-France-quelques-chiffres,151
+
+# Setup project
+
+Create a virtualenv then install python dependencies:
+
+    pip install -r py-requirements/dev.txt
+
+Install yarn then install javascript dependencies:
+
+    yarn
+
+Setup your database and set the config in `src/djangoreactredux/settings/prod.py` then go in src and run:
+
+    ./manage.py migrate
+
+Last you must allow your host in the settings (`prod.py`) and configure the javascript accordingly (see first line of `src/static/utils/config.js`)
+
+You should now be able to run:
+
+    ./manage.py runserver
+
+and
+
+    yarn run dev
+

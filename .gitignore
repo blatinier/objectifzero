@@ -10,6 +10,7 @@
 \#*
 
 virtualenv/
+venv/
 htmlcov/
 src/static_dist/
 src/static_root/
@@ -25,7 +26,7 @@ node_modules/
 yarn.lock
 npm-debug.log
 
-# Coverage 
+# Coverage
 coverage/
 .coverage
 .cache

@@ -7,14 +7,14 @@ TEMPLATE_DEBUG = DEBUG
 
 PAGE_CACHE_SECONDS = 60
 
-ALLOWED_HOSTS = ['objectifzero.latinier.fr']
+ALLOWED_HOSTS = ['objectifzero.local', '127.0.0.1', '127.0.0.1:8000', 'objectifzero.latinier.fr']
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'objectif_zero_react',
-        'USER': 'djangoreactredux',
-        'PASSWORD': 'lepassworddedjangoreactreduxestfort!',
+        'USER': 'objectifzero',
+        'PASSWORD': 'pipopipo',
         'HOST': 'localhost',
         'PORT': 5432,
     }
