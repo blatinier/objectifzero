@@ -1,10 +1,6 @@
 from djangoreactredux.settings.base import *  # NOQA (ignore all errors on this line)
 
 
-DEBUG = False
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-
 PAGE_CACHE_SECONDS = 60
 
 ALLOWED_HOSTS = ['objectifzero.local', '127.0.0.1', '127.0.0.1:8000', 'objectifzero.latinier.fr']
