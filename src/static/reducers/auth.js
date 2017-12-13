@@ -11,6 +11,7 @@ const initialState = {
     userName: null,
     isAuthenticated: false,
     isAuthenticating: false,
+    isStaff: false,
     statusText: null
 };
 
@@ -26,6 +27,7 @@ export default function authReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 isAuthenticating: false,
                 isAuthenticated: true,
+                isStaff: action.payload.user.is_staff,
                 token: action.payload.token,
                 userName: action.payload.user.email,
                 statusText: 'You have been successfully logged in.'

@@ -10,6 +10,7 @@ import './styles/main.scss';
 class App extends React.Component {
     static propTypes = {
         isAuthenticated: PropTypes.bool.isRequired,
+        isStaff: PropTypes.bool.isRequired,
         children: PropTypes.shape().isRequired,
         dispatch: PropTypes.func.isRequired,
         location: PropTypes.shape({
@@ -41,9 +42,16 @@ class App extends React.Component {
         this.props.dispatch(push('/dashboard'));
     };
 
+    goToAdmin = () => {
+        this.props.dispatch(push('/zw-admin'));
+    };
+
     render() {
         const dashboardClass = classNames({
             active: this.props.location && this.props.location.pathname === '/dashboard'
+        });
+        const adminClass = classNames({
+            active: this.props.location && this.props.location.pathname === '/zw-admin'
         });
         const loginClass = classNames({
             active: this.props.location && this.props.location.pathname === '/login'
@@ -75,9 +83,18 @@ class App extends React.Component {
                         <div className="collapse navbar-collapse" id="top-navbar">
                             {this.props.isAuthenticated ?
                                 <ul className="nav navbar-nav navbar-right">
+                                    {this.props.isStaff ?
+                                        <li className={adminClass}>
+                                            <a className="js-go-to-protected-button" onClick={this.goToAdmin}>
+                                                <i className="fa fa-lock" /> Admin
+                                            </a>
+                                        </li>
+                                        :
+                                        null
+                                    }
                                     <li className={dashboardClass}>
                                         <a className="js-go-to-protected-button" onClick={this.goToDashboard}>
-                                            <i className="fa fa-lock" /> Dashboard
+                                            Dashboard
                                         </a>
                                     </li>
                                     <li>
@@ -115,6 +132,7 @@ class App extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         isAuthenticated: state.auth.isAuthenticated,
+        isStaff: state.auth.isStaff,
         location: state.routing.location
     };
 };

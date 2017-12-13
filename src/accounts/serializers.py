@@ -7,7 +7,7 @@ from lib.utils import validate_email as email_is_valid
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email',)
+        fields = ('email', 'is_staff')
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
