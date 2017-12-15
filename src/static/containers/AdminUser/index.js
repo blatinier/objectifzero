@@ -38,7 +38,7 @@ class AdminUserView extends React.Component {
                         <p className="text-center">Loading users...</p>
                         :
                         <div>
-                            {users.map(user => <ShortUserView user={user} />)}
+                            {users.map(user => <ShortUserView key={user.email} user={user} />)}
                         </div>
                     }
                 </div>
@@ -49,7 +49,7 @@ class AdminUserView extends React.Component {
 
 
 const mapStateToProps = (state) => {
-    let users = {};
+    let users = Array();
     if (state.users) {
         users = state.users.users;
     }

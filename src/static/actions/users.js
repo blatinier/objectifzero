@@ -11,9 +11,7 @@ import { USERS_FETCH_REQUEST,
 export function usersReceive(users) {
     return {
         type: USERS_RECEIVE,
-        payload: {
-            users
-        }
+        payload: users
     };
 }
 
@@ -36,7 +34,7 @@ export function usersFetchFailure(error, message) {
 export function usersFetch(token) {
     return (dispatch, state) => {
         dispatch(usersFetchRequest());
-        return fetch(`${SERVER_URL}/api/v1/accounts/`, {
+        return fetch(`${SERVER_URL}/api/v1/accounts/list/`, {
             credentials: 'include',
             headers: {
                 Accept: 'application/json',

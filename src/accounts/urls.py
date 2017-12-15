@@ -19,7 +19,7 @@ urlpatterns = [
     url(_(r'^profile/$'),
         accounts.views.UserProfileView.as_view(),
         name='profile'),
-    url(_(r'^/$'),
+    url(_(r'^list/$'),
         accounts.views.UserListView.as_view(),
         name='list'),
 

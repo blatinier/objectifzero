@@ -4,12 +4,12 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import './style.scss';
 
-import * as actionCreators from '../../actions/cards';
+import * as actionCreators from '../../actions/users';
 
 class ShortUserView extends React.Component {
     static propTypes = {
         user: PropTypes.shape({
-            username: PropTypes.string.isRequired,
+            pseudo: PropTypes.string,
             email: PropTypes.string.isRequired,
             gender: PropTypes.string.isRequired,
             has_garden: PropTypes.bool.isRequired,
@@ -17,11 +17,6 @@ class ShortUserView extends React.Component {
             home_owner: PropTypes.bool.isRequired,
             is_staff: PropTypes.bool.isRequired,
         }).isRequired,
-//TODO usercard fetch
-//        token: PropTypes.string.isRequired,
-//        actions: PropTypes.shape({
-//            usercardsFetch: PropTypes.func.isRequired
-//        }).isRequired
     };
 
     render() {
