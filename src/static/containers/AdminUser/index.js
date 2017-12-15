@@ -15,7 +15,7 @@ class AdminUserView extends React.Component {
         ),
         token: PropTypes.string.isRequired,
         actions: PropTypes.shape({
-            usercardsFetch: PropTypes.func.isRequired
+            usersFetch: PropTypes.func.isRequired
         }).isRequired
     };
 

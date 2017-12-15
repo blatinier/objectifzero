@@ -94,3 +94,27 @@ class UserProfileView(GenericAPIView):
                 'has_garden': user.has_garden,
                 'do_smoke': user.do_smoke,
                 'home_owner': user.home_owner}
+
+
+class UserListView(GenericAPIView):
+    """Return user list."""
+
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        """Process GET request and return profile data."""
+        user = self.request.user
+        if user.is_staff:
+            resp = {'users': [self.user_data(u) for u in User.objects.all()]}
+            return Response(resp, status=status.HTTP_200_OK)
+        return Response("Unauthorized", status=status.HTTP_401_UNAUTHORIZED)
+
+    def user_data(self, user):
+        return {'email': user.email,
+                'pseudo': user.username,
+                'gender': user.gender,
+                'has_garden': user.has_garden,
+                'do_smoke': user.do_smoke,
+                'home_owner': user.home_owner,
+                'is_staff': user.is_staff}
