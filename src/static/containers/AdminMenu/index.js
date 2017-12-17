@@ -10,11 +10,11 @@ class AdminMenu extends React.Component {
     };
 
     goToUserAdmin = () => {
-        this.props.dispatch(push('/zw-admin'));
+        this.props.dispatch(push('/zw-admin/user'));
     };
 
     goToCardAdmin = () => {
-        this.props.dispatch(push('/zw-admin-card'));
+        this.props.dispatch(push('/zw-admin/card'));
     };
 
     render() {

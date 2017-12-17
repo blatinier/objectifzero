@@ -7,4 +7,7 @@ urlpatterns = [
     url(_(r'^user_cards/$'),
         cards.views.UserCardView.as_view(),
         name='user_cards'),
+    url(_(r'^list/$'),
+        cards.views.ListCardsView.as_view(),
+        name='list_cards'),
 ]

@@ -5,13 +5,14 @@ import PropTypes from 'prop-types';
 
 import AdminMenu from '../AdminMenu';
 import ShortUserView from '../User';
+import ShortUserViewNotConnected from '../User';
 import * as actionCreators from '../../actions/users';
 
 class AdminUserView extends React.Component {
     static propTypes = {
         isFetching: PropTypes.bool.isRequired,
         users: PropTypes.arrayOf(
-            PropTypes.instanceOf(ShortUserView)
+            PropTypes.instanceOf(ShortUserViewNotConnected)
         ),
         token: PropTypes.string.isRequired,
         actions: PropTypes.shape({

@@ -5,7 +5,10 @@ import { SERVER_URL } from '../utils/config';
 import { checkHttpStatus, parseJSON } from '../utils';
 import { USER_CARDS_FETCH_REQUEST,
     USER_CARDS_RECEIVE,
-    USER_CARDS_FETCH_FAILURE } from '../constants';
+    USER_CARDS_FETCH_FAILURE,
+    CARDS_FETCH_REQUEST,
+    CARDS_RECEIVE,
+    CARDS_FETCH_FAILURE } from '../constants';
 
 
 export function usercardsReceive(usercards) {
@@ -58,5 +61,58 @@ export function usercardsFetch(token) {
                 }
                 return Promise.resolve();
             });
+    };
+}
+
+export function cardsFetch(token) {
+    return (dispatch, state) => {
+        dispatch(cardsFetchRequest());
+        return fetch(`${SERVER_URL}/api/v1/cards/list/`, {
+            credentials: 'include',
+            headers: {
+                Accept: 'application/json',
+                Authorization: `Token ${token}`
+            }
+        })
+            .then(checkHttpStatus)
+            .then(parseJSON)
+            .then((response) => {
+                dispatch(cardsReceive(response));
+            })
+            .catch((error) => {
+                if (error && typeof error.response !== 'undefined' && error.response.status >= 500) {
+                    // Server side error
+                    dispatch(cardsFetchFailure(500, 'A server error occurred while sending your data!'));
+                } else {
+                    // Most likely connection issues
+                    dispatch(cardsFetchFailure('Connection Error', 'An error occurred while sending your data!'));
+                }
+                return Promise.resolve();
+            });
+    };
+}
+
+export function cardsReceive(cards) {
+    return {
+        type: CARDS_RECEIVE,
+        payload: {
+            cards
+        }
+    };
+}
+
+export function cardsFetchRequest() {
+    return {
+        type: CARDS_FETCH_REQUEST
+    };
+}
+
+export function cardsFetchFailure(error, message) {
+    return {
+        type: CARDS_FETCH_FAILURE,
+        payload: {
+            status: error,
+            statusText: message
+        }
     };
 }

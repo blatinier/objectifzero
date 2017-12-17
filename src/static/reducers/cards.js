@@ -1,6 +1,8 @@
 import {
     USER_CARDS_RECEIVE,
-    USER_CARDS_FETCH_REQUEST
+    CARDS_RECEIVE,
+    USER_CARDS_FETCH_REQUEST,
+    CARDS_FETCH_REQUEST
 } from '../constants';
 
 const initialState = {
@@ -17,6 +19,16 @@ export default function cardsReducer(state = initialState, action) {
             });
 
         case USER_CARDS_FETCH_REQUEST:
+            return Object.assign({}, state, {
+                isFetchingCards: true
+            });
+        case CARDS_RECEIVE:
+            return Object.assign({}, state, {
+                cards: action.payload.cards,
+                isFetchingCards: false
+            });
+
+        case CARDS_FETCH_REQUEST:
             return Object.assign({}, state, {
                 isFetchingCards: true
             });
