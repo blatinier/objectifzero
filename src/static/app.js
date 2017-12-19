@@ -43,7 +43,7 @@ class App extends React.Component {
     };
 
     goToAdmin = () => {
-        this.props.dispatch(push('/zw-admin'));
+        this.props.dispatch(push('/zw-admin/user'));
     };
 
     render() {
@@ -51,7 +51,7 @@ class App extends React.Component {
             active: this.props.location && this.props.location.pathname === '/dashboard'
         });
         const adminClass = classNames({
-            active: this.props.location && this.props.location.pathname === '/zw-admin'
+            active: this.props.location && this.props.location.pathname === '/zw-admin/user'
         });
         const loginClass = classNames({
             active: this.props.location && this.props.location.pathname === '/login'

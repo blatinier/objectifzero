@@ -33,11 +33,18 @@ class AdminCardView extends React.Component {
     }
 
     goToAddCard = () => {
-        this.props.dispatch(push('/zw_admin/card/add'));
+        this.props.dispatch(push('/zw-admin/card-add'));
     }
 
     render() {
-        const { cards } = this.props;
+        var cards = null;
+        if (this.props.cards) {
+            cards = this.props.cards.cards;
+            var cards_jsx = null;
+            if (cards) {
+                cards_jsx = cards.map(card => <ShortCardView key={card.title} card={card} />);
+            }
+        }
         return (
             <div className="protected">
                 <AdminMenu />
@@ -47,7 +54,7 @@ class AdminCardView extends React.Component {
                         <p className="text-center">Loading cards...</p>
                         :
                         <div>
-                            {cards.map(card => <ShortCardView key={card.title} card={card} />)}
+                            {cards_jsx}
                         </div>
                     }
                 </div>
