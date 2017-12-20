@@ -8,7 +8,10 @@ import { USER_CARDS_FETCH_REQUEST,
     USER_CARDS_FETCH_FAILURE,
     CARDS_FETCH_REQUEST,
     CARDS_RECEIVE,
-    CARDS_FETCH_FAILURE } from '../constants';
+    CARDS_FETCH_FAILURE,
+    CARD_ADD_FAILURE,
+    CARD_ADD_REQUEST,
+    CARD_ADD_SUCCESS} from '../constants';
 
 
 export function usercardsReceive(usercards) {
@@ -114,5 +117,59 @@ export function cardsFetchFailure(error, message) {
             status: error,
             statusText: message
         }
+    };
+}
+
+export function cardAddFailure(error, message) {
+    return {
+        type: CARD_ADD_FAILURE,
+        payload: {
+            status: error,
+            statusText: message
+        }
+    };
+}
+
+export function cardAddRequest() {
+    return {
+        type: CARD_ADD_REQUEST
+    };
+}
+
+export function cardAddSuccess() {
+    return {
+        type: CARD_ADD_SUCCESS
+    };
+}
+
+export function createCard(token, values) {
+    return (dispatch, state) => {
+        dispatch(createCardRequest());
+        return fetch(`${SERVER_URL}/api/v1/cards/add/`, {
+            method: 'post',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}`
+            },
+            body: JSON.stringify(values)
+        })
+            .then(checkHttpStatus)
+            .then(parseJSON)
+            .then((response) => {
+                dispatch(cardAddSuccess());
+                dispatch(push('/zw-admin/card'));
+            })
+            .catch((error) => {
+                if (error && typeof error.response !== 'undefined' && error.response.status >= 500) {
+                    // Server side error
+                    dispatch(cardAddFailure(500, 'A server error occurred while sending your data!'));
+                } else {
+                    // Most likely connection issues
+                    dispatch(cardAddFailure('Connection Error', 'An error occurred while sending your data!'));
+                }
+                return Promise.resolve();
+            });
     };
 }

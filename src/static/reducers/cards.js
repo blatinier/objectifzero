@@ -2,12 +2,15 @@ import {
     USER_CARDS_RECEIVE,
     CARDS_RECEIVE,
     USER_CARDS_FETCH_REQUEST,
-    CARDS_FETCH_REQUEST
+    CARDS_FETCH_REQUEST,
+    CARD_ADD_FAILURE,
+    CARD_ADD_REQUEST
 } from '../constants';
 
 const initialState = {
     cards: null,
-    isFetchingCards: false
+    isFetchingCards: false,
+    isCreatingCard: false
 };
 
 export default function cardsReducer(state = initialState, action) {
@@ -32,8 +35,23 @@ export default function cardsReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 isFetchingCards: true
             });
+
+        case CARD_ADD_REQUEST:
+            return Object.assign({}, state, {
+                isCreatingCard: true
+            });
+
+        case CARD_ADD_FAILURE:
+            return Object.assign({}, state, {
+                isCreatingCard: false
+            });
+
+        case CARD_ADD_SUCCESS:
+            return Object.assign({}, state, {
+                isCreatingCard: false
+            });
+
         default:
             return state;
     }
 }
-

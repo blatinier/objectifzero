@@ -12,51 +12,81 @@ const Form = t.form.Form;
 const DataSource = t.struct({
     data_source_name: t.String,
     data_source_link: t.String,
-    data_source_status: t.String // (verified / Unverified)
+    data_source_status: t.enums({VERIFIED: 'Verified', UNVERIFIED: 'Unverified'})
 });
 
 const Stat = t.struct({
-    waste_reduction: t.Number, // in kg/year
-    co2_reduction: t.Number, // in kg/year
-    water_user_reduction: t.Number, // in L/year
-    stat_status: t.String, // Active/Archived
+    waste_reduction: t.maybe(t.Number), // in kg/year
+    co2_reduction: t.maybe(t.Number), // in kg/year
+    water_user_reduction: t.maybe(t.Number), // in L/year
+    stat_status: t.enums({ACTIVE: 'Active', ARCHIVED: 'Archived'}),
     year: t.Integer
 });
 
 const Card = t.struct({
     title: t.String,
     description: t.String,
-    image: t.String,
+    image: t.maybe(t.String),
     waste_reduction_score: t.Integer,
     difficulty_score: t.Integer,
     cost_score: t.Integer,
-    help_links: t.list(t.String), // (multi-select + add)
+    help_links: t.maybe(t.list(t.String)), // (multi-select + add)
 
     // STATS
     stats: Stat,
 
     // DataSource (multi-select box + add)
-    data_source: t.list(DataSource)
+    data_source: t.maybe(t.list(DataSource))
 });
+
+const CardAddFormOptions = {
+    fields: {
+        description: {
+            type: 'textarea'
+        },
+    }
+};
 
 class AdminCardAddView extends React.Component {
     static propTypes = {
+        token: PropTypes.string.isRequired,
         actions: PropTypes.shape({
-            cardsFetch: PropTypes.func.isRequired
+            createCard: PropTypes.func.isRequired
         }).isRequired
     };
-
     constructor(props) {
         super(props);
         this.state = {
             formValues: {
-                // TODO
+                title: '',
+                description: '',
+                image: '',
+                waste_reduction_score: 0,
+                difficulty_score: 0,
+                cost_score: 0,
+                help_links: [],
+                stats: {
+                    waste_reduction: 0, // in kg/year
+                    co2_reduction: 0, // in kg/year
+                    water_user_reduction: 0, // in L/year
+                    stat_status: "ACTIVE", // Active/Archived
+                    year: 0 // TODO set current year
+                },
+                data_source: []
             },
         };
     }
 
     onFormChange = (value) => {
         this.setState({ formValues: value });
+    };
+
+    createCard = (e) => {
+        e.preventDefault();
+        const value = this.addCardForm.getValue();
+        if (value) {
+            this.props.actions.createCard(this.props.token, value);
+        }
     };
 
     render() {
@@ -67,9 +97,11 @@ class AdminCardAddView extends React.Component {
                     <form onSubmit={this.createCard}>
                         <Form ref={(ref) => { this.addCardForm = ref; }}
                             type={Card}
+                            options={CardAddFormOptions}
                             value={this.state.formValues}
                             onChange={this.onFormChange}
                         />
+                        <button type="submit" className="btn btn-success col-lg-4 col-lg-offset-4 col-xs-12">Create Card!</button>
                     </form>
                 </div>
             </div>
@@ -77,6 +109,11 @@ class AdminCardAddView extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        token: state.auth.token,
+    };
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -84,5 +121,5 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapDispatchToProps)(AdminCardAddView);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminCardAddView);
 export { AdminCardAddView as AdminCardAddViewNotConnected };
