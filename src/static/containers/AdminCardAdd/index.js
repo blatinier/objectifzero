@@ -12,14 +12,14 @@ const Form = t.form.Form;
 const DataSource = t.struct({
     data_source_name: t.String,
     data_source_link: t.String,
-    data_source_status: t.enums({VERIFIED: 'Verified', UNVERIFIED: 'Unverified'})
+    data_source_status: t.enums({ VERIFIED: 'Verified', UNVERIFIED: 'Unverified' })
 });
 
 const Stat = t.struct({
     waste_reduction: t.maybe(t.Number), // in kg/year
     co2_reduction: t.maybe(t.Number), // in kg/year
     water_user_reduction: t.maybe(t.Number), // in L/year
-    stat_status: t.enums({ACTIVE: 'Active', ARCHIVED: 'Archived'}),
+    stat_status: t.enums({ ACTIVE: 'Active', ARCHIVED: 'Archived' }),
     year: t.Integer
 });
 
@@ -69,7 +69,7 @@ class AdminCardAddView extends React.Component {
                     waste_reduction: 0, // in kg/year
                     co2_reduction: 0, // in kg/year
                     water_user_reduction: 0, // in L/year
-                    stat_status: "ACTIVE", // Active/Archived
+                    stat_status: 'ACTIVE', // Active/Archived
                     year: 0 // TODO set current year
                 },
                 data_source: []
@@ -101,7 +101,10 @@ class AdminCardAddView extends React.Component {
                             value={this.state.formValues}
                             onChange={this.onFormChange}
                         />
-                        <button type="submit" className="btn btn-success col-lg-4 col-lg-offset-4 col-xs-12">Create Card!</button>
+                        <button type="submit"
+                            className="btn btn-success col-lg-4 col-lg-offset-4 col-xs-12">
+                            Create Card!
+                        </button>
                     </form>
                 </div>
             </div>

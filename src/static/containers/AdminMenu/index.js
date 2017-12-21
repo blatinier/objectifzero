@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 class AdminMenu extends React.Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
-        className: PropTypes.string,
     };
 
     goToUserAdmin = () => {

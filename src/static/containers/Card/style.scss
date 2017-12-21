@@ -9,7 +9,7 @@
     position:relative;
 }
 .half:after {
-    content:'';
+    content:"";
     position:absolute;
     z-index:1;
     background:white;
@@ -18,7 +18,7 @@
     left: 47%;
 }
 .other-half:after {
-    content:'';
+    content:"";
     position:absolute;
     z-index:1;
     background:white;

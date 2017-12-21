@@ -37,24 +37,26 @@ class AdminCardView extends React.Component {
     }
 
     render() {
-        var cards = null;
+        let cards = null;
+        let cardsJsx = null;
         if (this.props.cards) {
             cards = this.props.cards.cards;
-            var cards_jsx = null;
             if (cards) {
-                cards_jsx = cards.map(card => <ShortCardView key={card.title} card={card} />);
+                cardsJsx = cards.map(card => <ShortCardView key={card.title} card={card} />);
             }
         }
         return (
             <div className="protected">
                 <AdminMenu />
                 <div className="col-lg-9">
-                    <a onClick={this.goToAddCard} className="btn btn-default btn-circle"><i className="fa fa-plus"></i></a>
+                    <a onClick={this.goToAddCard} className="btn btn-default btn-circle">
+                        <i className="fa fa-plus" />
+                    </a>
                     {(this.props.isFetching === true || cards === null) ?
                         <p className="text-center">Loading cards...</p>
                         :
                         <div>
-                            {cards_jsx}
+                            {cardsJsx}
                         </div>
                     }
                 </div>
@@ -65,7 +67,7 @@ class AdminCardView extends React.Component {
 
 
 const mapStateToProps = (state) => {
-    let cards = Array();
+    let cards = [];
     if (state.cards) {
         cards = state.cards.cards;
     }

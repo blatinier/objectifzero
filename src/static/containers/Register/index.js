@@ -74,7 +74,8 @@ class RegisterView extends React.Component {
             if (value.password === value.password_confirmation) {
                 this.props.actions.authRegisterUser(value.email, value.password);
             } else {
-                this.props.actions.authRegisterError('Erreur de saisie', 'Les deux mots de passe saisis ne correspondent pas.');
+                this.props.actions.authRegisterError('Erreur de saisie',
+                    'Les deux mots de passe saisis ne correspondent pas.');
             }
         }
     };

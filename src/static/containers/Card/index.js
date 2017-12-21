@@ -16,40 +16,41 @@ class ShortCardView extends React.Component {
             difficulty_score: PropTypes.number.isRequired,
             cost_score: PropTypes.number.isRequired,
         }).isRequired,
-//TODO usercard fetch
-//        token: PropTypes.string.isRequired,
-//        actions: PropTypes.shape({
-//            usercardsFetch: PropTypes.func.isRequired
-//        }).isRequired
+        // TODO usercard fetch
+        //        token: PropTypes.string.isRequired,
+        //        actions: PropTypes.shape({
+        //            usercardsFetch: PropTypes.func.isRequired
+        //        }).isRequired
     };
 
     renderGlyph(glyph, score) {
-        const classes = "glyphicon glyphicon-" + glyph;
-        var nb_glyph = 0;
-        var gray_glyph = 0;
-        var last_half = false;
-        var glyphs = Array();
-        if (score % 2 == 0) {
-            nb_glyph = score / 2;
-            gray_glyph = 5 - nb_glyph;
+        const classes = `glyphicon glyphicon-${glyph}`;
+        const glyphs = [];
+        let nbGlyph = 0;
+        let grayGlyph = 0;
+        let lastHalf = false;
+        let i;
+        if (score % 2 === 0) {
+            nbGlyph = score / 2;
+            grayGlyph = 5 - nbGlyph;
         } else {
-            nb_glyph = Math.floor(score / 2);
-            last_half = true;
-            gray_glyph = 5 - nb_glyph - 1;
+            nbGlyph = Math.floor(score / 2);
+            lastHalf = true;
+            grayGlyph = 5 - nbGlyph - 1;
         }
-        for (var i = 0; i < nb_glyph; i++) {
-            glyphs.push(<span key={"glyph-" + glyph + "-" + i}
+        for (i = 0; i < nbGlyph; i++) {
+            glyphs.push(<span key={`glyph-${glyph}-${i}`}
                 className={classes}></span>);
         }
-        if (last_half) {
-            glyphs.push(<span key={"glyph-" + glyph + "-half"}
-                className={classes + " half"}></span>);
-            glyphs.push(<span key={"glyph-" + glyph + "-half-2"}
-                className={classes + " other-half"}></span>);
+        if (lastHalf) {
+            glyphs.push(<span key={`glyph-${glyph}-half`}
+                className={`${classes} half`}></span>);
+            glyphs.push(<span key={`glyph-${glyph}-half-2`}
+                className={`${classes} other-half`}></span>);
         }
-        for (var i = 0; i < gray_glyph; i++) {
-            glyphs.push(<span key={"gray-glyph-" + glyph + "-" + i}
-                className={classes + " gray"}></span>);
+        for (i = 0; i < grayGlyph; i++) {
+            glyphs.push(<span key={`gray-glyph-${glyph}-${i}`}
+                className={`${classes} gray`}></span>);
         }
         return (
             <div className="scoreGlyph">
@@ -68,7 +69,7 @@ class ShortCardView extends React.Component {
                         <p>{card.description}</p>
                     </div>
                     <div className="col-lg-2">
-                        {this.renderGlyph("trash", card.waste_reduction_score)}
+                        {this.renderGlyph('trash', card.waste_reduction_score)}
                     </div>
                 </div>
             </div>

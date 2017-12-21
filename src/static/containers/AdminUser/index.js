@@ -50,7 +50,7 @@ class AdminUserView extends React.Component {
 
 
 const mapStateToProps = (state) => {
-    let users = Array();
+    let users = [];
     if (state.users) {
         users = state.users.users;
     }

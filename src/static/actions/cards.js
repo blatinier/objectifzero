@@ -11,7 +11,7 @@ import { USER_CARDS_FETCH_REQUEST,
     CARDS_FETCH_FAILURE,
     CARD_ADD_FAILURE,
     CARD_ADD_REQUEST,
-    CARD_ADD_SUCCESS} from '../constants';
+    CARD_ADD_SUCCESS } from '../constants';
 
 
 export function usercardsReceive(usercards) {
@@ -67,6 +67,31 @@ export function usercardsFetch(token) {
     };
 }
 
+export function cardsFetchRequest() {
+    return {
+        type: CARDS_FETCH_REQUEST
+    };
+}
+
+export function cardsReceive(cards) {
+    return {
+        type: CARDS_RECEIVE,
+        payload: {
+            cards
+        }
+    };
+}
+
+export function cardsFetchFailure(error, message) {
+    return {
+        type: CARDS_FETCH_FAILURE,
+        payload: {
+            status: error,
+            statusText: message
+        }
+    };
+}
+
 export function cardsFetch(token) {
     return (dispatch, state) => {
         dispatch(cardsFetchRequest());
@@ -95,31 +120,6 @@ export function cardsFetch(token) {
     };
 }
 
-export function cardsReceive(cards) {
-    return {
-        type: CARDS_RECEIVE,
-        payload: {
-            cards
-        }
-    };
-}
-
-export function cardsFetchRequest() {
-    return {
-        type: CARDS_FETCH_REQUEST
-    };
-}
-
-export function cardsFetchFailure(error, message) {
-    return {
-        type: CARDS_FETCH_FAILURE,
-        payload: {
-            status: error,
-            statusText: message
-        }
-    };
-}
-
 export function cardAddFailure(error, message) {
     return {
         type: CARD_ADD_FAILURE,
@@ -144,7 +144,7 @@ export function cardAddSuccess() {
 
 export function createCard(token, values) {
     return (dispatch, state) => {
-        dispatch(createCardRequest());
+        dispatch(cardAddRequest());
         return fetch(`${SERVER_URL}/api/v1/cards/add/`, {
             method: 'post',
             credentials: 'include',

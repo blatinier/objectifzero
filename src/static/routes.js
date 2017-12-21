@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { HomeView, LoginView, RegisterView, DashboardView, AdminUserView, AdminCardView, AdminCardAddView, NotFoundView } from './containers';
+import { HomeView, LoginView, RegisterView, DashboardView,
+    AdminUserView, AdminCardView, AdminCardAddView,
+    NotFoundView } from './containers';
 import requireAuthentication from './utils/requireAuthentication';
 import requireStaff from './utils/requireStaff';
 
