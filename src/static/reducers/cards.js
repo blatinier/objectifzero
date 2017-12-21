@@ -4,6 +4,7 @@ import {
     USER_CARDS_FETCH_REQUEST,
     CARDS_FETCH_REQUEST,
     CARD_ADD_FAILURE,
+    CARD_ADD_SUCCESS,
     CARD_ADD_REQUEST
 } from '../constants';
 
