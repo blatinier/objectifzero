@@ -8,9 +8,9 @@ function encodeLoader(loader) {
     if (typeof loader.options !== 'undefined') {
         const query = Object
             .keys(loader.options)
-            .map((param) => {
-                return `${encodeURIComponent(param)}=${encodeURIComponent(loader.options[param])}`;
-            })
+            .map(param => (
+                `${encodeURIComponent(param)}=${encodeURIComponent(loader.options[param])}`
+            ))
             .join('&');
         return `${loader.loader}?${query}`;
     }

@@ -109,8 +109,8 @@ export function authRegisterUser(email, password) {
         return fetch(`${SERVER_URL}/api/v1/accounts/register/`, {
             method: 'post',
             body: JSON.stringify({
-                email: email,
-                password: password,
+                email,
+                password,
             }),
             headers: {
                 'Accept': 'application/json',

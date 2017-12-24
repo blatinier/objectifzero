@@ -6,30 +6,17 @@ import PropTypes from 'prop-types';
 import './style.scss';
 
 import AdminMenu from '../AdminMenu';
-import ShortCardView from '../Card';
-import ShortCardViewNotConnected from '../Card';
+import ShortCardView, { ShortCardViewNotConnected } from '../Card';
 import * as actionCreators from '../../actions/cards';
 
 class AdminCardView extends React.Component {
-    static propTypes = {
-        dispatch: PropTypes.func.isRequired,
-        isFetching: PropTypes.bool.isRequired,
-        cards: PropTypes.arrayOf(
-            PropTypes.instanceOf(ShortCardViewNotConnected)
-        ),
-        token: PropTypes.string.isRequired,
-        actions: PropTypes.shape({
-            cardsFetch: PropTypes.func.isRequired
-        }).isRequired
-    };
-
     static defaultProps = {
         cards: []
     };
 
     componentWillMount() {
-        const token = this.props.token;
-        this.props.actions.cardsFetch(token);
+        const { actions, token } = this.props;
+        actions.cardsFetch(token);
     }
 
     goToAddCard = () => {
@@ -37,12 +24,13 @@ class AdminCardView extends React.Component {
     }
 
     render() {
-        let cards = null;
-        let cardsJsx = null;
-        if (this.props.cards) {
-            cards = this.props.cards.cards;
-            if (cards) {
-                cardsJsx = cards.map(card => <ShortCardView key={card.title} card={card} />);
+        const { cards, isFetching } = this.props;
+        let myCards;
+        let cardsJsx;
+        if (cards) {
+            myCards = cards.cards;
+            if (myCards) {
+                cardsJsx = myCards.map(card => <ShortCardView key={card.title} card={card} />);
             }
         }
         return (
@@ -52,7 +40,7 @@ class AdminCardView extends React.Component {
                     <a onClick={this.goToAddCard} className="btn btn-default btn-circle">
                         <i className="fa fa-plus" />
                     </a>
-                    {(this.props.isFetching === true || cards === null) ?
+                    {(isFetching === true || !myCards) ?
                         <p className="text-center">Loading cards...</p>
                         :
                         <div>
@@ -65,6 +53,18 @@ class AdminCardView extends React.Component {
     }
 }
 
+AdminCardView.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    cards: PropTypes.arrayOf(
+        PropTypes.instanceOf(ShortCardViewNotConnected)
+    ),
+    token: PropTypes.string.isRequired,
+    actions: PropTypes.shape({
+        cardsFetch: PropTypes.func.isRequired
+    }).isRequired
+};
+
 
 const mapStateToProps = (state) => {
     let cards = [];
@@ -73,17 +73,15 @@ const mapStateToProps = (state) => {
     }
     return {
         token: state.auth.token,
-        cards: cards,
         isFetching: state.cards.isFetchingCards,
+        cards,
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        dispatch: dispatch,
-        actions: bindActionCreators(actionCreators, dispatch)
-    };
-};
+const mapDispatchToProps = dispatch => ({
+    dispatch,
+    actions: bindActionCreators(actionCreators, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminCardView);
 export { AdminCardView as AdminCardViewNotConnected };

@@ -23,9 +23,9 @@ describe('Home View Tests (Container):', () => {
                 wrapper = shallow(<HomeViewNotConnected {...props} />);
             });
 
-            it('should render correctly', () => {
-                return expect(wrapper).to.be.ok;
-            });
+            it('should render correctly', () => (
+                expect(wrapper).to.be.ok
+            ));
 
             it('should have two img, one h1 and one p ', () => {
                 expect(wrapper.find('img')).to.have.length(2);
@@ -44,9 +44,9 @@ describe('Home View Tests (Container):', () => {
                 wrapper = shallow(<HomeViewNotConnected {...props} />);
             });
 
-            it('should render correctly', () => {
-                return expect(wrapper).to.be.ok;
-            });
+            it('should render correctly', () => (
+                expect(wrapper).to.be.ok
+            ));
 
             it('should have two img, one h1, one p and one alert alert-info div ', () => {
                 expect(wrapper.find('img')).to.have.length(2);

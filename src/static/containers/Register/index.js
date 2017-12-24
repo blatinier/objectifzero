@@ -29,21 +29,6 @@ const RegisterFormOptions = {
 };
 
 class RegisterView extends React.Component {
-    static propTypes = {
-        dispatch: PropTypes.func.isRequired,
-        isAuthenticated: PropTypes.bool.isRequired,
-        isAuthenticating: PropTypes.bool.isRequired,
-        statusText: PropTypes.string,
-        actions: PropTypes.shape({
-            authRegisterUser: PropTypes.func.isRequired,
-            authRegisterError: PropTypes.func.isRequired
-        }).isRequired
-    };
-
-    static defaultProps = {
-        statusText: ''
-    };
-
     constructor(props) {
         super(props);
 
@@ -125,20 +110,31 @@ class RegisterView extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        isAuthenticated: state.auth.isAuthenticated,
-        isAuthenticating: state.auth.isAuthenticating,
-        statusText: state.auth.statusText
-    };
+RegisterView.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    isAuthenticating: PropTypes.bool.isRequired,
+    statusText: PropTypes.string,
+    actions: PropTypes.shape({
+        authRegisterUser: PropTypes.func.isRequired,
+        authRegisterError: PropTypes.func.isRequired
+    }).isRequired
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        dispatch,
-        actions: bindActionCreators(actionCreators, dispatch)
-    };
+RegisterView.defaultProps = {
+    statusText: ''
 };
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    isAuthenticating: state.auth.isAuthenticating,
+    statusText: state.auth.statusText
+});
+
+const mapDispatchToProps = dispatch => ({
+    dispatch,
+    actions: bindActionCreators(actionCreators, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterView);
 export { RegisterView as RegisterViewNotConnected };

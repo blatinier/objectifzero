@@ -17,9 +17,9 @@ describe('NotFound View Tests (Container):', () => {
                 wrapper = shallow(<NotFoundView {...props} />);
             });
 
-            it('should render correctly', () => {
-                return expect(wrapper).to.be.ok;
-            });
+            it('should render correctly', () => (
+                expect(wrapper).to.be.ok
+            ));
 
             it('should have one h1', () => {
                 expect(wrapper.find('h1')).to.have.length(1);

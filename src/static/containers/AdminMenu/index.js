@@ -4,42 +4,34 @@ import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
 
 class AdminMenu extends React.Component {
-    static propTypes = {
-        dispatch: PropTypes.func.isRequired,
+    goTo = url => () => {
+        this.props.dispatch(push(url));
     };
 
-    goToUserAdmin = () => {
-        this.props.dispatch(push('/zw-admin/user'));
-    };
-
-    goToCardAdmin = () => {
-        this.props.dispatch(push('/zw-admin/card'));
-    };
-
-    render() {
-        return (
-            <div className="col-lg-3">
-                <ul>
-                    <li>
-                        <a onClick={this.goToUserAdmin}>
-                            Users
-                        </a>
-                    </li>
-                    <li>
-                        <a onClick={this.goToCardAdmin}>
-                            Cards
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        );
-    }
+    render = () => (
+        <div className="col-lg-3">
+            <ul>
+                <li>
+                    <a onClick={this.goTo('/zw-admin/user')}>
+                        Users
+                    </a>
+                </li>
+                <li>
+                    <a onClick={this.goTo('/zw-admin/card')}>
+                        Cards
+                    </a>
+                </li>
+            </ul>
+        </div>
+    );
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        dispatch
-    };
+AdminMenu.propTypes = {
+    dispatch: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = dispatch => ({
+    dispatch
+});
 
 export default connect(mapDispatchToProps)(AdminMenu);

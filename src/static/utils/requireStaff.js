@@ -1,19 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
 
-export default function requireStaff(Component) {
-    class AuthenticatedStaffComponent extends React.Component {
-        static propTypes = {
-            isAuthenticated: PropTypes.bool.isRequired,
-            isStaff: PropTypes.bool.isRequired,
-            location: PropTypes.shape({
-                pathname: PropTypes.string.isRequired
-            }).isRequired,
-            dispatch: PropTypes.func.isRequired
-        };
-
+export default function requireStaff(myComponent) {
+    class AuthenticatedStaffComponent extends Component {
         componentWillMount() {
             this.checkAuthAndStaff();
         }
@@ -22,32 +13,42 @@ export default function requireStaff(Component) {
             this.checkAuthAndStaff();
         }
 
-        checkAuthAndStaff() {
-            if (!this.props.isAuthenticated && !this.props.isStaff) {
-                const redirectAfterLogin = this.props.location.pathname;
-                this.props.dispatch(push(`/login?next=${redirectAfterLogin}`));
+        checkAuthAndStaff = () => {
+            const { isAuthenticated, isStaff, location, dispatch } = this.props;
+            if (!isAuthenticated && !isStaff) {
+                const redirectAfterLogin = location.pathname;
+                dispatch(push(`/login?next=${redirectAfterLogin}`));
             }
-        }
+        };
 
-        render() {
+        render = () => {
+            const { isAuthenticated, isStaff } = this.props;
+            let displayComponent;
+            if (isAuthenticated && isStaff) {
+                displayComponent = <myComponent {...this.props} />;
+            }
             return (
                 <div>
-                    {this.props.isAuthenticated === true && this.props.isStaff
-                        ? <Component {...this.props} />
-                        : null
-                    }
+                    {displayComponent}
                 </div>
             );
         }
     }
 
-    const mapStateToProps = (state) => {
-        return {
-            isAuthenticated: state.auth.isAuthenticated,
-            isStaff: state.auth.isStaff,
-            token: state.auth.token
-        };
+    AuthenticatedStaffComponent.propTypes = {
+        isAuthenticated: PropTypes.bool.isRequired,
+        isStaff: PropTypes.bool.isRequired,
+        location: PropTypes.shape({
+            pathname: PropTypes.string.isRequired
+        }).isRequired,
+        dispatch: PropTypes.func.isRequired
     };
+
+    const mapStateToProps = state => ({
+        isAuthenticated: state.auth.isAuthenticated,
+        isStaff: state.auth.isStaff,
+        token: state.auth.token
+    });
 
     return connect(mapStateToProps)(AuthenticatedStaffComponent);
 }

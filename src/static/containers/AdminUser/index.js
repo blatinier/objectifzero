@@ -4,38 +4,22 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 import AdminMenu from '../AdminMenu';
-import ShortUserView from '../User';
-import ShortUserViewNotConnected from '../User';
+import ShortUserView, { ShortUserViewNotConnected } from '../User';
 import * as actionCreators from '../../actions/users';
 
 class AdminUserView extends React.Component {
-    static propTypes = {
-        isFetching: PropTypes.bool.isRequired,
-        users: PropTypes.arrayOf(
-            PropTypes.instanceOf(ShortUserViewNotConnected)
-        ),
-        token: PropTypes.string.isRequired,
-        actions: PropTypes.shape({
-            usersFetch: PropTypes.func.isRequired
-        }).isRequired
-    };
-
-    static defaultProps = {
-        users: []
-    };
-
     componentWillMount() {
-        const token = this.props.token;
-        this.props.actions.usersFetch(token);
+        const { actions, token } = this.props;
+        actions.usersFetch(token);
     }
 
     render() {
-        const { users } = this.props;
+        const { users, isFetching } = this.props;
         return (
             <div className="protected">
                 <AdminMenu />
                 <div className="col-lg-9">
-                    {(this.props.isFetching === true || users === null) ?
+                    {(isFetching || !users) ?
                         <p className="text-center">Loading users...</p>
                         :
                         <div>
@@ -48,24 +32,34 @@ class AdminUserView extends React.Component {
     }
 }
 
+AdminUserView.defaultProps = {
+    users: []
+};
+
+AdminUserView.propTypes = {
+    isFetching: PropTypes.bool.isRequired,
+    users: PropTypes.arrayOf(
+        PropTypes.instanceOf(ShortUserViewNotConnected)
+    ),
+    token: PropTypes.string.isRequired,
+    actions: PropTypes.shape({
+        usersFetch: PropTypes.func.isRequired
+    }).isRequired
+};
 
 const mapStateToProps = (state) => {
-    let users = [];
-    if (state.users) {
-        users = state.users.users;
-    }
+    const { users: usersState, auth } = state;
+    const users = usersState.users ? usersState.users.users : [];
     return {
-        token: state.auth.token,
-        users: users,
-        isFetching: state.users.isFetchingUsers,
+        token: auth.token,
+        users,
+        isFetching: usersState.users.isFetchingUsers,
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        actions: bindActionCreators(actionCreators, dispatch)
-    };
-};
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(actionCreators, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminUserView);
 export { AdminUserView as AdminUserViewNotConnected };

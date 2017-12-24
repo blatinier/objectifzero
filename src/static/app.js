@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import classNames from 'classnames';
@@ -7,17 +7,7 @@ import PropTypes from 'prop-types';
 import { authLogoutAndRedirect } from './actions/auth';
 import './styles/main.scss';
 
-class App extends React.Component {
-    static propTypes = {
-        isAuthenticated: PropTypes.bool.isRequired,
-        isStaff: PropTypes.bool.isRequired,
-        children: PropTypes.shape().isRequired,
-        dispatch: PropTypes.func.isRequired,
-        location: PropTypes.shape({
-            pathname: PropTypes.string
-        })
-    };
-
+class App extends Component {
     static defaultProps = {
         location: undefined
     };
@@ -26,38 +16,23 @@ class App extends React.Component {
         this.props.dispatch(authLogoutAndRedirect());
     };
 
-    goToIndex = () => {
-        this.props.dispatch(push('/'));
-    };
-
-    goToRegister = () => {
-        this.props.dispatch(push('/register'));
-    };
-
-    goToLogin = () => {
-        this.props.dispatch(push('/login'));
-    };
-
-    goToDashboard = () => {
-        this.props.dispatch(push('/dashboard'));
-    };
-
-    goToAdmin = () => {
-        this.props.dispatch(push('/zw-admin/user'));
+    goTo = url => () => {
+        this.props.dispatch(push(url));
     };
 
     render() {
+        const { location, isAuthenticated, isStaff, children } = this.props;
         const dashboardClass = classNames({
-            active: this.props.location && this.props.location.pathname === '/dashboard'
+            active: location && location.pathname === '/dashboard',
         });
         const adminClass = classNames({
-            active: this.props.location && this.props.location.pathname === '/zw-admin/user'
+            active: location && location.pathname === '/zw-admin/user',
         });
         const loginClass = classNames({
-            active: this.props.location && this.props.location.pathname === '/login'
+            active: location && location.pathname === '/login',
         });
         const registerClass = classNames({
-            active: this.props.location && this.props.location.pathname === '/register'
+            active: location && location.pathname === '/register',
         });
 
         return (
@@ -76,16 +51,18 @@ class App extends React.Component {
                                 <span className="icon-bar" />
                                 <span className="icon-bar" />
                             </button>
-                            <a className="navbar-brand" onClick={this.goToIndex}>
+                            <a className="navbar-brand" onClick={this.goTo('/')}>
                                 Enjoy Zero Déchet
                             </a>
                         </div>
                         <div className="collapse navbar-collapse" id="top-navbar">
-                            {this.props.isAuthenticated ?
+                            {isAuthenticated ?
                                 <ul className="nav navbar-nav navbar-right">
-                                    {this.props.isStaff ?
+                                    {isStaff ?
                                         <li className={adminClass}>
-                                            <a className="js-go-to-protected-button" onClick={this.goToAdmin}>
+                                            <a className="js-go-to-protected-button"
+                                                onClick={this.goTo('/zw-admin/user')}
+                                            >
                                                 <i className="fa fa-lock" /> Admin
                                             </a>
                                         </li>
@@ -93,7 +70,7 @@ class App extends React.Component {
                                         null
                                     }
                                     <li className={dashboardClass}>
-                                        <a className="js-go-to-protected-button" onClick={this.goToDashboard}>
+                                        <a className="js-go-to-protected-button" onClick={this.goTo('/dashboard')}>
                                             Dashboard
                                         </a>
                                     </li>
@@ -106,12 +83,12 @@ class App extends React.Component {
                                 :
                                 <ul className="nav navbar-nav navbar-right">
                                     <li className={registerClass}>
-                                        <a className="js-login-button" onClick={this.goToRegister}>
+                                        <a className="js-login-button" onClick={this.goTo('/register')}>
                                             Inscription
                                         </a>
                                     </li>
                                     <li className={loginClass}>
-                                        <a className="js-login-button" onClick={this.goToLogin}>
+                                        <a className="js-login-button" onClick={this.goTo('/login')}>
                                             Connexion
                                         </a>
                                     </li>
@@ -122,20 +99,28 @@ class App extends React.Component {
                 </nav>
 
                 <div>
-                    {this.props.children}
+                    {children}
                 </div>
             </div>
         );
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        isAuthenticated: state.auth.isAuthenticated,
-        isStaff: state.auth.isStaff,
-        location: state.routing.location
-    };
+App.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
+    isStaff: PropTypes.bool.isRequired,
+    children: PropTypes.shape().isRequired,
+    dispatch: PropTypes.func.isRequired,
+    location: PropTypes.shape({
+        pathname: PropTypes.string,
+    }),
 };
+
+const mapStateToProps = (state, ownProps) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    isStaff: state.auth.isStaff,
+    location: state.routing.location,
+});
 
 export default connect(mapStateToProps)(App);
 export { App as AppNotConnected };

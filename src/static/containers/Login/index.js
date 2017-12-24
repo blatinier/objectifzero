@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
@@ -24,25 +24,7 @@ const LoginFormOptions = {
     }
 };
 
-class LoginView extends React.Component {
-    static propTypes = {
-        dispatch: PropTypes.func.isRequired,
-        isAuthenticated: PropTypes.bool.isRequired,
-        isAuthenticating: PropTypes.bool.isRequired,
-        statusText: PropTypes.string,
-        actions: PropTypes.shape({
-            authLoginUser: PropTypes.func.isRequired
-        }).isRequired,
-        location: PropTypes.shape({
-            search: PropTypes.string.isRequired
-        })
-    };
-
-    static defaultProps = {
-        statusText: '',
-        location: null
-    };
-
+class LoginView extends Component {
     constructor(props) {
         super(props);
 
@@ -57,8 +39,9 @@ class LoginView extends React.Component {
     }
 
     componentWillMount() {
-        if (this.props.isAuthenticated) {
-            this.props.dispatch(push('/'));
+        const { isAuthenticated, dispatch } = this.props;
+        if (isAuthenticated) {
+            dispatch(push('/'));
         }
     }
 
@@ -124,20 +107,34 @@ class LoginView extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        isAuthenticated: state.auth.isAuthenticated,
-        isAuthenticating: state.auth.isAuthenticating,
-        statusText: state.auth.statusText
-    };
+LoginView.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    isAuthenticating: PropTypes.bool.isRequired,
+    statusText: PropTypes.string,
+    actions: PropTypes.shape({
+        authLoginUser: PropTypes.func.isRequired
+    }).isRequired,
+    location: PropTypes.shape({
+        search: PropTypes.string.isRequired
+    })
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        dispatch,
-        actions: bindActionCreators(actionCreators, dispatch)
-    };
+LoginView.defaultProps = {
+    statusText: '',
+    location: null
 };
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    isAuthenticating: state.auth.isAuthenticating,
+    statusText: state.auth.statusText
+});
+
+const mapDispatchToProps = dispatch => ({
+    dispatch,
+    actions: bindActionCreators(actionCreators, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginView);
 export { LoginView as LoginViewNotConnected };

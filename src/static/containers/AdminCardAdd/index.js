@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import t from 'tcomb-form';
@@ -47,35 +47,26 @@ const CardAddFormOptions = {
     }
 };
 
-class AdminCardAddView extends React.Component {
-    static propTypes = {
-        token: PropTypes.string.isRequired,
-        actions: PropTypes.shape({
-            createCard: PropTypes.func.isRequired
-        }).isRequired
-    };
-    constructor(props) {
-        super(props);
-        this.state = {
-            formValues: {
-                title: '',
-                description: '',
-                image: '',
-                waste_reduction_score: 0,
-                difficulty_score: 0,
-                cost_score: 0,
-                help_links: [],
-                stats: {
-                    waste_reduction: 0, // in kg/year
-                    co2_reduction: 0, // in kg/year
-                    water_user_reduction: 0, // in L/year
-                    stat_status: 'ACTIVE', // Active/Archived
-                    year: 0 // TODO set current year
-                },
-                data_source: []
+class AdminCardAddView extends Component {
+    state = {
+        formValues: {
+            title: '',
+            description: '',
+            image: '',
+            waste_reduction_score: 0,
+            difficulty_score: 0,
+            cost_score: 0,
+            help_links: [],
+            stats: {
+                waste_reduction: 0, // in kg/year
+                co2_reduction: 0, // in kg/year
+                water_user_reduction: 0, // in L/year
+                stat_status: 'ACTIVE', // Active/Archived
+                year: 0 // TODO set current year
             },
-        };
-    }
+            data_source: []
+        },
+    };
 
     onFormChange = (value) => {
         this.setState({ formValues: value });
@@ -89,40 +80,41 @@ class AdminCardAddView extends React.Component {
         }
     };
 
-    render() {
-        return (
-            <div className="protected">
-                <AdminMenu />
-                <div className="col-lg-9">
-                    <form onSubmit={this.createCard}>
-                        <Form ref={(ref) => { this.addCardForm = ref; }}
-                            type={Card}
-                            options={CardAddFormOptions}
-                            value={this.state.formValues}
-                            onChange={this.onFormChange}
-                        />
-                        <button type="submit"
-                            className="btn btn-success col-lg-4 col-lg-offset-4 col-xs-12">
-                            Create Card!
-                        </button>
-                    </form>
-                </div>
+    render = () => (
+        <div className="protected">
+            <AdminMenu />
+            <div className="col-lg-9">
+                <form onSubmit={this.createCard}>
+                    <Form ref={(ref) => { this.addCardForm = ref; }}
+                        type={Card}
+                        options={CardAddFormOptions}
+                        value={this.state.formValues}
+                        onChange={this.onFormChange}
+                    />
+                    <button type="submit" className="btn btn-success col-lg-4 col-lg-offset-4 col-xs-12">
+                        Create Card!
+                    </button>
+                </form>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
-const mapStateToProps = (state) => {
-    return {
-        token: state.auth.token,
-    };
+AdminCardAddView.propTypes = {
+    token: PropTypes.string.isRequired,
+    actions: PropTypes.shape({
+        createCard: PropTypes.func.isRequired
+    }).isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        actions: bindActionCreators(actionCreators, dispatch)
-    };
-};
+
+const mapStateToProps = state => ({
+    token: state.auth.token,
+});
+
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(actionCreators, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminCardAddView);
 export { AdminCardAddView as AdminCardAddViewNotConnected };

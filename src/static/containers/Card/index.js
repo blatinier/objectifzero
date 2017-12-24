@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -6,24 +6,9 @@ import './style.scss';
 
 import * as actionCreators from '../../actions/cards';
 
-class ShortCardView extends React.Component {
-    static propTypes = {
-        card: PropTypes.shape({
-            title: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
-            waste_reduction: PropTypes.number.isRequired,
-            waste_reduction_score: PropTypes.number.isRequired,
-            difficulty_score: PropTypes.number.isRequired,
-            cost_score: PropTypes.number.isRequired,
-        }).isRequired,
-        // TODO usercard fetch
-        //        token: PropTypes.string.isRequired,
-        //        actions: PropTypes.shape({
-        //            usercardsFetch: PropTypes.func.isRequired
-        //        }).isRequired
-    };
 
-    renderGlyph(glyph, score) {
+class ShortCardView extends Component {
+    renderGlyph = (glyph, score) => {
         const classes = `glyphicon glyphicon-${glyph}`;
         const glyphs = [];
         let nbGlyph = 0;
@@ -38,28 +23,24 @@ class ShortCardView extends React.Component {
             lastHalf = true;
             grayGlyph = 5 - nbGlyph - 1;
         }
-        for (i = 0; i < nbGlyph; i++) {
-            glyphs.push(<span key={`glyph-${glyph}-${i}`}
-                className={classes}></span>);
+        for (i = 0; i < nbGlyph; i += 1) {
+            glyphs.push(<span key={`glyph-${glyph}-${i}`} className={classes} />);
         }
         if (lastHalf) {
-            glyphs.push(<span key={`glyph-${glyph}-half`}
-                className={`${classes} half`}></span>);
-            glyphs.push(<span key={`glyph-${glyph}-half-2`}
-                className={`${classes} other-half`}></span>);
+            glyphs.push(<span key={`glyph-${glyph}-half`} className={`${classes} half`} />);
+            glyphs.push(<span key={`glyph-${glyph}-half-2`} className={`${classes} other-half`} />);
         }
-        for (i = 0; i < grayGlyph; i++) {
-            glyphs.push(<span key={`gray-glyph-${glyph}-${i}`}
-                className={`${classes} gray`}></span>);
+        for (i = 0; i < grayGlyph; i += 1) {
+            glyphs.push(<span key={`gray-glyph-${glyph}-${i}`} className={`${classes} gray`} />);
         }
         return (
             <div className="scoreGlyph">
                 {glyphs}
             </div>
         );
-    }
+    };
 
-    render() {
+    render = () => {
         const { card } = this.props;
         return (
             <div className="panel panel-default card">
@@ -74,20 +55,32 @@ class ShortCardView extends React.Component {
                 </div>
             </div>
         );
-    }
+    };
 }
 
-const mapStateToProps = (state) => {
-    return {
-        token: state.auth.token,
-    };
+ShortCardView.propTypes = {
+    card: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+        waste_reduction: PropTypes.number.isRequired,
+        waste_reduction_score: PropTypes.number.isRequired,
+        difficulty_score: PropTypes.number.isRequired,
+        cost_score: PropTypes.number.isRequired,
+    }).isRequired,
+    // TODO usercard fetch
+    //        token: PropTypes.string.isRequired,
+    //        actions: PropTypes.shape({
+    //            usercardsFetch: PropTypes.func.isRequired
+    //        }).isRequired
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        actions: bindActionCreators(actionCreators, dispatch)
-    };
-};
+const mapStateToProps = state => ({
+    token: state.auth.token,
+});
+
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(actionCreators, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortCardView);
 export { ShortCardView as ShortCardViewNotConnected };

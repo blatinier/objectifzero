@@ -8,28 +8,6 @@ import './style.scss';
 import * as actionCreators from '../../actions/profile';
 
 class ProfileView extends React.Component {
-    static propTypes = {
-        isFetching: PropTypes.bool.isRequired,
-        profile: PropTypes.shape({
-            pseudo: PropTypes.string,
-            email: PropTypes.string,
-            gender: PropTypes.string,
-            has_garden: PropTypes.bool,
-            do_smoke: PropTypes.bool,
-            home_owner: PropTypes.bool
-        }),
-        token: PropTypes.string.isRequired,
-        actions: PropTypes.shape({
-            profileFetch: PropTypes.func.isRequired,
-            profileUpdateField: PropTypes.func.isRequired
-        }).isRequired
-    };
-
-    static defaultProps = {
-        profile: {},
-        isFetching: true
-    };
-
     componentWillMount() {
         const token = this.props.token;
         this.props.actions.profileFetch(token);
@@ -40,23 +18,15 @@ class ProfileView extends React.Component {
         this.props.actions.profileUpdateField(token, field, value);
     }
 
-    updateHomeOwner = (val) => {
-        this.updateField('home_owner', val);
-    }
+    updateCustomField = field => (val) => {
+        this.updateField(field, val);
+    };
 
-    updateHasGarden = (val) => {
-        this.updateField('has_garden', val);
-    }
-
-    updateDoSmoke = (val) => {
-        this.updateField('do_smoke', val);
-    }
-
-    render() {
-        const profile = this.props.profile;
+    render = () => {
+        const { profile, isFetching } = this.props;
         return (
             <div className="profile-side-block col-lg-3">
-                {this.props.isFetching === true ?
+                {isFetching ?
                     <p className="text-center">Loading profile...</p>
                     :
                     <div className="col-lg-12">
@@ -67,17 +37,17 @@ class ProfileView extends React.Component {
                             <div className="col-lg-7">Je suis propriétaire :</div>
                             <Switch className="col-lg-5"
                                 isOn={profile.home_owner}
-                                action={this.updateHomeOwner}
+                                action={this.updateCustomField('home_owner')}
                             />
                             <div className="col-lg-7">J&#39;ai un jardin :</div>
                             <Switch className="col-lg-5"
                                 isOn={profile.has_garden}
-                                action={this.updateHasGarden}
+                                action={this.updateCustomField('has_garden')}
                             />
                             <div className="col-lg-7">Je suis fumeur :</div>
                             <Switch className="col-lg-5"
                                 isOn={profile.do_smoke}
-                                action={this.updateDoSmoke}
+                                action={this.updateCustomField('do_smoke')}
                             />
                         </div>
                     </div>
@@ -87,23 +57,43 @@ class ProfileView extends React.Component {
     }
 }
 
+ProfileView.propTypes = {
+    isFetching: PropTypes.bool.isRequired,
+    profile: PropTypes.shape({
+        pseudo: PropTypes.string,
+        email: PropTypes.string,
+        gender: PropTypes.string,
+        has_garden: PropTypes.bool,
+        do_smoke: PropTypes.bool,
+        home_owner: PropTypes.bool
+    }),
+    token: PropTypes.string.isRequired,
+    actions: PropTypes.shape({
+        profileFetch: PropTypes.func.isRequired,
+        profileUpdateField: PropTypes.func.isRequired
+    }).isRequired
+};
+
+ProfileView.defaultProps = {
+    profile: {},
+    isFetching: true
+};
+
 const mapStateToProps = (state) => {
-    let prof = {};
+    let profile = {};
     if (state.profile) {
-        prof = state.profile.profile;
+        profile = state.profile.profile;
     }
     return {
         token: state.auth.token,
-        profile: prof,
+        profile,
         isFetching: state.profile.isFetchingProfile,
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        actions: bindActionCreators(actionCreators, dispatch)
-    };
-};
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(actionCreators, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileView);
 export { ProfileView as ProfileViewNotConnected };

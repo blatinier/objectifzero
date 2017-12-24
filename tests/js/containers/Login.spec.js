@@ -36,9 +36,9 @@ describe('Login View Tests (Container):', () => {
                 wrapper = mount(<LoginViewNotConnected {...props} />);
             });
 
-            it('should render correctly', () => {
-                return expect(wrapper).to.be.ok;
-            });
+            it('should render correctly', () => (
+                expect(wrapper).to.be.ok
+            ));
 
             it('should have two inputs ([text,password]) and one button ', () => {
                 const input = wrapper.find('input');
@@ -80,9 +80,9 @@ describe('Login View Tests (Container):', () => {
                 wrapper = mount(<LoginViewNotConnected {...props} />);
             });
 
-            it('should render correctly', () => {
-                return expect(wrapper).to.be.ok;
-            });
+            it('should render correctly', () => (
+                expect(wrapper).to.be.ok
+            ));
 
             it('should have one div with class alert alert-danger', () => {
                 const div = wrapper.find('div.alert-danger');

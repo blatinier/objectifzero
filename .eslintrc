@@ -32,11 +32,11 @@
     // set max line length to 120
     "max-len": [2, 120, 4, {"ignoreUrls": true}],
     //always force braces around arrow function body
-    "arrow-body-style": [2, "always"],
+    "arrow-body-style": [2, "as-needed"],
     // allow assign values to props of parameters
     "no-param-reassign": [2, {"props": false}],
     "react/jsx-indent-props": 0,
-    // allows onclick in elements that are not clickable (eg: tr) 
+    // allows onclick in elements that are not clickable (eg: tr)
     "jsx-a11y/no-static-element-interactions": 0,
     // enforce consistent indentation style. The default style is 4 spaces
     "react/jsx-indent": [2, 4],

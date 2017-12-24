@@ -30,9 +30,9 @@ describe(' App View Tests (Container):', () => {
                 wrapper = shallow(<AppNotConnected {...props} />);
             });
 
-            it('should render correctly', () => {
-                return expect(wrapper).to.be.ok;
-            });
+            it('should render correctly', () => (
+                expect(wrapper).to.be.ok
+            ));
 
             it('should have only one menu', () => {
                 expect(wrapper.find('nav')).to.have.length(1);
@@ -83,9 +83,9 @@ describe(' App View Tests (Container):', () => {
                 wrapper = mount(<AppNotConnected {...props} />);
             });
 
-            it('should render correctly', () => {
-                return expect(wrapper).to.be.ok;
-            });
+            it('should render correctly', () => (
+                expect(wrapper).to.be.ok
+            ));
 
             it('should have only one menu', () => {
                 expect(wrapper.find('nav')).to.have.length(1);
