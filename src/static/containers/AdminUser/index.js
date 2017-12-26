@@ -53,7 +53,7 @@ const mapStateToProps = (state) => {
     return {
         token: auth.token,
         users,
-        isFetching: usersState.users.isFetchingUsers,
+        isFetching: usersState.isFetchingUsers,
     };
 };
 
