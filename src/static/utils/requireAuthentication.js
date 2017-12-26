@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
 
-export default function requireAuthentication(myComponent) {
+export default function requireAuthentication(MyComponent) {
     class AuthenticatedComponent extends Component {
         componentWillMount() {
             this.checkAuth();
@@ -24,7 +24,7 @@ export default function requireAuthentication(myComponent) {
         render = () => {
             let displayComponent;
             if (this.props.isAuthenticated) {
-                displayComponent = <myComponent {...this.props} />;
+                displayComponent = <MyComponent {...this.props} />;
             }
             return (
                 <div>

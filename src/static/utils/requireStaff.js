@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
 
-export default function requireStaff(myComponent) {
+export default function requireStaff(MyComponent) {
     class AuthenticatedStaffComponent extends Component {
         componentWillMount() {
             this.checkAuthAndStaff();
@@ -25,7 +25,7 @@ export default function requireStaff(myComponent) {
             const { isAuthenticated, isStaff } = this.props;
             let displayComponent;
             if (isAuthenticated && isStaff) {
-                displayComponent = <myComponent {...this.props} />;
+                displayComponent = <MyComponent {...this.props} />;
             }
             return (
                 <div>
