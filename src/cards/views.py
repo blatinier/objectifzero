@@ -16,7 +16,7 @@ class ListCardsView(ListAPIView):
     def get(self, request):
         """Process GET request and return cards."""
         cards = Card.objects.all()
-        data = {'cards': [c.short_dump() for c in cards]}
+        data = [c.short_dump() for c in cards]
         return Response(data, status=status.HTTP_200_OK)
 
 
