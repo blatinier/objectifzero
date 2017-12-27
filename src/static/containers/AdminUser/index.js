@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 import AdminMenu from '../AdminMenu';
-import ShortUserView, { ShortUserViewNotConnected } from '../User';
+import ShortUserView from '../User';
 import * as actionCreators from '../../actions/users';
 
 class AdminUserView extends React.Component {
@@ -38,9 +38,7 @@ AdminUserView.defaultProps = {
 
 AdminUserView.propTypes = {
     isFetching: PropTypes.bool.isRequired,
-    users: PropTypes.arrayOf(
-        PropTypes.instanceOf(ShortUserViewNotConnected)
-    ),
+    users: PropTypes.arrayOf(PropTypes.object),
     token: PropTypes.string.isRequired,
     actions: PropTypes.shape({
         usersFetch: PropTypes.func.isRequired
@@ -49,7 +47,7 @@ AdminUserView.propTypes = {
 
 const mapStateToProps = (state) => {
     const { users: usersState, auth } = state;
-    const users = usersState.users ? usersState.users.users : [];
+    const users = usersState.users || [];
     return {
         token: auth.token,
         users,
