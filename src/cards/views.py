@@ -1,7 +1,8 @@
+from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
 from knox.auth import TokenAuthentication
 from rest_framework import status
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from cards.models import Card, UserCard, DataSource, CardStat
@@ -75,4 +76,17 @@ class CreateCardView(CreateAPIView):
                     card_stats=stats)
         card.save()
 
+        return Response({}, status=status.HTTP_200_OK)
+
+
+class DeleteCardView(DestroyAPIView):
+    """Delete card."""
+
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminUser,)
+
+    def delete(self, request, card_slug):
+        """Process delete a card."""
+        card = get_object_or_404(Card, slug=card_slug)
+        card.delete()
         return Response({}, status=status.HTTP_200_OK)

@@ -13,4 +13,7 @@ urlpatterns = [
     url(_(r'^add/$'),
         cards.views.CreateCardView.as_view(),
         name='create_card'),
+    url(_(r'^delete/(?P<card_slug>.*)/$'),
+        cards.views.DeleteCardView.as_view(),
+        name='delete_card'),
 ]

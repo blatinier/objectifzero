@@ -32,6 +32,9 @@ class DataSource(models.Model):
                               choices=DATA_SOURCE_STATUS,
                               default='UNVERIFIED')
 
+    def __str__(self):
+        return "<DataSource {name}:{status}>".format(name=self.name, status=self.status)
+
 
 class CardStat(models.Model):
     waste_reduction = models.DecimalField(decimal_places=1,
@@ -56,7 +59,8 @@ class Card(models.Model):
                               null=True)
 
     card_stats = models.ForeignKey(CardStat, blank=True,
-                                   null=True)
+                                   null=True,
+                                   on_delete=models.CASCADE)
     # Scores
     waste_reduction_score = models.PositiveSmallIntegerField()
     difficulty_score = models.PositiveSmallIntegerField()
