@@ -14,10 +14,12 @@ class UserFactory(factory.DjangoModelFactory):
 
 class AccountsModelsTests(TestCase):
     def setUp(self):
-        self.user = UserFactory.create(email='test@test.com')
+        self.user = UserFactory.create(email='test@test.com',
+                                       username="pipo")
 
     def test_unicode(self):
         self.assertEqual(str(self.user), 'test@test.com')
+        self.assertEqual(self.user.get_short_name(), 'pipo')
 
     def test_super_user(self):
         super_user = User.objects.create_superuser(email='email@test.com')

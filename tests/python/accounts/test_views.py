@@ -118,3 +118,33 @@ class AccountTests(CustomTestCase, APITestCase):
         url = reverse('accounts:confirm_email', args=[str(user.activation_key)])
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_account_profile_view_update(self):
+        url_profile = reverse('accounts:profile')
+        url_login = reverse('accounts:login')
+        # Login
+        self.client.credentials(HTTP_AUTHORIZATION=get_basic_auth_header('emailwilllogin@mydomain.com', 'test'))
+        response_login = self.client.post(url_login, format='json')
+        self.client.credentials(HTTP_AUTHORIZATION='Token {}'.format(response_login.data['token']))
+
+        # Tests
+        response_profile = self.client.get(url_profile, format='json')
+        prof = response_profile.data
+        self.assertFalse(prof['has_garden'])
+        self.assertFalse(prof['home_owner'])
+        self.assertFalse(prof['do_smoke'])
+        self.assertEqual('M', prof['gender'])
+
+        data = {
+            'gender': 'F',
+            'has_garden': True,
+            'do_smoke': True,
+            'home_owner': True
+        }
+        self.client.post(url_profile, data, format='json')
+        response_profile = self.client.get(url_profile, format='json')
+        prof = response_profile.data
+        self.assertTrue(prof['has_garden'])
+        self.assertTrue(prof['home_owner'])
+        self.assertTrue(prof['do_smoke'])
+        self.assertEqual('F', prof['gender'])

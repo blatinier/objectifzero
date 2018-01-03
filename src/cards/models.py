@@ -46,14 +46,6 @@ class CardStat(models.Model):
     year = models.SmallIntegerField()
     data_sources = models.ManyToManyField(DataSource)
 
-    # TODO: use a serializer instead
-    def dump(self):
-        return {'waste_reduction': self.waste_reduction,
-                'co2_reduction': self.co2_reduction,
-                'water_use_reduction': self.water_use_reduction,
-                'year': self.year,
-                'data_source': self.data_sources.dump()}
-
 
 class Card(models.Model):
     slug = models.SlugField(max_length=1024)
@@ -72,18 +64,6 @@ class Card(models.Model):
 
     # External links
     help_links = models.TextField(blank=True, null=True)
-
-    def short_dump(self):
-        card_data = {
-            'slug': self.slug,
-            'title': self.title,
-            'description': self.description,
-            'waste_reduction_score': self.waste_reduction_score,
-            'difficulty_score': self.difficulty_score,
-            'cost_score': self.cost_score}
-        if self.image and hasattr(self.image, 'url'):
-            card_data['image'] = self.image
-        return card_data
 
 
 class UserCard(models.Model):
