@@ -30,7 +30,5 @@ class BaseTests(APITestCase):
         #self.assertEqual(response.data['data'], 'THIS IS THE PROTECTED STRING FROM SERVER')
 
     def test_get_main_page(self):
-
         response = self.client.get(reverse('index'))
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)

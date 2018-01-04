@@ -88,5 +88,7 @@ class DeleteCardView(DestroyAPIView):
     def delete(self, request, card_slug):
         """Process delete a card."""
         card = get_object_or_404(Card, slug=card_slug)
+        stats = card.card_stats
         card.delete()
+        stats.delete()
         return Response({}, status=status.HTTP_200_OK)

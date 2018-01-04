@@ -60,7 +60,7 @@ class Card(models.Model):
 
     card_stats = models.ForeignKey(CardStat, blank=True,
                                    null=True,
-                                   on_delete=models.CASCADE)
+                                   on_delete=models.PROTECT)
     # Scores
     waste_reduction_score = models.PositiveSmallIntegerField()
     difficulty_score = models.PositiveSmallIntegerField()
