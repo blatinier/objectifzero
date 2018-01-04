@@ -1,3 +1,4 @@
+from copy import copy
 from django.core.urlresolvers import reverse
 from rest_framework import status
 
@@ -74,7 +75,17 @@ https://link2.pouet.org"""
 
     def test_list_card_view(self):
         url = reverse('cards:list_cards')
-        # TODO
+        self.client.force_authenticate(user=self.staff_user)
+        response = self.client.get(url)
+        self.assertEqual(len(response.data), 1)
+        expected = copy(self.CARD_DATA)
+        expected['image'] = None
+        del expected['help_links']
+        self.assertEqual(response.data, [expected])
+
+        self.client.force_authenticate(user=self.user)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_list_usercard_view(self):
         url = reverse('cards:user_cards')
