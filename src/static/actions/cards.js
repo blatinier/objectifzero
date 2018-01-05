@@ -215,7 +215,7 @@ export function deleteCard(token, card_slug) {
             .then(parseJSON)
             .then((response) => {
                 dispatch(cardDeleteSuccess());
-                dispatch(cardsFetchRequest());
+                dispatch(cardsFetch(token));
             })
             .catch((error) => {
                 if (error && typeof error.response !== 'undefined' && error.response.status >= 500) {
