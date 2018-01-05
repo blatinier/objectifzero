@@ -21,8 +21,8 @@ js_files_list = glob.glob('{}**/*.js'.format(static_dir), recursive=True)
 regular_expression = prog = re.compile("formatMessage\(\s*\{\s*id:\s*'([^']*)'\s*\}", re.X)
 
 for file_name in js_files_list:
-    file = open(file_name, 'r')
-    file_content = file.read()
+    filept = open(file_name, 'r')
+    file_content = filept.read()
     matchs = regular_expression.findall(file_content)
     for locale_id in matchs:
         # Check po file have the string id
@@ -35,7 +35,7 @@ for file_name in js_files_list:
             po_content+= "#: {}\n".format(file_name)
             po_content+= "msgid \"{}\"\n".format(locale_id)
             po_content+= "msgstr \"{}\"\n\n".format(locale_id)
-    file.close()
+    filept.close()
 
 output_file_write_buffer.close()
 output_file_read_buffer.close()
