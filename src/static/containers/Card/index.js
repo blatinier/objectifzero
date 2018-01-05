@@ -40,8 +40,8 @@ class ShortCardView extends Component {
         );
     };
 
-    deleteCard = () => {
-        const { actions, token, card: slug } = this.props;
+    deleteCard = (slug) => {
+        const { actions, token } = this.props;
         actions.deleteCard(token, slug);
     };
 
@@ -50,7 +50,7 @@ class ShortCardView extends Component {
         let delete_btn;
         const admin_btns = [];
         if (this.props.admin) {
-            admin_btns.push(<i className="fa fa-times" onClick={this.deleteCard} />);
+            admin_btns.push(<i key={"delete-btn-" + card.slug} className="fa fa-times" onClick={this.deleteCard.bind(this, card.slug)} />);
         }
         return (
             <div className="panel panel-default card">

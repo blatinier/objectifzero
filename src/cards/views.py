@@ -64,6 +64,9 @@ class CreateCardView(CreateAPIView):
                          year=data['stats']['year'])
         stats.save()
         stats.data_sources.add(*sources)
+        help_links = ""
+        if 'help_links' in data and data['help_links']:
+            help_links = '\n'.join(data['help_links'])
 
         card = Card(slug=slugify(data['title']),
                     title=data['title'],
@@ -72,7 +75,7 @@ class CreateCardView(CreateAPIView):
                     waste_reduction_score=data['waste_reduction_score'],
                     difficulty_score=data['difficulty_score'],
                     cost_score=data['cost_score'],
-                    help_links='\n'.join(data['help_links']),
+                    help_links=help_links,
                     card_stats=stats)
         card.save()
 

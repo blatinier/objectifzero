@@ -73,6 +73,17 @@ https://link2.pouet.org"""
         self.assertEqual("Source1", card.card_stats.data_sources.all()[0].name)
         self.assertEqual("Source2", card.card_stats.data_sources.all()[1].name)
 
+    def test_help_link_not_required(self):
+        url = reverse('cards:create_card')
+        self.client.force_authenticate(user=self.staff_user)
+        post_data = copy(self.POST_DATA_CARD)
+        del post_data['help_links']
+        post_data['title'] = "Test no help links"
+        response = self.client.post(url, post_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        card = Card.objects.get(slug='test-no-help-links')
+        self.assertEqual('', card.help_links)
+
     def test_list_card_view(self):
         url = reverse('cards:list_cards')
         self.client.force_authenticate(user=self.staff_user)

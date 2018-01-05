@@ -9,6 +9,9 @@ import { USER_CARDS_FETCH_REQUEST,
     CARDS_FETCH_REQUEST,
     CARDS_RECEIVE,
     CARDS_FETCH_FAILURE,
+    CARD_DELETE_FAILURE,
+    CARD_DELETE_REQUEST,
+    CARD_DELETE_SUCCESS,
     CARD_ADD_FAILURE,
     CARD_ADD_REQUEST,
     CARD_ADD_SUCCESS } from '../constants';
@@ -174,5 +177,55 @@ export function createCard(token, values) {
     };
 }
 
+export function cardDeleteFailure(error, message) {
+    return {
+        type: CARD_DELETE_FAILURE,
+        payload: {
+            status: error,
+            statusText: message
+        }
+    };
+}
+
+export function cardDeleteRequest() {
+    return {
+        type: CARD_DELETE_REQUEST
+    };
+}
+
+export function cardDeleteSuccess() {
+    return {
+        type: CARD_DELETE_SUCCESS
+    };
+}
+
 export function deleteCard(token, card_slug) {
+    return (dispatch, state) => {
+        dispatch(cardDeleteRequest());
+        return fetch(`${SERVER_URL}/api/v1/cards/delete/${card_slug}/`, {
+            method: 'delete',
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}`
+            }
+        })
+            .then(checkHttpStatus)
+            .then(parseJSON)
+            .then((response) => {
+                dispatch(cardDeleteSuccess());
+                dispatch(cardsFetchRequest());
+            })
+            .catch((error) => {
+                if (error && typeof error.response !== 'undefined' && error.response.status >= 500) {
+                    // Server side error
+                    dispatch(cardDeleteFailure(500, 'A server error occurred while sending your data!'));
+                } else {
+                    // Most likely connection issues
+                    dispatch(cardDeleteFailure('Connection Error', 'An error occurred while sending your data!'));
+                }
+                return Promise.resolve();
+            });
+    };
 }
