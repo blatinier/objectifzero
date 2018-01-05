@@ -86,4 +86,30 @@ describe('Cards Reducers Tests', () => {
             isCreatingCard: false
         });
     });
+
+    it('should handle CARD_DELETE_REQUEST', () => {
+        const reducerResponse = cardsReducer([], {
+            type: TYPES.CARD_DELETE_REQUEST
+        });
+        expect(reducerResponse).to.eql({
+            isDeletingCard: true
+        });
+    });
+
+    it('should handle CARD_DELETE_FAILURE', () => {
+        const reducerResponse = cardsReducer([], {
+            type: TYPES.CARD_DELETE_FAILURE
+        });
+        expect(reducerResponse).to.eql({
+            isDeletingCard: false
+        });
+    });
+    it('should handle CARD_DELETE_SUCCRESS', () => {
+        const reducerResponse = cardsReducer([], {
+            type: TYPES.CARD_DELETE_SUCCESS
+        });
+        expect(reducerResponse).to.eql({
+            isDeletingCard: false
+        });
+    });
 });
