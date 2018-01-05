@@ -173,3 +173,6 @@ export function createCard(token, values) {
             });
     };
 }
+
+export function deleteCard(token, card_slug) {
+}

@@ -27,7 +27,7 @@ class AdminCardView extends React.Component {
         const { cards, isFetching } = this.props;
         let cardsJsx;
         if (cards) {
-            cardsJsx = cards.map(card => <ShortCardView key={card.title} card={card} />);
+            cardsJsx = cards.map(card => <ShortCardView admin={true} key={card.title} card={card} />);
         }
         return (
             <div className="protected">

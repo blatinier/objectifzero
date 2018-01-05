@@ -40,11 +40,22 @@ class ShortCardView extends Component {
         );
     };
 
+    deleteCard = () => {
+        const { actions, token, card: slug } = this.props;
+        actions.deleteCard(token, slug);
+    };
+
     render = () => {
         const { card } = this.props;
+        let delete_btn;
+        const admin_btns = [];
+        if (this.props.admin) {
+            admin_btns.push(<i className="fa fa-times" onClick={this.deleteCard} />);
+        }
         return (
             <div className="panel panel-default card">
                 <div className="panel-body">
+                    {admin_btns}
                     <div className="col-lg-10">
                         <h2>{card.title}</h2>
                         <p>{card.description}</p>
@@ -58,7 +69,12 @@ class ShortCardView extends Component {
     };
 }
 
+ShortCardView.defaultProps = {
+    admin: false
+};
+
 ShortCardView.propTypes = {
+    admin: PropTypes.bool.isRequired,
     card: PropTypes.shape({
         title: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
@@ -67,11 +83,10 @@ ShortCardView.propTypes = {
         difficulty_score: PropTypes.number.isRequired,
         cost_score: PropTypes.number.isRequired,
     }).isRequired,
-    // TODO usercard fetch
-    //        token: PropTypes.string.isRequired,
-    //        actions: PropTypes.shape({
-    //            usercardsFetch: PropTypes.func.isRequired
-    //        }).isRequired
+    token: PropTypes.string.isRequired,
+    actions: PropTypes.shape({
+        deleteCard: PropTypes.func.isRequired
+    }).isRequired
 };
 
 const mapStateToProps = state => ({
