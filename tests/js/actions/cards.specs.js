@@ -374,5 +374,88 @@ describe('Cards Actions:', () => {
             }).then(done).catch(done);
     });
 
-    // TODO createCard success (1) failure (2)
+    it('createCard should create CARD_ADD_REQUEST and CARD_ADD_FAILURE actions when API returns 400', (done) => {
+        const expectedActions = [
+            {
+                type: TYPES.CARD_ADD_REQUEST
+            }, {
+                type: TYPES.CARD_ADD_FAILURE,
+                payload: {
+                    status: 'Connection Error',
+                    statusText: 'An error occurred while sending your data!'
+                }
+            }
+        ];
+
+        nock(SERVER_URL)
+            .post('/api/v1/cards/add/')
+            .reply(400, {});
+
+        const middlewares = [thunk];
+        const mockStore = configureStore(middlewares);
+        const store = mockStore({});
+
+        store.dispatch(ACTIONS_CARDS.createCard('long_meaningless_string', 'pipo'))
+            .then(() => {
+                expect(store.getActions()).to.deep.equal(expectedActions);
+            }).then(done).catch(done);
+    });
+
+    it('createCard should create CARD_ADD_REQUEST and CARD_ADD_FAILURE actions when API returns 500', (done) => {
+        const expectedActions = [
+            {
+                type: TYPES.CARD_ADD_REQUEST
+            }, {
+                type: TYPES.CARD_ADD_FAILURE,
+                payload: {
+                    status: 500,
+                    statusText: 'A server error occurred while sending your data!'
+                }
+            }
+        ];
+
+        nock(SERVER_URL)
+            .post('/api/v1/cards/add/')
+            .reply(500, {});
+
+        const middlewares = [thunk];
+        const mockStore = configureStore(middlewares);
+        const store = mockStore({});
+
+        store.dispatch(ACTIONS_CARDS.createCard('long_meaningless_string', 'pipo'))
+            .then(() => {
+                expect(store.getActions()).to.deep.equal(expectedActions);
+            }).then(done).catch(done);
+    });
+
+    it('createCard should create CARD_ADD_REQUEST and CARD_ADD_SUCCESS actions when API returns 200', (done) => {
+        const expectedActions = [
+            {
+                type: TYPES.CARD_ADD_REQUEST
+            }, {
+                type: TYPES.CARD_ADD_SUCCESS,
+            }, {
+                type: '@@router/CALL_HISTORY_METHOD',
+                payload: {
+                    method: 'push',
+                    args: [
+                        '/zw-admin/card'
+                    ]
+                }
+            }
+        ];
+
+        nock(SERVER_URL)
+            .post('/api/v1/cards/add/')
+            .reply(200, {});
+
+        const middlewares = [thunk];
+        const mockStore = configureStore(middlewares);
+        const store = mockStore({});
+
+        store.dispatch(ACTIONS_CARDS.createCard('long_meaningless_string', 'pipo'))
+            .then(() => {
+                expect(store.getActions()).to.deep.equal(expectedActions);
+            }).then(done).catch(done);
+    });
 });
