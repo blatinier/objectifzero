@@ -45,12 +45,17 @@ class ShortCardView extends Component {
         actions.deleteCard(token, slug);
     };
 
+    goToEditCard = (slug) => {
+        this.props.dispatch(push('/zw-admin/card-edit/' + slug));
+    }
+
     render = () => {
         const { card } = this.props;
         let delete_btn;
         const admin_btns = [];
         if (this.props.admin) {
             admin_btns.push(<i key={"delete-btn-" + card.slug} className="fa fa-times" onClick={this.deleteCard.bind(this, card.slug)} />);
+            admin_btns.push(<i key={"edit-btn-" + card.slug} className="fa fa-pencil" onClick={this.goToEditCard.bind(this, card.slug)} />);
         }
         return (
             <div className="panel panel-default card">

@@ -107,7 +107,8 @@ class AdminCardAddView extends Component {
 AdminCardAddView.propTypes = {
     token: PropTypes.string.isRequired,
     actions: PropTypes.shape({
-        createCard: PropTypes.func.isRequired
+        createCard: PropTypes.func.isRequired,
+        editCard: PropTypes.func.isRequired
     }).isRequired,
     card_slug: PropTypes.string,
     card_data: PropTypes.shape({
@@ -138,6 +139,7 @@ AdminCardAddView.propTypes = {
 
 const mapStateToProps = state => ({
     token: state.auth.token,
+    card: state.card,
 });
 
 const mapDispatchToProps = dispatch => ({

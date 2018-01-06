@@ -6,6 +6,9 @@ import {
     CARD_DELETE_FAILURE,
     CARD_DELETE_SUCCESS,
     CARD_DELETE_REQUEST,
+    CARD_EDIT_FAILURE,
+    CARD_EDIT_SUCCESS,
+    CARD_EDIT_REQUEST,
     CARD_ADD_FAILURE,
     CARD_ADD_SUCCESS,
     CARD_ADD_REQUEST
@@ -15,6 +18,7 @@ const initialState = {
     cards: null,
     isFetchingCards: false,
     isCreatingCard: false,
+    isEditingCard: false,
     isDeletingCard: false
 };
 
@@ -69,6 +73,21 @@ export default function cardsReducer(state = initialState, action) {
         case CARD_DELETE_SUCCESS:
             return Object.assign({}, state, {
                 isDeletingCard: false
+            });
+
+        case CARD_EDIT_REQUEST:
+            return Object.assign({}, state, {
+                isEditingCard: true
+            });
+
+        case CARD_EDIT_FAILURE:
+            return Object.assign({}, state, {
+                isEditingCard: false
+            });
+
+        case CARD_EDIT_SUCCESS:
+            return Object.assign({}, state, {
+                isEditingCard: false
             });
 
         default:
