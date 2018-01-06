@@ -36,7 +36,7 @@ const Card = t.struct({
     stats: Stat,
 
     // DataSource (multi-select box + add)
-    data_source: t.maybe(t.list(DataSource))
+    data_source: t.list(DataSource)
 });
 
 const CardAddFormOptions = {
@@ -62,10 +62,14 @@ class AdminCardAddView extends Component {
                 co2_reduction: 0, // in kg/year
                 water_use_reduction: 0, // in L/year
                 stat_status: 'ACTIVE', // Active/Archived
-                year: 0 // TODO set current year
+                year: (new Date()).getFullYear()
             },
             data_source: []
         },
+    };
+
+    componentDidMount = () => {
+        // TODO check props, if existing, setState and modify action add into edit
     };
 
     onFormChange = (value) => {
@@ -105,6 +109,30 @@ AdminCardAddView.propTypes = {
     actions: PropTypes.shape({
         createCard: PropTypes.func.isRequired
     }).isRequired,
+    card_slug: PropTypes.string,
+    card_data: PropTypes.shape({
+        title: PropTypes.string,
+        description: PropTypes.string,
+        image: PropTypes.string,
+        waste_reduction_score: PropTypes.number,
+        difficulty_score: PropTypes.number,
+        cost_score: PropTypes.number,
+        help_links: PropTypes.arrayOf(PropTypes.string),
+        stats: PropTypes.shape({
+            waste_reduction: PropTypes.number,
+            co2_reduction: PropTypes.number,
+            water_use_reduction: PropTypes.number,
+            stat_status: PropTypes.string,
+            year: PropTypes.number
+        }),
+        data_source: PropTypes.arrayOf(
+            PropTypes.shape({
+                data_source_name: PropTypes.string,
+                data_source_link: PropTypes.string,
+                data_source_status: PropTypes.string
+            })
+        )
+    }),
 };
 
 

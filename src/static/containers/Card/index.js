@@ -55,7 +55,9 @@ class ShortCardView extends Component {
         return (
             <div className="panel panel-default card">
                 <div className="panel-body">
-                    {admin_btns}
+                    <div className="row">
+                        {admin_btns}
+                    </div>
                     <div className="col-lg-10">
                         <h2>{card.title}</h2>
                         <p>{card.description}</p>
