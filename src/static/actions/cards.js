@@ -9,6 +9,9 @@ import { USER_CARDS_FETCH_REQUEST,
     CARDS_FETCH_REQUEST,
     CARDS_RECEIVE,
     CARDS_FETCH_FAILURE,
+    CARD_FETCH_REQUEST,
+    CARD_RECEIVE,
+    CARD_FETCH_FAILURE,
     CARD_DELETE_FAILURE,
     CARD_DELETE_REQUEST,
     CARD_DELETE_SUCCESS,
@@ -281,6 +284,59 @@ export function deleteCard(token, card_slug) {
                 } else {
                     // Most likely connection issues
                     dispatch(cardDeleteFailure('Connection Error', 'An error occurred while sending your data!'));
+                }
+                return Promise.resolve();
+            });
+    };
+}
+
+export function cardFetchRequest() {
+    return {
+        type: CARD_FETCH_REQUEST
+    };
+}
+
+export function cardReceive(card) {
+    return {
+        type: CARD_RECEIVE,
+        payload: {
+            card
+        }
+    };
+}
+
+export function cardFetchFailure(error, message) {
+    return {
+        type: CARD_FETCH_FAILURE,
+        payload: {
+            status: error,
+            statusText: message
+        }
+    };
+}
+
+export function cardFetch(token, slug) {
+    return (dispatch, state) => {
+        dispatch(cardFetchRequest());
+        return fetch(`${SERVER_URL}/api/v1/cards/card/${slug}`, {
+            credentials: 'include',
+            headers: {
+                Accept: 'application/json',
+                Authorization: `Token ${token}`
+            }
+        })
+            .then(checkHttpStatus)
+            .then(parseJSON)
+            .then((response) => {
+                dispatch(cardReceive(response));
+            })
+            .catch((error) => {
+                if (error && typeof error.response !== 'undefined' && error.response.status >= 500) {
+                    // Server side error
+                    dispatch(cardFetchFailure(500, 'A server error occurred while sending your data!'));
+                } else {
+                    // Most likely connection issues
+                    dispatch(cardFetchFailure('Connection Error', 'An error occurred while sending your data!'));
                 }
                 return Promise.resolve();
             });

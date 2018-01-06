@@ -68,8 +68,12 @@ class AdminCardAddView extends Component {
         },
     };
 
-    componentDidMount = () => {
-        // TODO check props, if existing, setState and modify action add into edit
+    componentWillMount = () => {
+        const { slug } = this.props.match.params;
+        const { token } = this.props;
+        if (slug) {
+            this.props.actions.cardFetch(token, slug);
+        }
     };
 
     onFormChange = (value) => {
@@ -87,28 +91,33 @@ class AdminCardAddView extends Component {
     render = () => (
         <div className="protected">
             <AdminMenu />
-            <div className="col-lg-9">
-                <form onSubmit={this.createCard}>
-                    <Form ref={(ref) => { this.addCardForm = ref; }}
-                        type={Card}
-                        options={CardAddFormOptions}
-                        value={this.state.formValues}
-                        onChange={this.onFormChange}
-                    />
-                    <button type="submit" className="btn btn-success col-lg-4 col-lg-offset-4 col-xs-12">
-                        Create Card!
-                    </button>
-                </form>
-            </div>
+            {(this.props.isFetchingCard === true) ?
+                <p className="text-center">Loading card to edit...</p>
+                :
+                <div className="col-lg-9">
+                    <form onSubmit={this.createCard}>
+                        <Form ref={(ref) => { this.addCardForm = ref; }}
+                            type={Card}
+                            options={CardAddFormOptions}
+                            value={this.state.formValues}
+                            onChange={this.onFormChange}
+                        />
+                        <button type="submit" className="btn btn-success col-lg-4 col-lg-offset-4 col-xs-12">
+                            Create Card!
+                        </button>
+                    </form>
+                </div>
+            }
         </div>
     );
 }
 
 AdminCardAddView.propTypes = {
     token: PropTypes.string.isRequired,
+    isFetchingCard: PropTypes.bool.isRequired,
     actions: PropTypes.shape({
         createCard: PropTypes.func.isRequired,
-        editCard: PropTypes.func.isRequired
+        cardFetch: PropTypes.func.isRequired
     }).isRequired,
     card_slug: PropTypes.string,
     card_data: PropTypes.shape({
@@ -139,7 +148,8 @@ AdminCardAddView.propTypes = {
 
 const mapStateToProps = state => ({
     token: state.auth.token,
-    card: state.card,
+    card: state.cards.current_card,
+    isFetchingCard: state.cards.isFetchingCard,
 });
 
 const mapDispatchToProps = dispatch => ({

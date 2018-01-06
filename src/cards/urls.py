@@ -16,4 +16,7 @@ urlpatterns = [
     url(_(r'^delete/(?P<card_slug>.*)/$'),
         cards.views.DeleteCardView.as_view(),
         name='delete_card'),
+    url(_(r'^card/(?P<card_slug>.*)/$'),
+        cards.views.CardView.as_view(),
+        name='fetch_card'),
 ]

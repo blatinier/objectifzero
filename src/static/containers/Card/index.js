@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -54,8 +55,8 @@ class ShortCardView extends Component {
         let delete_btn;
         const admin_btns = [];
         if (this.props.admin) {
-            admin_btns.push(<i key={"delete-btn-" + card.slug} className="fa fa-times" onClick={this.deleteCard.bind(this, card.slug)} />);
-            admin_btns.push(<i key={"edit-btn-" + card.slug} className="fa fa-pencil" onClick={this.goToEditCard.bind(this, card.slug)} />);
+            admin_btns.push(<i key={"delete-btn-" + card.slug} className="cursor fa fa-times" onClick={this.deleteCard.bind(this, card.slug)} />);
+            admin_btns.push(<i key={"edit-btn-" + card.slug} className="cursor fa fa-pencil" onClick={this.goToEditCard.bind(this, card.slug)} />);
         }
         return (
             <div className="panel panel-default card">
@@ -85,7 +86,6 @@ ShortCardView.propTypes = {
     card: PropTypes.shape({
         title: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
-        waste_reduction: PropTypes.number.isRequired,
         waste_reduction_score: PropTypes.number.isRequired,
         difficulty_score: PropTypes.number.isRequired,
         cost_score: PropTypes.number.isRequired,
@@ -101,7 +101,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
+    dispatch: dispatch
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortCardView);

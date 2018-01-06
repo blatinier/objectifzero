@@ -3,6 +3,8 @@ import {
     CARDS_RECEIVE,
     USER_CARDS_FETCH_REQUEST,
     CARDS_FETCH_REQUEST,
+    CARD_RECEIVE,
+    CARD_FETCH_REQUEST,
     CARD_DELETE_FAILURE,
     CARD_DELETE_SUCCESS,
     CARD_DELETE_REQUEST,
@@ -16,9 +18,11 @@ import {
 
 const initialState = {
     cards: null,
+    current_card: null,
     isFetchingCards: false,
     isCreatingCard: false,
     isEditingCard: false,
+    isFetchingCard: false,
     isDeletingCard: false
 };
 
@@ -34,6 +38,7 @@ export default function cardsReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 isFetchingCards: true
             });
+
         case CARDS_RECEIVE:
             return Object.assign({}, state, {
                 cards: action.payload.cards,
@@ -88,6 +93,17 @@ export default function cardsReducer(state = initialState, action) {
         case CARD_EDIT_SUCCESS:
             return Object.assign({}, state, {
                 isEditingCard: false
+            });
+
+        case CARD_RECEIVE:
+            return Object.assign({}, state, {
+                current_card: action.payload,
+                isFetchingCard: false
+            });
+
+        case CARD_FETCH_REQUEST:
+            return Object.assign({}, state, {
+                isFetchingCard: true
             });
 
         default:
