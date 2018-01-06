@@ -318,7 +318,7 @@ export function cardFetchFailure(error, message) {
 export function cardFetch(token, slug) {
     return (dispatch, state) => {
         dispatch(cardFetchRequest());
-        return fetch(`${SERVER_URL}/api/v1/cards/card/${slug}`, {
+        return fetch(`${SERVER_URL}/api/v1/cards/card/${slug}/`, {
             credentials: 'include',
             headers: {
                 Accept: 'application/json',

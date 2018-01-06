@@ -19,7 +19,7 @@ const Stat = t.struct({
     waste_reduction: t.maybe(t.Number), // in kg/year
     co2_reduction: t.maybe(t.Number), // in kg/year
     water_use_reduction: t.maybe(t.Number), // in L/year
-    stat_status: t.enums({ ACTIVE: 'Active', ARCHIVED: 'Archived' }),
+    status: t.enums({ ACTIVE: 'Active', ARCHIVED: 'Archived' }),
     year: t.Integer
 });
 
@@ -61,11 +61,21 @@ class AdminCardAddView extends Component {
                 waste_reduction: 0, // in kg/year
                 co2_reduction: 0, // in kg/year
                 water_use_reduction: 0, // in L/year
-                stat_status: 'ACTIVE', // Active/Archived
+                status: 'ACTIVE', // Active/Archived
                 year: (new Date()).getFullYear()
             },
             data_source: []
         },
+    };
+
+    componentWillReceiveProps = (nextProps) => {
+        if (nextProps.card_data) {
+            const { card } = nextProps.card_data;
+            card.stats = card.card_stats;
+            const links = card.help_links.split(/\r?\n/);
+            card.help_links = links.filter(arr => arr);
+            this.setState({ formValues: card });
+        }
     };
 
     componentWillMount = () => {
@@ -132,7 +142,7 @@ AdminCardAddView.propTypes = {
             waste_reduction: PropTypes.number,
             co2_reduction: PropTypes.number,
             water_use_reduction: PropTypes.number,
-            stat_status: PropTypes.string,
+            status: PropTypes.string,
             year: PropTypes.number
         }),
         data_source: PropTypes.arrayOf(
@@ -148,7 +158,7 @@ AdminCardAddView.propTypes = {
 
 const mapStateToProps = state => ({
     token: state.auth.token,
-    card: state.cards.current_card,
+    card_data: state.cards.current_card,
     isFetchingCard: state.cards.isFetchingCard,
 });
 

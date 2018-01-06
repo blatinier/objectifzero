@@ -60,7 +60,7 @@ class CreateCardView(CreateAPIView):
         stats = CardStat(waste_reduction=data['stats']['waste_reduction'],
                          co2_reduction=data['stats']['co2_reduction'],
                          water_use_reduction=data['stats']['water_use_reduction'],
-                         status=data['stats']['stat_status'],
+                         status=data['stats']['status'],
                          year=data['stats']['year'])
         stats.save()
         stats.data_sources.add(*sources)

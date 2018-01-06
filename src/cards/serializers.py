@@ -23,7 +23,7 @@ class CardStatSerializer(serializers.ModelSerializer):
         model = CardStat
         fields = ('waste_reduction', 'co2_reduction',
                   'water_use_reduction', 'status',
-                  'year')
+                  'year', 'data_sources')
 
 
 class CardSerializer(serializers.ModelSerializer):
