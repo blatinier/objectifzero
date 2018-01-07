@@ -10,9 +10,9 @@ import * as actionCreators from '../../actions/cards';
 const Form = t.form.Form;
 
 const DataSource = t.struct({
-    data_source_name: t.String,
-    data_source_link: t.String,
-    data_source_status: t.enums({ VERIFIED: 'Verified', UNVERIFIED: 'Unverified' })
+    name: t.String,
+    link: t.String,
+    status: t.enums({ VERIFIED: 'Verified', UNVERIFIED: 'Unverified' })
 });
 
 const Stat = t.struct({
@@ -156,9 +156,9 @@ AdminCardAddView.propTypes = {
         }),
         data_source: PropTypes.arrayOf(
             PropTypes.shape({
-                data_source_name: PropTypes.string,
-                data_source_link: PropTypes.string,
-                data_source_status: PropTypes.string
+                name: PropTypes.string,
+                link: PropTypes.string,
+                status: PropTypes.string
             })
         )
     }),
