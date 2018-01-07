@@ -13,10 +13,7 @@ urlpatterns = [
     url(_(r'^add/$'),
         cards.views.CreateCardView.as_view(),
         name='create_card'),
-    url(_(r'^delete/(?P<card_slug>.*)/$'),
-        cards.views.DeleteCardView.as_view(),
-        name='delete_card'),
-    url(_(r'^card/(?P<card_slug>.*)/$'),
+    url(_(r'^card/(?P<slug>.*)/$'),
         cards.views.CardView.as_view(),
         name='fetch_card'),
 ]

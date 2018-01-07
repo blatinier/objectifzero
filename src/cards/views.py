@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
 from knox.auth import TokenAuthentication
 from rest_framework import status
-from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView, GenericAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from cards.models import Card, UserCard, DataSource, CardStat
@@ -82,28 +82,10 @@ class CreateCardView(CreateAPIView):
         return Response({}, status=status.HTTP_200_OK)
 
 
-class DeleteCardView(DestroyAPIView):
-    """Delete card."""
-
+class CardView(RetrieveUpdateDestroyAPIView):
+    """Card management."""
+    serializer_class = CardSerializer
+    queryset = Card.objects.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminUser,)
-
-    def delete(self, request, card_slug):
-        """Process delete a card."""
-        card = get_object_or_404(Card, slug=card_slug)
-        stats = card.card_stats
-        card.delete()
-        stats.delete()
-        return Response({}, status=status.HTTP_200_OK)
-
-
-class CardView(GenericAPIView):
-    """Return card data."""
-    serializer_class = CardSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request, card_slug):
-        """Process GET request and return card data."""
-        card = get_object_or_404(Card, slug=card_slug)
-        return Response(self.get_serializer(card).data, status=status.HTTP_200_OK)
+    lookup_field = "slug"

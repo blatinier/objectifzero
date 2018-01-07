@@ -103,6 +103,7 @@ export default function cardsReducer(state = initialState, action) {
 
         case CARD_FETCH_REQUEST:
             return Object.assign({}, state, {
+                current_card: null,
                 isFetchingCard: true
             });
 

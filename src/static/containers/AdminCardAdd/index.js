@@ -49,6 +49,7 @@ const CardAddFormOptions = {
 
 class AdminCardAddView extends Component {
     state = {
+        editing: false,
         formValues: {
             title: '',
             description: '',
@@ -74,7 +75,10 @@ class AdminCardAddView extends Component {
             card.stats = card.card_stats;
             const links = card.help_links.split(/\r?\n/);
             card.help_links = links.filter(arr => arr);
-            this.setState({ formValues: card });
+            this.setState({
+                formValues: card,
+                editing: true,
+            });
         }
     };
 
@@ -94,12 +98,16 @@ class AdminCardAddView extends Component {
         e.preventDefault();
         const value = this.addCardForm.getValue();
         if (value) {
-            this.props.actions.createCard(this.props.token, value);
+            if (this.state.editing) {
+                this.props.actions.editCard(this.props.token, value);
+            } else {
+                this.props.actions.createCard(this.props.token, value);
+            }
         }
     };
 
-    render = () => (
-        <div className="protected">
+    render = () => {
+        return (<div className="protected">
             <AdminMenu />
             {(this.props.isFetchingCard === true) ?
                 <p className="text-center">Loading card to edit...</p>
@@ -113,13 +121,13 @@ class AdminCardAddView extends Component {
                             onChange={this.onFormChange}
                         />
                         <button type="submit" className="btn btn-success col-lg-4 col-lg-offset-4 col-xs-12">
-                            Create Card!
+                            { this.stats.editing ? "Edit card!" : "Create Card!"}
                         </button>
                     </form>
                 </div>
             }
-        </div>
-    );
+        </div>);
+    };
 }
 
 AdminCardAddView.propTypes = {
@@ -127,6 +135,7 @@ AdminCardAddView.propTypes = {
     isFetchingCard: PropTypes.bool.isRequired,
     actions: PropTypes.shape({
         createCard: PropTypes.func.isRequired,
+        editCard: PropTypes.func.isRequired,
         cardFetch: PropTypes.func.isRequired
     }).isRequired,
     card_slug: PropTypes.string,

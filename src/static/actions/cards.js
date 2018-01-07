@@ -209,7 +209,7 @@ export function editCard(token, values) {
     return (dispatch, state) => {
         dispatch(cardEditRequest());
         return fetch(`${SERVER_URL}/api/v1/cards/edit/`, {
-            method: 'put',
+            method: 'post',
             credentials: 'include',
             headers: {
                 'Accept': 'application/json',
@@ -262,7 +262,7 @@ export function cardDeleteSuccess() {
 export function deleteCard(token, card_slug) {
     return (dispatch, state) => {
         dispatch(cardDeleteRequest());
-        return fetch(`${SERVER_URL}/api/v1/cards/delete/${card_slug}/`, {
+        return fetch(`${SERVER_URL}/api/v1/cards/card/${card_slug}/`, {
             method: 'delete',
             credentials: 'include',
             headers: {
@@ -272,7 +272,6 @@ export function deleteCard(token, card_slug) {
             }
         })
             .then(checkHttpStatus)
-            .then(parseJSON)
             .then((response) => {
                 dispatch(cardDeleteSuccess());
                 dispatch(cardsFetch(token));
