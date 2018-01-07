@@ -40,7 +40,7 @@ class CardSerializer(serializers.ModelSerializer):
 
     def create(self, data):
         data_stats = data.pop("card_stats")
-        data_sources = data.pop("data_sources")
+        data_sources = data_stats.pop("data_sources")
         sources = self.get_sources(data_sources)
         stats = CardStat.objects.create(**data_stats)
         stats.data_sources.add(*sources)
@@ -51,19 +51,23 @@ class CardSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         data_stats = validated_data.pop("card_stats")
-        data_sources = validated_data.pop("data_sources")
+        data_sources = data_stats.pop("data_sources")
         sources = self.get_sources(data_sources)
         stats = instance.card_stats
 
         # update card
         for field, value in validated_data.items():
             setattr(instance, field, value)
+        instance.slug = slugify(instance.title)
+        instance.save()
         # update stats
         for field, value in data_stats.items():
             setattr(stats, field, value)
+        stats.save()
         # update data sources
         stats.data_sources.clear()
         stats.data_sources.add(*sources)
+        return instance
 
     def get_sources(self, source_list):
         sources = []
