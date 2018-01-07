@@ -205,11 +205,11 @@ export function cardEditSuccess() {
     };
 }
 
-export function editCard(token, values) {
+export function editCard(token, slug, values) {
     return (dispatch, state) => {
         dispatch(cardEditRequest());
-        return fetch(`${SERVER_URL}/api/v1/cards/edit/`, {
-            method: 'post',
+        return fetch(`${SERVER_URL}/api/v1/cards/card/${slug}/`, {
+            method: 'put',
             credentials: 'include',
             headers: {
                 'Accept': 'application/json',
@@ -259,10 +259,10 @@ export function cardDeleteSuccess() {
     };
 }
 
-export function deleteCard(token, card_slug) {
+export function deleteCard(token, cardSlug) {
     return (dispatch, state) => {
         dispatch(cardDeleteRequest());
-        return fetch(`${SERVER_URL}/api/v1/cards/card/${card_slug}/`, {
+        return fetch(`${SERVER_URL}/api/v1/cards/card/${cardSlug}/`, {
             method: 'delete',
             credentials: 'include',
             headers: {

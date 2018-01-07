@@ -20,7 +20,8 @@ const Stat = t.struct({
     co2_reduction: t.maybe(t.Number), // in kg/year
     water_use_reduction: t.maybe(t.Number), // in L/year
     status: t.enums({ ACTIVE: 'Active', ARCHIVED: 'Archived' }),
-    year: t.Integer
+    year: t.Integer,
+    data_sources: t.list(DataSource)
 });
 
 const Card = t.struct({
@@ -33,10 +34,7 @@ const Card = t.struct({
     help_links: t.maybe(t.list(t.String)), // (multi-select + add)
 
     // STATS
-    stats: Stat,
-
-    // DataSource (multi-select box + add)
-    data_source: t.list(DataSource)
+    card_stats: Stat,
 });
 
 const CardAddFormOptions = {
@@ -58,28 +56,15 @@ class AdminCardAddView extends Component {
             difficulty_score: 0,
             cost_score: 0,
             help_links: [],
-            stats: {
+            card_stats: {
                 waste_reduction: 0, // in kg/year
                 co2_reduction: 0, // in kg/year
                 water_use_reduction: 0, // in L/year
                 status: 'ACTIVE', // Active/Archived
-                year: (new Date()).getFullYear()
+                year: (new Date()).getFullYear(),
+                data_sources: []
             },
-            data_source: []
         },
-    };
-
-    componentWillReceiveProps = (nextProps) => {
-        if (nextProps.card_data) {
-            const { card } = nextProps.card_data;
-            card.stats = card.card_stats;
-            const links = card.help_links.split(/\r?\n/);
-            card.help_links = links.filter(arr => arr);
-            this.setState({
-                formValues: card,
-                editing: true,
-            });
-        }
     };
 
     componentWillMount = () => {
@@ -90,6 +75,19 @@ class AdminCardAddView extends Component {
         }
     };
 
+    componentWillReceiveProps = (nextProps) => {
+        if (nextProps.card_data) {
+            const { card } = nextProps.card_data;
+            card.card_stats = card.card_stats;
+            const links = card.help_links.split(/\r?\n/);
+            card.help_links = links.filter(arr => arr);
+            this.setState({
+                formValues: card,
+                editing: true,
+            });
+        }
+    };
+
     onFormChange = (value) => {
         this.setState({ formValues: value });
     };
@@ -97,17 +95,20 @@ class AdminCardAddView extends Component {
     createCard = (e) => {
         e.preventDefault();
         const value = this.addCardForm.getValue();
-        if (value) {
+        const formData = Object.assign({}, value);
+        if (formData) {
+            formData.help_links = formData.help_links.join('\n');
             if (this.state.editing) {
-                this.props.actions.editCard(this.props.token, value);
+                const { slug } = this.props.match.params;
+                this.props.actions.editCard(this.props.token, slug, formData);
             } else {
-                this.props.actions.createCard(this.props.token, value);
+                this.props.actions.createCard(this.props.token, formData);
             }
         }
     };
 
-    render = () => {
-        return (<div className="protected">
+    render = () => (
+        <div className="protected">
             <AdminMenu />
             {(this.props.isFetchingCard === true) ?
                 <p className="text-center">Loading card to edit...</p>
@@ -121,13 +122,13 @@ class AdminCardAddView extends Component {
                             onChange={this.onFormChange}
                         />
                         <button type="submit" className="btn btn-success col-lg-4 col-lg-offset-4 col-xs-12">
-                            { this.stats.editing ? "Edit card!" : "Create Card!"}
+                            { this.state.editing ? 'Edit card!' : 'Create Card!'}
                         </button>
                     </form>
                 </div>
             }
-        </div>);
-    };
+        </div>
+    );
 }
 
 AdminCardAddView.propTypes = {
@@ -147,20 +148,20 @@ AdminCardAddView.propTypes = {
         difficulty_score: PropTypes.number,
         cost_score: PropTypes.number,
         help_links: PropTypes.arrayOf(PropTypes.string),
-        stats: PropTypes.shape({
+        card_stats: PropTypes.shape({
             waste_reduction: PropTypes.number,
             co2_reduction: PropTypes.number,
             water_use_reduction: PropTypes.number,
             status: PropTypes.string,
-            year: PropTypes.number
+            year: PropTypes.number,
+            data_sources: PropTypes.arrayOf(
+                PropTypes.shape({
+                    name: PropTypes.string,
+                    link: PropTypes.string,
+                    status: PropTypes.string
+                })
+            )
         }),
-        data_source: PropTypes.arrayOf(
-            PropTypes.shape({
-                name: PropTypes.string,
-                link: PropTypes.string,
-                status: PropTypes.string
-            })
-        )
     }),
 };
 

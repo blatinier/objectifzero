@@ -9,6 +9,16 @@ import * as actionCreators from '../../actions/cards';
 
 
 class ShortCardView extends Component {
+    deleteCard = () => {
+        const { actions, token, card } = this.props;
+        actions.deleteCard(token, card.slug);
+    };
+
+    goToEditCard = () => {
+        const { slug } = this.props.card;
+        this.props.dispatch(push(`/zw-admin/card-edit/${slug}`));
+    }
+
     renderGlyph = (glyph, score) => {
         const classes = `glyphicon glyphicon-${glyph}`;
         const glyphs = [];
@@ -41,28 +51,25 @@ class ShortCardView extends Component {
         );
     };
 
-    deleteCard = (slug) => {
-        const { actions, token } = this.props;
-        actions.deleteCard(token, slug);
-    };
-
-    goToEditCard = (slug) => {
-        this.props.dispatch(push('/zw-admin/card-edit/' + slug));
-    }
-
     render = () => {
         const { card } = this.props;
-        let delete_btn;
-        const admin_btns = [];
+        const adminBtns = [];
         if (this.props.admin) {
-            admin_btns.push(<i key={"delete-btn-" + card.slug} className="cursor fa fa-times" onClick={this.deleteCard.bind(this, card.slug)} />);
-            admin_btns.push(<i key={"edit-btn-" + card.slug} className="cursor fa fa-pencil" onClick={this.goToEditCard.bind(this, card.slug)} />);
+            const { slug } = this.props.card;
+            adminBtns.push(<i key={`delete-btn-${slug}`}
+                className="cursor fa fa-times"
+                onClick={this.deleteCard}
+            />);
+            adminBtns.push(<i key={`edit-btn-${slug}`}
+                className="cursor fa fa-pencil"
+                onClick={this.goToEditCard}
+            />);
         }
         return (
             <div className="panel panel-default card">
                 <div className="panel-body">
                     <div className="row">
-                        {admin_btns}
+                        {adminBtns}
                     </div>
                     <div className="col-lg-10">
                         <h2>{card.title}</h2>
@@ -84,6 +91,7 @@ ShortCardView.defaultProps = {
 ShortCardView.propTypes = {
     admin: PropTypes.bool.isRequired,
     card: PropTypes.shape({
+        slug: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
         waste_reduction_score: PropTypes.number.isRequired,

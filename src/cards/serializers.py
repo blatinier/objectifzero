@@ -19,7 +19,7 @@ class DataSourceSerializer(serializers.ModelSerializer):
 
 
 class CardStatSerializer(serializers.ModelSerializer):
-    data_sources = DataSourceSerializer(many=True)
+    data_sources = DataSourceSerializer(many=True, required=False)
 
     class Meta:
         model = CardStat
@@ -30,31 +30,29 @@ class CardStatSerializer(serializers.ModelSerializer):
 
 class CardSerializer(serializers.ModelSerializer):
     card_stats = CardStatSerializer()
+    slug = serializers.CharField(required=False)
 
     class Meta:
         model = Card
         fields = ('slug', 'title', 'description',
                   'waste_reduction_score', 'difficulty_score',
-                  'cost_score', 'image', 'card_stats',
-                  'help_links')
+                  'cost_score', 'card_stats', 'help_links')
 
     def create(self, data):
-        data_stats = data.pop("stats")
-        data_source = data.pop("data_source")
-        sources = self.get_sources(data_source)
+        data_stats = data.pop("card_stats")
+        data_sources = data.pop("data_sources")
+        sources = self.get_sources(data_sources)
         stats = CardStat.objects.create(**data_stats)
         stats.data_sources.add(*sources)
-        data['help_links'] = self.format_help_links(data)
         card = Card.objects.create(card_stats=stats,
                                    slug=slugify(data['title']),
                                    **data)
         return card
 
     def update(self, instance, validated_data):
-        data_stats = validated_data.pop("stats")
-        data_source = validated_data.pop("data_source")
-        validated_data['help_links'] = self.format_help_links(validated_data)
-        sources = self.get_sources(data_source)
+        data_stats = validated_data.pop("card_stats")
+        data_sources = validated_data.pop("data_sources")
+        sources = self.get_sources(data_sources)
         stats = instance.card_stats
 
         # update card
@@ -76,9 +74,3 @@ class CardSerializer(serializers.ModelSerializer):
                 ds = DataSource.objects.create(**data_src)
             sources.append(ds)
         return sources
-
-    def format_help_links(self, data):
-        help_links = ""
-        if 'help_links' in data and data['help_links']:
-            help_links = '\n'.join(data['help_links'])
-        return help_links

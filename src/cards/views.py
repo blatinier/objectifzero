@@ -47,21 +47,15 @@ class CreateCardView(CreateAPIView):
         """Process POST request and create a card."""
         sources = []
         data = request.data
-        for data_src in data['data_source']:
+        for data_src in data['data_sources']:
             try:
-                ds = DataSource.objects.get(link=data_src['data_source_link'])
+                ds = DataSource.objects.get(link=data_src['link'])
             except DataSource.DoesNotExist:
-                ds = DataSource(link=data_src['data_source_link'],
-                                name=data_src['data_source_name'],
-                                status=data_src['data_source_status'])
+                ds = DataSource(**data_src)
                 ds.save()
             sources.append(ds)
 
-        stats = CardStat(waste_reduction=data['stats']['waste_reduction'],
-                         co2_reduction=data['stats']['co2_reduction'],
-                         water_use_reduction=data['stats']['water_use_reduction'],
-                         status=data['stats']['status'],
-                         year=data['stats']['year'])
+        stats = CardStat(**data['card_stats'])
         stats.save()
         stats.data_sources.add(*sources)
         help_links = ""
