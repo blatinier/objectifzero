@@ -99,6 +99,7 @@ ShortCardView.propTypes = {
         cost_score: PropTypes.number.isRequired,
     }).isRequired,
     token: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
     actions: PropTypes.shape({
         deleteCard: PropTypes.func.isRequired
     }).isRequired
@@ -110,7 +111,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(actionCreators, dispatch),
-    dispatch: dispatch
+    dispatch
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortCardView);

@@ -131,15 +131,24 @@ class AdminCardAddView extends Component {
     );
 }
 
+AdminCardAddView.defaultProps = {
+    match: null,
+    card_data: null
+};
+
 AdminCardAddView.propTypes = {
     token: PropTypes.string.isRequired,
     isFetchingCard: PropTypes.bool.isRequired,
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            slug: PropTypes.string
+        })
+    }),
     actions: PropTypes.shape({
         createCard: PropTypes.func.isRequired,
         editCard: PropTypes.func.isRequired,
         cardFetch: PropTypes.func.isRequired
     }).isRequired,
-    card_slug: PropTypes.string,
     card_data: PropTypes.shape({
         title: PropTypes.string,
         description: PropTypes.string,
