@@ -32,7 +32,7 @@ class ListCardsView(ListAPIView):
     permission_classes = (IsAuthenticated,)
 
 
-class CardListCreadView(ListCreateAPIView):
+class CardListCreateView(ListCreateAPIView):
     """List & create card."""
     serializer_class = CardSerializer
     queryset = Card.objects.all()

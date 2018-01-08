@@ -58,8 +58,7 @@ class Card(models.Model):
                               blank=True,
                               null=True)
 
-    card_stats = models.ForeignKey(CardStat, blank=True,
-                                   null=True,
+    card_stats = models.ForeignKey(CardStat, blank=True, null=True,
                                    on_delete=models.PROTECT)
     # Scores
     waste_reduction_score = models.PositiveSmallIntegerField()
@@ -68,6 +67,10 @@ class Card(models.Model):
 
     # External links
     help_links = models.TextField(blank=True, null=True)
+
+    def delete(self, using=None):
+        super().delete(using)
+        self.card_stats.delete()
 
 
 class UserCard(models.Model):
