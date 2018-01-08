@@ -104,7 +104,7 @@ export function cardsFetchFailure(error, message) {
 export function cardsFetch(token) {
     return (dispatch, state) => {
         dispatch(cardsFetchRequest());
-        return fetch(`${SERVER_URL}/api/v1/cards/list/`, {
+        return fetch(`${SERVER_URL}/api/v1/cards/list-add/`, {
             credentials: 'include',
             headers: {
                 Accept: 'application/json',
@@ -154,7 +154,7 @@ export function cardAddSuccess() {
 export function createCard(token, values) {
     return (dispatch, state) => {
         dispatch(cardAddRequest());
-        return fetch(`${SERVER_URL}/api/v1/cards/add/`, {
+        return fetch(`${SERVER_URL}/api/v1/cards/list-add/`, {
             method: 'post',
             credentials: 'include',
             headers: {

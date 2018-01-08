@@ -97,7 +97,11 @@ class AdminCardAddView extends Component {
         const value = this.addCardForm.getValue();
         const formData = Object.assign({}, value);
         if (formData) {
-            formData.help_links = formData.help_links.join('\n');
+            if (formData.help_links) {
+                formData.help_links = formData.help_links.join('\n');
+            } else {
+                formData.help_links = "";
+            }
             if (this.state.editing) {
                 const { slug } = this.props.match.params;
                 this.props.actions.editCard(this.props.token, slug, formData);

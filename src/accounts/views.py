@@ -96,6 +96,5 @@ class UserListView(GenericAPIView):
 
     def get(self, request):
         """Process GET request and return profile data."""
-        user = self.request.user
         resp = {'users': [self.get_serializer(u).data for u in User.objects.all()]}
         return Response(resp, status=status.HTTP_200_OK)

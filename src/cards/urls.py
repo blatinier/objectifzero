@@ -10,10 +10,10 @@ urlpatterns = [
     url(_(r'^list/$'),
         cards.views.ListCardsView.as_view(),
         name='list_cards'),
-    url(_(r'^add/$'),
-        cards.views.CreateCardView.as_view(),
+    url(_(r'^list-add/$'),
+        cards.views.CardListCreadView.as_view(),
         name='create_card'),
     url(_(r'^card/(?P<slug>.*)/$'),
-        cards.views.CardView.as_view(),
+        cards.views.CardRUDView.as_view(),
         name='fetch_card'),
 ]

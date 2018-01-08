@@ -15,19 +15,20 @@ class CardsTests(BaseTestView):
                       "waste_reduction_score": 3,
                       "difficulty_score": 4,
                       "cost_score": 7,
-                      "help_links": ["help link 1",
-                                     "help link 2"],
-                      "stats": {"waste_reduction": 78,
-                                "co2_reduction": 56,
-                                "water_use_reduction": 46,
-                                "stat_status": "ACTIVE",
-                                "year": 2010},
-                      "data_source": [{"data_source_name": "Source1",
-                                       "data_source_link": "LinkToSource",
-                                       "data_source_status": "VERIFIED"},
-                                      {"data_source_name": "Source2",
-                                       "data_source_link": "LinkToSource2",
-                                       "data_source_status": "UNVERIFIED"}]}
+                      "help_links": "help link 1\nhelp link 2",
+                      "card_stats": {
+                          "waste_reduction": 78,
+                          "co2_reduction": 56,
+                          "water_use_reduction": 46,
+                          "stat_status": "ACTIVE",
+                          "year": 2010,
+                          "data_sources": [{"name": "Source1",
+                                           "link": "LinkToSource",
+                                           "status": "VERIFIED"},
+                                          {"name": "Source2",
+                                           "link": "LinkToSource2",
+                                           "status": "UNVERIFIED"}]
+                      }},
 
     CARD_DATA = {
         'slug': 'sample-card',

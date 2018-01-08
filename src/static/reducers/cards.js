@@ -41,7 +41,7 @@ export default function cardsReducer(state = initialState, action) {
 
         case CARDS_RECEIVE:
             return Object.assign({}, state, {
-                cards: action.payload.cards,
+                cards: action.payload.cards.results,
                 isFetchingCards: false
             });
 
