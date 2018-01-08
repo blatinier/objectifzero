@@ -201,7 +201,7 @@ describe('Cards Actions:', () => {
         ];
 
         nock(SERVER_URL)
-            .get('/api/v1/cards/list/')
+            .get('/api/v1/cards/list-add/')
             .reply(500, { });
 
         const middlewares = [thunk];
@@ -257,7 +257,7 @@ describe('Cards Actions:', () => {
         ];
 
         nock(SERVER_URL)
-            .get('/api/v1/cards/list/')
+            .get('/api/v1/cards/list-add/')
             .reply(200, [
                 { title: 'card1' },
                 { title: 'card2' }
@@ -307,7 +307,7 @@ describe('Cards Actions:', () => {
         ];
 
         nock(SERVER_URL)
-            .delete('/api/v1/cards/delete/pipo/')
+            .delete('/api/v1/cards/card/pipo/')
             .reply(200, {});
 
         const middlewares = [thunk];
@@ -334,7 +334,7 @@ describe('Cards Actions:', () => {
         ];
 
         nock(SERVER_URL)
-            .delete('/api/v1/cards/delete/pipo/')
+            .delete('/api/v1/cards/card/pipo/')
             .reply(400, {});
 
         const middlewares = [thunk];
@@ -361,7 +361,7 @@ describe('Cards Actions:', () => {
         ];
 
         nock(SERVER_URL)
-            .delete('/api/v1/cards/delete/pipo/')
+            .delete('/api/v1/cards/card/pipo/')
             .reply(500, {});
 
         const middlewares = [thunk];
@@ -388,7 +388,7 @@ describe('Cards Actions:', () => {
         ];
 
         nock(SERVER_URL)
-            .post('/api/v1/cards/add/')
+            .post('/api/v1/cards/list-add/')
             .reply(400, {});
 
         const middlewares = [thunk];
@@ -415,7 +415,7 @@ describe('Cards Actions:', () => {
         ];
 
         nock(SERVER_URL)
-            .post('/api/v1/cards/add/')
+            .post('/api/v1/cards/list-add/')
             .reply(500, {});
 
         const middlewares = [thunk];
@@ -446,7 +446,7 @@ describe('Cards Actions:', () => {
         ];
 
         nock(SERVER_URL)
-            .post('/api/v1/cards/add/')
+            .post('/api/v1/cards/list-add/')
             .reply(200, {});
 
         const middlewares = [thunk];

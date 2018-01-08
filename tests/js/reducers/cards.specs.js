@@ -37,10 +37,13 @@ describe('Cards Reducers Tests', () => {
         const reducerResponse = cardsReducer([], {
             type: TYPES.CARDS_RECEIVE,
             payload: {
-                cards: [
-                    { title: 'card 1' },
-                    { title: 'card 2' }
-                ]
+                cards: {
+                    results:
+                    [
+                        { title: 'card 1' },
+                        { title: 'card 2' }
+                    ]
+                }
             }
         });
         expect(reducerResponse).to.eql({
