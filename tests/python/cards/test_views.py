@@ -1,4 +1,4 @@
-from copy import copy
+from copy import deepcopy
 from django.core.urlresolvers import reverse
 from rest_framework import status
 
@@ -67,7 +67,7 @@ https://link2.pouet.org"""
         self.stat.data_sources.add(*self.sources)
         self.card = CardFactory.create(card_stats=self.stat, **self.CARD_DATA)
 
-    def test_create_card_view(self):
+    def test_create_edit_card_view(self):
         url = reverse('cards:create_card')
         self.client.force_authenticate(user=self.staff_user)
         response = self.client.post(url, self.POST_DATA_CARD, format='json')
@@ -78,11 +78,28 @@ https://link2.pouet.org"""
         self.assertEqual(2010, card.card_stats.year)
         self.assertEqual("Source1", card.card_stats.data_sources.all()[0].name)
         self.assertEqual("Source2", card.card_stats.data_sources.all()[1].name)
+        # TODO test edit
+        url_edit = reverse('cards:fetch_card', kwargs={'slug': 'test-title'})
+        put_data = deepcopy(self.POST_DATA_CARD)
+        put_data['title'] = "test title edited"
+        put_data['help_links'] = "help link 1\nhelp link 2\nhelp link 3"
+        put_data['card_stats']['year'] = 2000
+        put_data['card_stats']['data_sources'] = [{"name": "SourceEdit1",
+                                                   "link": "linkedit1",
+                                                   "status": "VERIFIED"}]
+        response = self.client.put(url_edit, put_data, format='json')
+        with self.assertRaises(Card.DoesNotExist):
+            Card.objects.get(slug='test-title')
+        card = Card.objects.get(slug='test-title-edited')
+        self.assertEqual('test title edited', card.title)
+        self.assertEqual('help link 1\nhelp link 2\nhelp link 3', card.help_links)
+        self.assertEqual(2000, card.card_stats.year)
+        self.assertEqual("SourceEdit1", card.card_stats.data_sources.all()[0].name)
 
     def test_help_link_not_required(self):
         url = reverse('cards:create_card')
         self.client.force_authenticate(user=self.staff_user)
-        post_data = copy(self.POST_DATA_CARD)
+        post_data = deepcopy(self.POST_DATA_CARD)
         del post_data['help_links']
         post_data['title'] = "Test no help links"
         response = self.client.post(url, post_data, format='json')
@@ -95,7 +112,7 @@ https://link2.pouet.org"""
         self.client.force_authenticate(user=self.staff_user)
         response = self.client.get(url)
         self.assertEqual(len(response.data['results']), 1)
-        expected = copy(self.CARD_DATA)
+        expected = deepcopy(self.CARD_DATA)
         expected['image'] = None
         del expected['help_links']
         self.assertEqual(response.data['results'], [expected])
