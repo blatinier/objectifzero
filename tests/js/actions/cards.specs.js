@@ -19,85 +19,6 @@ describe('Cards Actions:', () => {
     beforeEach(() => {
     });
 
-    it('usercardsReceive should create USER_CARDS_RECEIVE action', () => {
-        expect(ACTIONS_CARDS.usercardsReceive([{ title: 'card1' }, { title: 'card2' }])).to.eql({
-            type: TYPES.USER_CARDS_RECEIVE,
-            payload: {
-                usercards: [
-                    { title: 'card1' },
-                    { title: 'card2' }
-                ]
-            }
-        });
-    });
-
-    it('usercardsFetchRequest should create USER_CARDS_FETCH_REQUEST action', () => {
-        expect(ACTIONS_CARDS.usercardsFetchRequest()).to.eql({
-            type: TYPES.USER_CARDS_FETCH_REQUEST,
-        });
-    });
-
-    it('usercardsFetchFailure should create USER_CARDS_FETCH_FAILURE action', () => {
-        expect(ACTIONS_CARDS.usercardsFetchFailure('error', 'msg')).to.eql({
-            type: TYPES.USER_CARDS_FETCH_FAILURE,
-            payload: {
-                status: 'error',
-                statusText: 'msg'
-            }
-        });
-    });
-
-    it('cardsFetchRequest should create CARDS_FETCH_REQUEST action', () => {
-        expect(ACTIONS_CARDS.cardsFetchRequest()).to.eql({
-            type: TYPES.CARDS_FETCH_REQUEST,
-        });
-    });
-
-    it('cardsReceive should create CARDS_RECEIVE action', () => {
-        expect(ACTIONS_CARDS.cardsReceive([{ title: 'card-title' }])).to.eql({
-            type: TYPES.CARDS_RECEIVE,
-            payload: {
-                cards: [
-                    {
-                        title: 'card-title'
-                    }
-                ]
-            }
-        });
-    });
-
-    it('cardsFetchFailure should create CARDS_FETCH_FAILURE action', () => {
-        expect(ACTIONS_CARDS.cardsFetchFailure('error', 'msg')).to.eql({
-            type: TYPES.CARDS_FETCH_FAILURE,
-            payload: {
-                status: 'error',
-                statusText: 'msg'
-            }
-        });
-    });
-
-    it('cardAddRequest should create CARD_ADD_REQUEST action', () => {
-        expect(ACTIONS_CARDS.cardAddRequest()).to.eql({
-            type: TYPES.CARD_ADD_REQUEST,
-        });
-    });
-
-    it('cardAddSuccess should create CARD_ADD_SUCCESS action', () => {
-        expect(ACTIONS_CARDS.cardAddSuccess()).to.eql({
-            type: TYPES.CARD_ADD_SUCCESS,
-        });
-    });
-
-    it('cardAddFailure should create CARD_ADD_FAILURE action', () => {
-        expect(ACTIONS_CARDS.cardAddFailure('error', 'msg')).to.eql({
-            type: TYPES.CARD_ADD_FAILURE,
-            payload: {
-                status: 'error',
-                statusText: 'msg'
-            }
-        });
-    });
-
     it('usercardsFetch should create USER_CARDS_FETCH_REQUEST and '
     + 'USER_CARDS_FETCH_FAILURE actions when API returns 500', (done) => {
         const expectedActions = [
@@ -271,28 +192,6 @@ describe('Cards Actions:', () => {
             .then(() => {
                 expect(store.getActions()).to.deep.equal(expectedActions);
             }).then(done).catch(done);
-    });
-
-    it('cardDeleteRequest should create CARD_DELETE_REQUEST action', () => {
-        expect(ACTIONS_CARDS.cardDeleteRequest()).to.eql({
-            type: TYPES.CARD_DELETE_REQUEST,
-        });
-    });
-
-    it('cardDeleteSuccess should create CARD_DELETE_SUCCESS action', () => {
-        expect(ACTIONS_CARDS.cardDeleteSuccess()).to.eql({
-            type: TYPES.CARD_DELETE_SUCCESS,
-        });
-    });
-
-    it('cardDeleteFailure should create CARD_DELETE_FAILURE action', () => {
-        expect(ACTIONS_CARDS.cardDeleteFailure('error', 'msg')).to.eql({
-            type: TYPES.CARD_DELETE_FAILURE,
-            payload: {
-                status: 'error',
-                statusText: 'msg'
-            }
-        });
     });
 
     it('deleteCard should create CARD_DELETE_REQUEST and CARD_DELETE_SUCCESS actions when API returns 200', (done) => {

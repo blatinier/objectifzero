@@ -1,20 +1,4 @@
-import {
-    USER_CARDS_RECEIVE,
-    CARDS_RECEIVE,
-    USER_CARDS_FETCH_REQUEST,
-    CARDS_FETCH_REQUEST,
-    CARD_RECEIVE,
-    CARD_FETCH_REQUEST,
-    CARD_DELETE_FAILURE,
-    CARD_DELETE_SUCCESS,
-    CARD_DELETE_REQUEST,
-    CARD_EDIT_FAILURE,
-    CARD_EDIT_SUCCESS,
-    CARD_EDIT_REQUEST,
-    CARD_ADD_FAILURE,
-    CARD_ADD_SUCCESS,
-    CARD_ADD_REQUEST
-} from '../constants';
+import * as constants from '../constants';
 
 const initialState = {
     cards: null,
@@ -28,84 +12,79 @@ const initialState = {
 
 export default function cardsReducer(state = initialState, action) {
     switch (action.type) {
-        case USER_CARDS_RECEIVE:
-            return Object.assign({}, state, {
+        case constants.USER_CARDS_RECEIVE:
+            return {
+                ...state,
                 cards: action.payload.usercards,
                 isFetchingCards: false
-            });
+            };
 
-        case USER_CARDS_FETCH_REQUEST:
-            return Object.assign({}, state, {
+        case constants.USER_CARDS_FETCH_REQUEST:
+        case constants.CARDS_FETCH_REQUEST:
+            return {
+                ...state,
                 isFetchingCards: true
-            });
+            };
 
-        case CARDS_RECEIVE:
-            return Object.assign({}, state, {
+        case constants.CARDS_RECEIVE:
+            return {
+                ...state,
                 cards: action.payload.cards.results,
                 isFetchingCards: false
-            });
+            };
 
-        case CARDS_FETCH_REQUEST:
-            return Object.assign({}, state, {
-                isFetchingCards: true
-            });
-
-        case CARD_ADD_REQUEST:
-            return Object.assign({}, state, {
+        case constants.CARD_ADD_REQUEST:
+            return {
+                ...state,
                 isCreatingCard: true
-            });
+            };
 
-        case CARD_ADD_FAILURE:
-            return Object.assign({}, state, {
+        case constants.CARD_ADD_FAILURE:
+        case constants.CARD_ADD_SUCCESS:
+            return {
+                ...state,
                 isCreatingCard: false
-            });
+            };
 
-        case CARD_ADD_SUCCESS:
-            return Object.assign({}, state, {
-                isCreatingCard: false
-            });
-
-        case CARD_DELETE_REQUEST:
-            return Object.assign({}, state, {
+        case constants.CARD_DELETE_REQUEST:
+            return {
+                ...state,
                 isDeletingCard: true
-            });
+            };
 
-        case CARD_DELETE_FAILURE:
-            return Object.assign({}, state, {
+        case constants.CARD_DELETE_FAILURE:
+        case constants.CARD_DELETE_SUCCESS:
+            return {
+                ...state,
                 isDeletingCard: false
-            });
+            };
 
-        case CARD_DELETE_SUCCESS:
-            return Object.assign({}, state, {
-                isDeletingCard: false
-            });
-
-        case CARD_EDIT_REQUEST:
-            return Object.assign({}, state, {
+        case constants.CARD_EDIT_REQUEST:
+            return {
+                ...state,
                 isEditingCard: true
-            });
+            };
 
-        case CARD_EDIT_FAILURE:
-            return Object.assign({}, state, {
+        case constants.CARD_EDIT_FAILURE:
+        case constants.CARD_EDIT_SUCCESS:
+            return {
+                ...state,
                 isEditingCard: false
-            });
+            };
 
-        case CARD_EDIT_SUCCESS:
-            return Object.assign({}, state, {
-                isEditingCard: false
-            });
-
-        case CARD_RECEIVE:
-            return Object.assign({}, state, {
+        case constants.CARD_RECEIVE:
+            return {
+                ...state,
                 current_card: action.payload,
                 isFetchingCard: false
-            });
+            };
 
-        case CARD_FETCH_REQUEST:
-            return Object.assign({}, state, {
+        case constants.CARD_FETCH_REQUEST:
+            return {
+                ...state,
                 current_card: null,
                 isFetchingCard: true
-            });
+            };
 
         default:
             return state;

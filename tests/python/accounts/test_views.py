@@ -17,7 +17,8 @@ def get_basic_auth_header(username, password):
 class AccountTests(CustomTestCase, APITestCase):
     INVALID_DATA_DICT = [
         {'data': {'email': 'emailwilllogin@mydomain.com',
-                  'password': 'teste'},
+                  'password': 'teste',
+                  'username': 'test views user 1'},
          'error': ('non_field_errors', ['Unable to login with provided credentials.']),
          'label': 'Invalid login credentials.',
          'method': 'POST',
@@ -25,14 +26,17 @@ class AccountTests(CustomTestCase, APITestCase):
          },
     ]
     VALID_DATA_DICT = [
-        {'email': 'emailwilllogin@mydomain.com', 'password': 'test'},
+        {'email': 'emailwilllogin@mydomain.com', 'password': 'test',
+         'username': 'test views user 2'},
     ]
 
     def setUp(self):
-        self.user = UserFactory.create(email='emailwilllogin@mydomain.com')
+        self.user = UserFactory.create(email='emailwilllogin@mydomain.com',
+                                       username="test views user 3")
         self.user.set_password('test')
         self.user.save()
-        self.user_2 = UserFactory.create(email='emailwilllogininserializer@mydomain.com')
+        self.user_2 = UserFactory.create(email='emailwilllogininserializer@mydomain.com',
+                                         username="test views user 4")
 
     def test_account_register_unsuccessful(self):
         self.assert_invalid_data_response(invalid_data_dicts=UserRegistrationSerializerTest.INVALID_DATA_DICT,
@@ -47,6 +51,7 @@ class AccountTests(CustomTestCase, APITestCase):
         url = reverse('accounts:register')
         data = {
             'email': 'emailsuccess@mydomain.com',
+            'username': 'test views user 5',
             'password': 'test'
         }
         response = self.client.post(url, data, format='json')
@@ -64,6 +69,7 @@ class AccountTests(CustomTestCase, APITestCase):
         url = reverse('accounts:register')
         data = {
             'email': 'emailsuccess@mydomain.com',
+            'username': 'test views user 6',
             'password': 'test'
         }
         response = self.client.post(url, data, format='json')
@@ -79,6 +85,7 @@ class AccountTests(CustomTestCase, APITestCase):
         url = reverse('accounts:register')
         data = {
             'email': 'emailsuccess@mydomain.com',
+            'username': 'test views user 7',
             'password': 'test'
         }
         response = self.client.post(url, data, format='json')

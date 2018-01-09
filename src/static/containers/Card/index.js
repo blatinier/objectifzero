@@ -7,7 +7,6 @@ import './style.scss';
 
 import * as actionCreators from '../../actions/cards';
 
-
 class ShortCardView extends Component {
     deleteCard = () => {
         const { actions, token, card } = this.props;
@@ -52,10 +51,10 @@ class ShortCardView extends Component {
     };
 
     render = () => {
-        const { card } = this.props;
+        const { card, admin } = this.props;
         const adminBtns = [];
-        if (this.props.admin) {
-            const { slug } = this.props.card;
+        if (admin) {
+            const { slug } = card;
             adminBtns.push(<i key={`delete-btn-${slug}`}
                 className="cursor fa fa-times"
                 onClick={this.deleteCard}

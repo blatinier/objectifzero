@@ -19,31 +19,6 @@ describe('Users Actions:', () => {
     beforeEach(() => {
     });
 
-    it('usersReceive should create USERS_RECEIVE action', () => {
-        expect(ACTIONS_USERS.usersReceive({ pseudo: 'pipo' })).to.eql({
-            type: TYPES.USERS_RECEIVE,
-            payload: {
-                pseudo: 'pipo'
-            }
-        });
-    });
-
-    it('usersFetchRequest should create USERS_FETCH_REQUEST action', () => {
-        expect(ACTIONS_USERS.usersFetchRequest()).to.eql({
-            type: TYPES.USERS_FETCH_REQUEST,
-        });
-    });
-
-    it('usersFetchFailure should create USERS_FETCH_FAILURE action', () => {
-        expect(ACTIONS_USERS.usersFetchFailure(500, 'Error message')).to.eql({
-            type: TYPES.USERS_FETCH_FAILURE,
-            payload: {
-                status: 500,
-                statusText: 'Error message'
-            }
-        });
-    });
-
     it('usersFetch should create USERS_FETCH_REQUEST and USERS_RECEIVE actions when API returns 200', (done) => {
         const expectedActions = [
             {
@@ -57,7 +32,7 @@ describe('Users Actions:', () => {
         ];
 
         nock(SERVER_URL)
-            .get('/api/v1/accounts/list/')
+            .get('/api/v1/accounts/list-add/')
             .reply(200, {
                 pseudo: 'pipo'
             });
@@ -86,7 +61,7 @@ describe('Users Actions:', () => {
         ];
 
         nock(SERVER_URL)
-            .get('/api/v1/accounts/list/')
+            .get('/api/v1/accounts/list-add/')
             .reply(500, { });
 
         const middlewares = [thunk];
@@ -113,7 +88,7 @@ describe('Users Actions:', () => {
         ];
 
         nock(SERVER_URL)
-            .get('/api/v1/accounts/list/')
+            .get('/api/v1/accounts/list-add/')
             .reply(400, { });
 
         const middlewares = [thunk];

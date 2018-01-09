@@ -17,7 +17,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'password')
+        fields = ('id', 'username', 'email', 'password')
 
     def create(self, validated_data):
         """
@@ -45,3 +45,24 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Email already in use, please use a different email address.')
 
         return value
+
+
+class UserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField()
+
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'password', 'is_staff',
+                  'has_garden', 'do_smoke', 'home_owner',
+                  'gender', 'username')
+
+    def create(self, validated_data):
+        """
+        Create the object.
+
+        :param validated_data: string
+        """
+        user = User.objects.create(**validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user

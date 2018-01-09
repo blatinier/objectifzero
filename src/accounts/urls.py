@@ -19,8 +19,10 @@ urlpatterns = [
     url(_(r'^profile/$'),
         accounts.views.UserProfileView.as_view(),
         name='profile'),
-    url(_(r'^list/$'),
-        accounts.views.UserListView.as_view(),
-        name='list'),
-
+    url(_(r'^list-add/$'),
+        accounts.views.UserListCreateView.as_view(),
+        name='list_add'),
+    url(_(r'^user/(?P<username>.*)/$'),
+        accounts.views.UserRUDView.as_view(),
+        name='fetch_user'),
 ]

@@ -2,20 +2,14 @@ import fetch from 'isomorphic-fetch';
 import { push } from 'react-router-redux';
 import { SERVER_URL } from '../utils/config';
 import { checkHttpStatus, parseJSON } from '../utils';
-import {
-    AUTH_LOGIN_USER_REQUEST,
-    AUTH_LOGIN_USER_FAILURE,
-    AUTH_LOGIN_USER_SUCCESS,
-    AUTH_LOGOUT_USER,
-    AUTH_REGISTER_USER_FAILURE
-} from '../constants';
-
+import { failure } from './base';
+import * as constants from '../constants';
 
 export function authLoginUserSuccess(token, user) {
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('user', JSON.stringify(user));
     return {
-        type: AUTH_LOGIN_USER_SUCCESS,
+        type: constants.AUTH_LOGIN_USER_SUCCESS,
         payload: {
             token,
             user
@@ -26,7 +20,7 @@ export function authLoginUserSuccess(token, user) {
 export function authLoginUserFailure(error, message) {
     sessionStorage.removeItem('token');
     return {
-        type: AUTH_LOGIN_USER_FAILURE,
+        type: constants.AUTH_LOGIN_USER_FAILURE,
         payload: {
             status: error,
             statusText: message
@@ -36,7 +30,7 @@ export function authLoginUserFailure(error, message) {
 
 export function authLoginUserRequest() {
     return {
-        type: AUTH_LOGIN_USER_REQUEST
+        type: constants.AUTH_LOGIN_USER_REQUEST
     };
 }
 
@@ -44,7 +38,7 @@ export function authLogout() {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('user');
     return {
-        type: AUTH_LOGOUT_USER
+        type: constants.AUTH_LOGOUT_USER
     };
 }
 
@@ -93,17 +87,7 @@ export function authLoginUser(email, password, redirect = '/') {
     };
 }
 
-export function authRegisterError(error, message) {
-    return {
-        type: AUTH_REGISTER_USER_FAILURE,
-        payload: {
-            status: error,
-            statusText: message
-        }
-    };
-}
-
-export function authRegisterUser(email, password) {
+export function authRegisterUser(username, email, password) {
     return (dispatch) => {
         dispatch(authLoginUserRequest());
         return fetch(`${SERVER_URL}/api/v1/accounts/register/`, {
@@ -111,6 +95,7 @@ export function authRegisterUser(email, password) {
             body: JSON.stringify({
                 email,
                 password,
+                username,
             }),
             headers: {
                 'Accept': 'application/json',
@@ -124,7 +109,8 @@ export function authRegisterUser(email, password) {
             })
             .catch((error) => {
                 if (error && typeof error.response !== 'undefined' && error.response.status < 500) {
-                    dispatch(authRegisterError('Erreur de saisie', 'Email invalide ou déjà enregistré.'));
+                    dispatch(failure(constants.AUTH_REGISTER_USER_FAILURE,
+                        'Erreur de saisie', 'Email invalide ou déjà enregistré.'));
                 }
                 return Promise.resolve();
             });
