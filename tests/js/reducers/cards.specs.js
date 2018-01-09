@@ -37,10 +37,13 @@ describe('Cards Reducers Tests', () => {
         const reducerResponse = cardsReducer([], {
             type: TYPES.CARDS_RECEIVE,
             payload: {
-                cards: [
-                    { title: 'card 1' },
-                    { title: 'card 2' }
-                ]
+                cards: {
+                    results:
+                    [
+                        { title: 'card 1' },
+                        { title: 'card 2' }
+                    ]
+                }
             }
         });
         expect(reducerResponse).to.eql({
@@ -84,6 +87,32 @@ describe('Cards Reducers Tests', () => {
         });
         expect(reducerResponse).to.eql({
             isCreatingCard: false
+        });
+    });
+
+    it('should handle CARD_DELETE_REQUEST', () => {
+        const reducerResponse = cardsReducer([], {
+            type: TYPES.CARD_DELETE_REQUEST
+        });
+        expect(reducerResponse).to.eql({
+            isDeletingCard: true
+        });
+    });
+
+    it('should handle CARD_DELETE_FAILURE', () => {
+        const reducerResponse = cardsReducer([], {
+            type: TYPES.CARD_DELETE_FAILURE
+        });
+        expect(reducerResponse).to.eql({
+            isDeletingCard: false
+        });
+    });
+    it('should handle CARD_DELETE_SUCCRESS', () => {
+        const reducerResponse = cardsReducer([], {
+            type: TYPES.CARD_DELETE_SUCCESS
+        });
+        expect(reducerResponse).to.eql({
+            isDeletingCard: false
         });
     });
 });

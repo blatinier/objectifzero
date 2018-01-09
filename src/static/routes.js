@@ -14,6 +14,7 @@ export default(
         <Route path="/dashboard" component={requireAuthentication(DashboardView)} />
         <Route path="/zw-admin/user" component={requireStaff(AdminUserView)} />
         <Route path="/zw-admin/card-add" component={requireStaff(AdminCardAddView)} />
+        <Route path="/zw-admin/card-edit/:slug" component={requireStaff(AdminCardAddView)} />
         <Route path="/zw-admin/card" component={requireStaff(AdminCardView)} />
         <Route path="*" component={NotFoundView} />
     </Switch>

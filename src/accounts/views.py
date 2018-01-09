@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import CreateModelMixin
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
 from accounts.models import User
@@ -92,12 +92,9 @@ class UserListView(GenericAPIView):
     """Return user list."""
     serializer_class = UserSerializer
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAdminUser,)
 
     def get(self, request):
         """Process GET request and return profile data."""
-        user = self.request.user
-        if user.is_staff:
-            resp = {'users': [self.get_serializer(u).data for u in User.objects.all()]}
-            return Response(resp, status=status.HTTP_200_OK)
-        return Response("Unauthorized", status=status.HTTP_401_UNAUTHORIZED)
+        resp = {'users': [self.get_serializer(u).data for u in User.objects.all()]}
+        return Response(resp, status=status.HTTP_200_OK)

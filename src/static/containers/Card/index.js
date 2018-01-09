@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -8,6 +9,16 @@ import * as actionCreators from '../../actions/cards';
 
 
 class ShortCardView extends Component {
+    deleteCard = () => {
+        const { actions, token, card } = this.props;
+        actions.deleteCard(token, card.slug);
+    };
+
+    goToEditCard = () => {
+        const { slug } = this.props.card;
+        this.props.dispatch(push(`/zw-admin/card-edit/${slug}`));
+    }
+
     renderGlyph = (glyph, score) => {
         const classes = `glyphicon glyphicon-${glyph}`;
         const glyphs = [];
@@ -42,9 +53,24 @@ class ShortCardView extends Component {
 
     render = () => {
         const { card } = this.props;
+        const adminBtns = [];
+        if (this.props.admin) {
+            const { slug } = this.props.card;
+            adminBtns.push(<i key={`delete-btn-${slug}`}
+                className="cursor fa fa-times"
+                onClick={this.deleteCard}
+            />);
+            adminBtns.push(<i key={`edit-btn-${slug}`}
+                className="cursor fa fa-pencil"
+                onClick={this.goToEditCard}
+            />);
+        }
         return (
             <div className="panel panel-default card">
                 <div className="panel-body">
+                    <div className="row">
+                        {adminBtns}
+                    </div>
                     <div className="col-lg-10">
                         <h2>{card.title}</h2>
                         <p>{card.description}</p>
@@ -58,20 +84,25 @@ class ShortCardView extends Component {
     };
 }
 
+ShortCardView.defaultProps = {
+    admin: false
+};
+
 ShortCardView.propTypes = {
+    admin: PropTypes.bool.isRequired,
     card: PropTypes.shape({
+        slug: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
-        waste_reduction: PropTypes.number.isRequired,
         waste_reduction_score: PropTypes.number.isRequired,
         difficulty_score: PropTypes.number.isRequired,
         cost_score: PropTypes.number.isRequired,
     }).isRequired,
-    // TODO usercard fetch
-    //        token: PropTypes.string.isRequired,
-    //        actions: PropTypes.shape({
-    //            usercardsFetch: PropTypes.func.isRequired
-    //        }).isRequired
+    token: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    actions: PropTypes.shape({
+        deleteCard: PropTypes.func.isRequired
+    }).isRequired
 };
 
 const mapStateToProps = state => ({
@@ -79,7 +110,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
+    dispatch
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortCardView);
