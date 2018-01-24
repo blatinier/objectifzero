@@ -68,10 +68,9 @@ class AdminCardAddView extends Component {
     };
 
     componentWillMount = () => {
-        const { slug } = this.props.match.params;
-        const { token } = this.props;
-        if (slug) {
-            this.props.actions.cardFetch(token, slug);
+        const { actions, match, token } = this.props;
+        if (match.params.slug) {
+            actions.cardFetch(token, match.params.slug);
         }
     };
 
@@ -100,7 +99,7 @@ class AdminCardAddView extends Component {
             if (formData.help_links) {
                 formData.help_links = formData.help_links.join('\n');
             } else {
-                formData.help_links = "";
+                formData.help_links = '';
             }
             if (this.state.editing) {
                 const { slug } = this.props.match.params;

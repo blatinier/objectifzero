@@ -7,7 +7,6 @@ import './style.scss';
 
 import * as actionCreators from '../../actions/cards';
 
-
 class ShortCardView extends Component {
     deleteCard = () => {
         const { actions, token, card } = this.props;
@@ -20,26 +19,12 @@ class ShortCardView extends Component {
     }
 
     renderGlyph = (glyph, score) => {
-        const classes = `glyphicon glyphicon-${glyph}`;
+        const classes = `fa fa-${glyph}`;
         const glyphs = [];
-        let nbGlyph = 0;
-        let grayGlyph = 0;
-        let lastHalf = false;
+        const grayGlyph = 5 - score;
         let i;
-        if (score % 2 === 0) {
-            nbGlyph = score / 2;
-            grayGlyph = 5 - nbGlyph;
-        } else {
-            nbGlyph = Math.floor(score / 2);
-            lastHalf = true;
-            grayGlyph = 5 - nbGlyph - 1;
-        }
-        for (i = 0; i < nbGlyph; i += 1) {
+        for (i = 0; i < score; i += 1) {
             glyphs.push(<span key={`glyph-${glyph}-${i}`} className={classes} />);
-        }
-        if (lastHalf) {
-            glyphs.push(<span key={`glyph-${glyph}-half`} className={`${classes} half`} />);
-            glyphs.push(<span key={`glyph-${glyph}-half-2`} className={`${classes} other-half`} />);
         }
         for (i = 0; i < grayGlyph; i += 1) {
             glyphs.push(<span key={`gray-glyph-${glyph}-${i}`} className={`${classes} gray`} />);
@@ -52,23 +37,25 @@ class ShortCardView extends Component {
     };
 
     render = () => {
-        const { card } = this.props;
+        const { card, admin } = this.props;
         const adminBtns = [];
-        if (this.props.admin) {
-            const { slug } = this.props.card;
-            adminBtns.push(<i key={`delete-btn-${slug}`}
-                className="cursor fa fa-times"
-                onClick={this.deleteCard}
-            />);
-            adminBtns.push(<i key={`edit-btn-${slug}`}
-                className="cursor fa fa-pencil"
-                onClick={this.goToEditCard}
-            />);
+        if (admin) {
+            const { slug } = card;
+            adminBtns.push(<div key={`edit-btn-${slug}`} className="col-lg-2">
+                <i className="cursor fa fa-pencil fa-2x"
+                    onClick={this.goToEditCard}
+                />
+            </div>);
+            adminBtns.push(<div key={`delete-btn-${slug}`} className="col-lg-2">
+                <i className="cursor fa fa-times fa-2x"
+                    onClick={this.deleteCard}
+                />
+            </div>);
         }
         return (
             <div className="panel panel-default card">
                 <div className="panel-body">
-                    <div className="row">
+                    <div className="row pull-right">
                         {adminBtns}
                     </div>
                     <div className="col-lg-10">
@@ -77,6 +64,8 @@ class ShortCardView extends Component {
                     </div>
                     <div className="col-lg-2">
                         {this.renderGlyph('trash', card.waste_reduction_score)}
+                        {this.renderGlyph('euro', card.cost_score)}
+                        {this.renderGlyph('cog', card.difficulty_score)}
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ from knox.models import AuthToken
 from rest_framework import status
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.generics import GenericAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
@@ -88,13 +89,18 @@ class UserProfileView(GenericAPIView):
         return Response(self.get_serializer(user).data, status=status.HTTP_200_OK)
 
 
-class UserListView(GenericAPIView):
-    """Return user list."""
+class UserListCreateView(ListCreateAPIView):
+    """List & create card."""
     serializer_class = UserSerializer
+    queryset = User.objects.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminUser,)
 
-    def get(self, request):
-        """Process GET request and return profile data."""
-        resp = {'users': [self.get_serializer(u).data for u in User.objects.all()]}
-        return Response(resp, status=status.HTTP_200_OK)
+
+class UserRUDView(RetrieveUpdateDestroyAPIView):
+    """User management."""
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAdminUser,)
+    lookup_field = "username"

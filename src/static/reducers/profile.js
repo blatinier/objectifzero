@@ -11,15 +11,17 @@ const initialState = {
 export default function profileReducer(state = initialState, action) {
     switch (action.type) {
         case PROFILE_RECEIVE:
-            return Object.assign({}, state, {
-                profile: action.payload.data,
+            return {
+                ...state,
+                profile: action.payload,
                 isFetchingProfile: false
-            });
+            };
 
         case PROFILE_FETCH_REQUEST:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 isFetchingProfile: true
-            });
+            };
         default:
             return state;
     }

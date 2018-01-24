@@ -1,56 +1,14 @@
 import fetch from 'isomorphic-fetch';
 import { push } from 'react-router-redux';
 
+import { handleError, simpleEvent, simpleEventPayload } from './base';
 import { SERVER_URL } from '../utils/config';
 import { checkHttpStatus, parseJSON } from '../utils';
-import { USER_CARDS_FETCH_REQUEST,
-    USER_CARDS_RECEIVE,
-    USER_CARDS_FETCH_FAILURE,
-    CARDS_FETCH_REQUEST,
-    CARDS_RECEIVE,
-    CARDS_FETCH_FAILURE,
-    CARD_FETCH_REQUEST,
-    CARD_RECEIVE,
-    CARD_FETCH_FAILURE,
-    CARD_DELETE_FAILURE,
-    CARD_DELETE_REQUEST,
-    CARD_DELETE_SUCCESS,
-    CARD_EDIT_FAILURE,
-    CARD_EDIT_REQUEST,
-    CARD_EDIT_SUCCESS,
-    CARD_ADD_FAILURE,
-    CARD_ADD_REQUEST,
-    CARD_ADD_SUCCESS } from '../constants';
-
-
-export function usercardsReceive(usercards) {
-    return {
-        type: USER_CARDS_RECEIVE,
-        payload: {
-            usercards
-        }
-    };
-}
-
-export function usercardsFetchRequest() {
-    return {
-        type: USER_CARDS_FETCH_REQUEST
-    };
-}
-
-export function usercardsFetchFailure(error, message) {
-    return {
-        type: USER_CARDS_FETCH_FAILURE,
-        payload: {
-            status: error,
-            statusText: message
-        }
-    };
-}
+import * as constants from '../constants';
 
 export function usercardsFetch(token) {
     return (dispatch, state) => {
-        dispatch(usercardsFetchRequest());
+        dispatch(simpleEvent(constants.USER_CARDS_FETCH_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/cards/user_cards/`, {
             credentials: 'include',
             headers: {
@@ -60,50 +18,18 @@ export function usercardsFetch(token) {
         })
             .then(checkHttpStatus)
             .then(parseJSON)
-            .then((response) => {
-                dispatch(usercardsReceive(response));
+            .then((usercards) => {
+                dispatch(simpleEventPayload(constants.USER_CARDS_RECEIVE, { usercards }));
             })
             .catch((error) => {
-                if (error && typeof error.response !== 'undefined' && error.response.status >= 500) {
-                    // Server side error
-                    dispatch(usercardsFetchFailure(500, 'A server error occurred while sending your data!'));
-                } else {
-                    // Most likely connection issues
-                    dispatch(usercardsFetchFailure('Connection Error', 'An error occurred while sending your data!'));
-                }
-                return Promise.resolve();
+                handleError(dispatch, error, constants.USER_CARDS_FETCH_FAILURE);
             });
-    };
-}
-
-export function cardsFetchRequest() {
-    return {
-        type: CARDS_FETCH_REQUEST
-    };
-}
-
-export function cardsReceive(cards) {
-    return {
-        type: CARDS_RECEIVE,
-        payload: {
-            cards
-        }
-    };
-}
-
-export function cardsFetchFailure(error, message) {
-    return {
-        type: CARDS_FETCH_FAILURE,
-        payload: {
-            status: error,
-            statusText: message
-        }
     };
 }
 
 export function cardsFetch(token) {
     return (dispatch, state) => {
-        dispatch(cardsFetchRequest());
+        dispatch(simpleEvent(constants.CARDS_FETCH_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/cards/list-add/`, {
             credentials: 'include',
             headers: {
@@ -113,47 +39,18 @@ export function cardsFetch(token) {
         })
             .then(checkHttpStatus)
             .then(parseJSON)
-            .then((response) => {
-                dispatch(cardsReceive(response));
+            .then((cards) => {
+                dispatch(simpleEventPayload(constants.CARDS_RECEIVE, { cards }));
             })
             .catch((error) => {
-                if (error && typeof error.response !== 'undefined' && error.response.status >= 500) {
-                    // Server side error
-                    dispatch(cardsFetchFailure(500, 'A server error occurred while sending your data!'));
-                } else {
-                    // Most likely connection issues
-                    dispatch(cardsFetchFailure('Connection Error', 'An error occurred while sending your data!'));
-                }
-                return Promise.resolve();
+                handleError(dispatch, error, constants.CARDS_FETCH_FAILURE);
             });
-    };
-}
-
-export function cardAddFailure(error, message) {
-    return {
-        type: CARD_ADD_FAILURE,
-        payload: {
-            status: error,
-            statusText: message
-        }
-    };
-}
-
-export function cardAddRequest() {
-    return {
-        type: CARD_ADD_REQUEST
-    };
-}
-
-export function cardAddSuccess() {
-    return {
-        type: CARD_ADD_SUCCESS
     };
 }
 
 export function createCard(token, values) {
     return (dispatch, state) => {
-        dispatch(cardAddRequest());
+        dispatch(simpleEvent(constants.CARD_ADD_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/cards/list-add/`, {
             method: 'post',
             credentials: 'include',
@@ -167,47 +64,18 @@ export function createCard(token, values) {
             .then(checkHttpStatus)
             .then(parseJSON)
             .then((response) => {
-                dispatch(cardAddSuccess());
+                dispatch(simpleEvent(constants.CARD_ADD_SUCCESS));
                 dispatch(push('/zw-admin/card'));
             })
             .catch((error) => {
-                if (error && typeof error.response !== 'undefined' && error.response.status >= 500) {
-                    // Server side error
-                    dispatch(cardAddFailure(500, 'A server error occurred while sending your data!'));
-                } else {
-                    // Most likely connection issues
-                    dispatch(cardAddFailure('Connection Error', 'An error occurred while sending your data!'));
-                }
-                return Promise.resolve();
+                handleError(dispatch, error, constants.CARD_ADD_FAILURE);
             });
-    };
-}
-
-export function cardEditFailure(error, message) {
-    return {
-        type: CARD_EDIT_FAILURE,
-        payload: {
-            status: error,
-            statusText: message
-        }
-    };
-}
-
-export function cardEditRequest() {
-    return {
-        type: CARD_EDIT_REQUEST
-    };
-}
-
-export function cardEditSuccess() {
-    return {
-        type: CARD_EDIT_SUCCESS
     };
 }
 
 export function editCard(token, slug, values) {
     return (dispatch, state) => {
-        dispatch(cardEditRequest());
+        dispatch(simpleEvent(constants.CARD_EDIT_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/cards/card/${slug}/`, {
             method: 'put',
             credentials: 'include',
@@ -221,47 +89,18 @@ export function editCard(token, slug, values) {
             .then(checkHttpStatus)
             .then(parseJSON)
             .then((response) => {
-                dispatch(cardEditSuccess());
+                dispatch(simpleEvent(constants.CARD_EDIT_SUCCESS));
                 dispatch(push('/zw-admin/card'));
             })
             .catch((error) => {
-                if (error && typeof error.response !== 'undefined' && error.response.status >= 500) {
-                    // Server side error
-                    dispatch(cardEditFailure(500, 'A server error occurred while sending your data!'));
-                } else {
-                    // Most likely connection issues
-                    dispatch(cardEditFailure('Connection Error', 'An error occurred while sending your data!'));
-                }
-                return Promise.resolve();
+                handleError(dispatch, error, constants.CARD_EDIT_FAILURE);
             });
-    };
-}
-
-export function cardDeleteFailure(error, message) {
-    return {
-        type: CARD_DELETE_FAILURE,
-        payload: {
-            status: error,
-            statusText: message
-        }
-    };
-}
-
-export function cardDeleteRequest() {
-    return {
-        type: CARD_DELETE_REQUEST
-    };
-}
-
-export function cardDeleteSuccess() {
-    return {
-        type: CARD_DELETE_SUCCESS
     };
 }
 
 export function deleteCard(token, cardSlug) {
     return (dispatch, state) => {
-        dispatch(cardDeleteRequest());
+        dispatch(simpleEvent(constants.CARD_DELETE_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/cards/card/${cardSlug}/`, {
             method: 'delete',
             credentials: 'include',
@@ -273,50 +112,18 @@ export function deleteCard(token, cardSlug) {
         })
             .then(checkHttpStatus)
             .then((response) => {
-                dispatch(cardDeleteSuccess());
+                dispatch(simpleEvent(constants.CARD_DELETE_SUCCESS));
                 dispatch(cardsFetch(token));
             })
             .catch((error) => {
-                if (error && typeof error.response !== 'undefined' && error.response.status >= 500) {
-                    // Server side error
-                    dispatch(cardDeleteFailure(500, 'A server error occurred while sending your data!'));
-                } else {
-                    // Most likely connection issues
-                    dispatch(cardDeleteFailure('Connection Error', 'An error occurred while sending your data!'));
-                }
-                return Promise.resolve();
+                handleError(dispatch, error, constants.CARD_DELETE_FAILURE);
             });
-    };
-}
-
-export function cardFetchRequest() {
-    return {
-        type: CARD_FETCH_REQUEST
-    };
-}
-
-export function cardReceive(card) {
-    return {
-        type: CARD_RECEIVE,
-        payload: {
-            card
-        }
-    };
-}
-
-export function cardFetchFailure(error, message) {
-    return {
-        type: CARD_FETCH_FAILURE,
-        payload: {
-            status: error,
-            statusText: message
-        }
     };
 }
 
 export function cardFetch(token, slug) {
     return (dispatch, state) => {
-        dispatch(cardFetchRequest());
+        dispatch(simpleEvent(constants.CARD_FETCH_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/cards/card/${slug}/`, {
             credentials: 'include',
             headers: {
@@ -327,17 +134,10 @@ export function cardFetch(token, slug) {
             .then(checkHttpStatus)
             .then(parseJSON)
             .then((response) => {
-                dispatch(cardReceive(response));
+                dispatch(simpleEventPayload(constants.CARD_RECEIVE, response));
             })
             .catch((error) => {
-                if (error && typeof error.response !== 'undefined' && error.response.status >= 500) {
-                    // Server side error
-                    dispatch(cardFetchFailure(500, 'A server error occurred while sending your data!'));
-                } else {
-                    // Most likely connection issues
-                    dispatch(cardFetchFailure('Connection Error', 'An error occurred while sending your data!'));
-                }
-                return Promise.resolve();
+                handleError(dispatch, error, constants.CARD_FETCH_FAILURE);
             });
     };
 }

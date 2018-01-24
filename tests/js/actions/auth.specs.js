@@ -32,16 +32,6 @@ describe('Auth Actions:', () => {
         });
     });
 
-    it('authLoginUserFailure should create LOGIN_USER_FAILURE action', () => {
-        expect(ACTIONS_AUTH.authLoginUserFailure(404, 'Not found')).to.eql({
-            type: TYPES.AUTH_LOGIN_USER_FAILURE,
-            payload: {
-                status: 404,
-                statusText: 'Not found'
-            }
-        });
-    });
-
     it('authLoginUserRequest should create LOGIN_USER_REQUEST action', () => {
         expect(ACTIONS_AUTH.authLoginUserRequest()).to.eql({
             type: TYPES.AUTH_LOGIN_USER_REQUEST
@@ -200,16 +190,6 @@ describe('Auth Actions:', () => {
             .then(() => {
                 expect(store.getActions()).to.deep.equal(expectedActions);
             }).then(done).catch(done);
-    });
-
-    it('authRegisterError should create AUTH_REGISTER_USER_FAILURE action', () => {
-        expect(ACTIONS_AUTH.authRegisterError(404, 'Not found')).to.eql({
-            type: TYPES.AUTH_REGISTER_USER_FAILURE,
-            payload: {
-                status: 404,
-                statusText: 'Not found'
-            }
-        });
     });
 
     it('authRegisterUser should create AUTH_LOGIN_USER_REQUEST and '

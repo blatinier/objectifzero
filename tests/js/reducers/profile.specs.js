@@ -9,14 +9,12 @@ describe('Profile Reducers Tests', () => {
         const reducerResponse = profileReducer([], {
             type: TYPES.PROFILE_RECEIVE,
             payload: {
-                data: {
-                    pseudo: 'pipo',
-                    email: 'pipo@pipocorp.com',
-                    gender: 'M',
-                    has_garder: true,
-                    do_smoke: false,
-                    home_owner: false
-                }
+                pseudo: 'pipo',
+                email: 'pipo@pipocorp.com',
+                gender: 'M',
+                has_garder: true,
+                do_smoke: false,
+                home_owner: false
             }
         });
         expect(reducerResponse).to.eql({

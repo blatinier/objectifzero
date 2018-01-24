@@ -9,7 +9,7 @@ describe('Users Reducers Tests', () => {
         const reducerResponse = usersReducer([], {
             type: TYPES.USERS_RECEIVE,
             payload: {
-                users: [
+                results: [
                     {
                         pseudo: 'pipo 1',
                         email: 'pipo@pipocorp.com',

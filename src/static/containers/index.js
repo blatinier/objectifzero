@@ -3,6 +3,7 @@ export LoginView from './Login/index';
 export RegisterView from './Register/index';
 export DashboardView from './Dashboard/index';
 export AdminUserView from './AdminUser/index';
+export AdminUserAddView from './AdminUserAdd/index';
 export AdminCardView from './AdminCard/index';
 export AdminCardAddView from './AdminCardAdd/index';
 export NotFoundView from './NotFound/index';

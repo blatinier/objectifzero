@@ -11,6 +11,7 @@ import * as actionCreators from '../../actions/auth';
 const Form = t.form.Form;
 
 const Register = t.struct({
+    username: t.String,
     email: t.String,
     password: t.String,
     password_confirmation: t.String
@@ -57,7 +58,7 @@ class RegisterView extends React.Component {
         const value = this.registerForm.getValue();
         if (value) {
             if (value.password === value.password_confirmation) {
-                this.props.actions.authRegisterUser(value.email, value.password);
+                this.props.actions.authRegisterUser(value.username, value.email, value.password);
             } else {
                 this.props.actions.authRegisterError('Erreur de saisie',
                     'Les deux mots de passe saisis ne correspondent pas.');

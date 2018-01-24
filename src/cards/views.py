@@ -27,7 +27,7 @@ class UserCardView(ListAPIView):
 class ListCardsView(ListAPIView):
     """Return cards data."""
     serializer_class = CardShortSerializer
-    queryset = Card.objects.all()
+    queryset = Card.objects.get_queryset().order_by('id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -35,7 +35,7 @@ class ListCardsView(ListAPIView):
 class CardListCreateView(ListCreateAPIView):
     """List & create card."""
     serializer_class = CardSerializer
-    queryset = Card.objects.all()
+    queryset = Card.objects.get_queryset().order_by('id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminUser,)
 

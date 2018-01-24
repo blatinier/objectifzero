@@ -32,7 +32,7 @@
     // set max line length to 120
     "max-len": [2, 120, 4, {"ignoreUrls": true}],
     //always force braces around arrow function body
-    "arrow-body-style": [2, "as-needed"],
+    "arrow-body-style": ["error", "as-needed"],
     // allow assign values to props of parameters
     "no-param-reassign": [2, {"props": false}],
     "react/jsx-indent-props": 0,

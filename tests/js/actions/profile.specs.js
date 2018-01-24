@@ -19,34 +19,6 @@ describe('Profile Actions:', () => {
     beforeEach(() => {
     });
 
-    it('profileReceive should create PROFILE_RECEIVE action', () => {
-        expect(ACTIONS_PROFILE.profileReceive({ do_smoke: false, has_garden: true })).to.eql({
-            type: TYPES.PROFILE_RECEIVE,
-            payload: {
-                data: {
-                    has_garden: true,
-                    do_smoke: false
-                }
-            }
-        });
-    });
-
-    it('profileFetchRequest should create PROFILE_FETCH_REQUEST action', () => {
-        expect(ACTIONS_PROFILE.profileFetchRequest()).to.eql({
-            type: TYPES.PROFILE_FETCH_REQUEST,
-        });
-    });
-
-    it('profileFetchFailure should create PROFILE_FETCH_FAILURE action', () => {
-        expect(ACTIONS_PROFILE.profileFetchFailure(500, 'Error message')).to.eql({
-            type: TYPES.PROFILE_FETCH_FAILURE,
-            payload: {
-                status: 500,
-                statusText: 'Error message'
-            }
-        });
-    });
-
     it('profileFetch should create PROFILE_FETCH_REQUEST and PROFILE_RECEIVE actions when API returns 200', (done) => {
         const expectedActions = [
             {
@@ -54,10 +26,8 @@ describe('Profile Actions:', () => {
             }, {
                 type: TYPES.PROFILE_RECEIVE,
                 payload: {
-                    data: {
-                        has_garden: true,
-                        do_smoke: false
-                    }
+                    has_garden: true,
+                    do_smoke: false
                 }
             }
         ];
@@ -135,22 +105,6 @@ describe('Profile Actions:', () => {
             }).then(done).catch(done);
     });
 
-    it('profileUpdateRequest should create PROFILE_UPDATE_REQUEST action', () => {
-        expect(ACTIONS_PROFILE.profileUpdateRequest()).to.eql({
-            type: TYPES.PROFILE_UPDATE_REQUEST,
-        });
-    });
-
-    it('profileUpdateFailure should create PROFILE_UPDATE_FAILURE action', () => {
-        expect(ACTIONS_PROFILE.profileUpdateFailure(500, 'Error message')).to.eql({
-            type: TYPES.PROFILE_UPDATE_FAILURE,
-            payload: {
-                status: 500,
-                statusText: 'Error message'
-            }
-        });
-    });
-
     it('profileUpdateField should create PROFILE_UPDATE_REQUEST and '
     + 'PROFILE_UPDATE_FAILURE actions when API returns 500', (done) => {
         const expectedActions = [
@@ -215,10 +169,8 @@ describe('Profile Actions:', () => {
             }, {
                 type: TYPES.PROFILE_RECEIVE,
                 payload: {
-                    data: {
-                        has_garden: true,
-                        do_smoke: false
-                    }
+                    has_garden: true,
+                    do_smoke: false
                 }
             }
         ];
