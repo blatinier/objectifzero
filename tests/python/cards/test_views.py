@@ -4,7 +4,8 @@ from rest_framework import status
 
 from tests.python.base_test_view import BaseTestView
 
-from cards.models import Card, CardStat, UserCard, DataSource
+from cards.models import Card, CardStat, DataSource
+from accounts.models import UserCard
 from .test_models import CardFactory, CardStatFactory, DataSourceFactory
 
 
