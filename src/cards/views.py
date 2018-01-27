@@ -5,7 +5,8 @@ from rest_framework import status
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from cards.models import Card, UserCard, DataSource, CardStat
+from cards.models import Card, DataSource, CardStat
+from accounts.models import UserCard
 from cards.serializers import CardSerializer, CardShortSerializer
 
 

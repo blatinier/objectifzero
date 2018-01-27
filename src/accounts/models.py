@@ -6,6 +6,15 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from cards.models import Card
+
+
+CARDS_STATUS = (
+    ('NOT_STARTED', 'Not started'),
+    ('NOT_CONCERNED', 'Not concerned'),
+    ('STARTED', 'Started'),
+    ('DONE', 'Done')
+)
 
 
 class MyUserManager(BaseUserManager):
@@ -99,6 +108,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     has_garden = models.BooleanField(default=False)
     do_smoke = models.BooleanField(default=False)
     home_owner = models.BooleanField(default=False)
+    cards = models.ManyToManyField(Card, through='UserCard')
 
     USERNAME_FIELD = 'email'
 
@@ -134,3 +144,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.username
+
+
+class UserCard(models.Model):
+    user = models.ForeignKey(User)
+    card = models.ForeignKey(Card)
+    status = models.CharField(max_length=16,
+                              choices=CARDS_STATUS,
+                              default='NOT_STARTED')
