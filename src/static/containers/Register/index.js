@@ -6,6 +6,8 @@ import { push } from 'react-router-redux';
 import t from 'tcomb-form';
 import PropTypes from 'prop-types';
 
+import * as constants from '../../constants';
+import { failure } from '../../actions/base';
 import * as actionCreators from '../../actions/auth';
 
 const Form = t.form.Form;
@@ -60,7 +62,7 @@ class RegisterView extends React.Component {
             if (value.password === value.password_confirmation) {
                 this.props.actions.authRegisterUser(value.username, value.email, value.password);
             } else {
-                this.props.actions.authRegisterError('Erreur de saisie',
+                failure(constants.AUTH_REGISTER_USER_FAILURE, 'Erreur de saisie',
                     'Les deux mots de passe saisis ne correspondent pas.');
             }
         }
@@ -118,7 +120,6 @@ RegisterView.propTypes = {
     statusText: PropTypes.string,
     actions: PropTypes.shape({
         authRegisterUser: PropTypes.func.isRequired,
-        authRegisterError: PropTypes.func.isRequired
     }).isRequired
 };
 
