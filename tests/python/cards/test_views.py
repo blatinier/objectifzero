@@ -108,16 +108,6 @@ https://link2.pouet.org"""
         card = Card.objects.get(slug='test-no-help-links')
         self.assertIsNone(card.help_links)
 
-    def test_list_card_view(self):
-        url = reverse('cards:list_cards')
-        self.client.force_authenticate(user=self.staff_user)
-        response = self.client.get(url)
-        self.assertEqual(len(response.data['results']), 1)
-        expected = deepcopy(self.CARD_DATA)
-        expected['image'] = None
-        del expected['help_links']
-        self.assertEqual(response.data['results'], [expected])
-
     def test_list_usercard_view(self):
         url = reverse('cards:user_cards')
         # TODO
