@@ -20,7 +20,7 @@ class CardListView extends React.Component {
                     <p className="text-center">Loading cards...</p>
                     :
                     <div>
-                        {cards.map(card => <ShortCardView card={card} />)}
+                        {cards.map(card => <ShortCardView userview key={card.title} card={card} />)}
                     </div>
                 }
             </div>

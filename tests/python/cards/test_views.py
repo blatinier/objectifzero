@@ -110,11 +110,12 @@ https://link2.pouet.org"""
 
     def test_list_usercard_view(self):
         url = reverse('cards:user_cards')
+        self.client.force_authenticate(user=self.user)
         # TODO
 
     def test_delete_card_view(self):
-        self.client.force_authenticate(user=self.staff_user)
         url_create = reverse('cards:create_card')
+        self.client.force_authenticate(user=self.staff_user)
         self.client.post(url_create, self.POST_DATA_CARD, format='json')
         # Fetch card to ensure it exists
         card = Card.objects.get(slug='test-title')
