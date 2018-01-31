@@ -1,11 +1,9 @@
-from django.shortcuts import get_object_or_404
-from django.utils.text import slugify
 from knox.auth import TokenAuthentication
 from rest_framework import status
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from cards.models import Card, DataSource, CardStat
+from cards.models import Card
 from accounts.models import UserCard
 from cards.serializers import CardSerializer, CardShortSerializer
 
