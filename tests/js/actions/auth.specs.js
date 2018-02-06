@@ -86,7 +86,7 @@ describe('Auth Actions:', () => {
                 payload: {
                     method: 'push',
                     args: [
-                        '/'
+                        '/dashboard'
                     ]
                 }
             }
