@@ -18,6 +18,9 @@ src/static_root/
 # Python compiled byte code
 *.pyc
 
+# Vim swap files
+*.swp
+
 # SQLite3 database
 *.sqlite
 
@@ -33,3 +36,7 @@ coverage/
 
 # in case we run shippable tests don't include it
 shippable/
+
+# Configuration files
+src/static/utils/config.js
+src/djangoreactredux/settings/

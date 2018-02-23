@@ -1,25 +1,37 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
-import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import { connect, PromiseState } from 'react-refetch';
+import { push } from 'react-router-redux';
 
 import AdminMenu from '../AdminMenu';
 import ShortUserView from '../User';
-import * as actionCreators from '../../actions/users';
+import { SERVER_URL } from '../../utils/config';
+
+const refetch = connect.defaults({
+		  credentials: 'include'
+})
 
 class AdminUserView extends React.Component {
-    componentWillMount() {
-        const { actions, token } = this.props;
-        actions.usersFetch(token);
-    }
-
     goToAddUser = () => {
         this.props.dispatch(push('/zw-admin/user-add'));
     }
 
     render() {
-        const { users, isFetching } = this.props;
+        const { usersFetch } = this.props;
+        let usersDisplay;
+        if (usersFetch) {  // Needed to check if this is the NotConnected component
+            if (usersFetch.pending) {
+                usersDisplay = <p className="text-center">Loading users...</p>;
+            } else if (usersFetch.fulfilled) {
+                const users = usersFetch.value.results;
+                usersDisplay = (
+                    <div>
+                        {users.map(user => <ShortUserView admin key={user.email} user={user} />)}
+                    </div>
+                );
+            }
+        }
+
         return (
             <div className="protected">
                 <AdminMenu />
@@ -27,46 +39,26 @@ class AdminUserView extends React.Component {
                     <i className="fa fa-plus" />
                 </a>
                 <div className="col-lg-9">
-                    {(isFetching || !users) ?
-                        <p className="text-center">Loading users...</p>
-                        :
-                        <div>
-                            {users.map(user => <ShortUserView admin key={user.email} user={user} />)}
-                        </div>
-                    }
+                    {usersDisplay}
                 </div>
             </div>
         );
     }
 }
 
-AdminUserView.defaultProps = {
-    users: []
-};
-
 AdminUserView.propTypes = {
-    isFetching: PropTypes.bool.isRequired,
-    users: PropTypes.arrayOf(PropTypes.object),
-    token: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
-    actions: PropTypes.shape({
-        usersFetch: PropTypes.func.isRequired
-    }).isRequired
+	usersFetch: PropTypes.instanceOf(PromiseState),
 };
 
-const mapStateToProps = (state) => {
-    const { users: usersState, auth } = state;
-    const users = usersState.users || [];
-    return {
-        token: auth.token,
-        users,
-        isFetching: usersState.isFetchingUsers,
-    };
-};
-
-const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(actionCreators, dispatch)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminUserView);
+export default refetch(props => ({
+	usersFetch: {
+		url: `${SERVER_URL}/api/v1/accounts/list-add/`,
+		force: true,
+		headers: {
+			Accept: 'application/json',
+			Authorization: `Token ${props.token}`,
+		},
+	},
+}))(AdminUserView);
 export { AdminUserView as AdminUserViewNotConnected };
