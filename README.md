@@ -44,3 +44,14 @@ and
 
     yarn run dev
 
+
+# Using docker to develop
+
+
+    docker-compose build
+    docker-compose run --rm react yarn
+    docker-compose run --rm django ./manage.py migrate
+    docker-compose up -d django
+    docker-compose up react
+
+Then go to `http://localhost:8042/`.

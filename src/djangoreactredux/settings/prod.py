@@ -2,15 +2,15 @@ from djangoreactredux.settings.base import *  # NOQA (ignore all errors on this 
 
 PAGE_CACHE_SECONDS = 60
 
-ALLOWED_HOSTS = ['objectifzero.local', '127.0.0.1', '127.0.0.1:8000', 'objectifzero.latinier.fr']
+ALLOWED_HOSTS = ['localhost', 'objectifzero.local', '127.0.0.1', '127.0.0.1:8000', 'objectifzero.latinier.fr']
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'objectif_zero_react',
+        'NAME': 'objectifzero',
         'USER': 'objectifzero',
-        'PASSWORD': 'pipopipo',
-        'HOST': 'localhost',
+        'PASSWORD': 'objectifzero',
+        'HOST': 'postgres',
         'PORT': 5432,
     }
 }

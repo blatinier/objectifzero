@@ -1,0 +1,36 @@
+version: '2.0'
+
+services:
+    django:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: python manage.py runserver 0.0.0.0:8000
+        volumes:
+            - ./:/usr/src/objectifzero
+        environment:
+            DATABASE_HOST: postgres
+            DATABASE_NAME: objectifzero
+            DATABASE_USER: objectifzero
+            DATABASE_PASSWORD: objectifzero
+            HOSTNAME: localhost:8000
+        ports:
+            - 8042:8000
+        depends_on:
+            - postgres
+    react:
+        build:
+            context: .
+            dockerfile: DockerfileFront
+        volumes:
+            - ./:/usr/src/objectifzero
+        environment:
+            NODE_ENV: development
+        ports:
+            - 8043:8080
+
+    postgres:
+        image: postgres:9.5
+        environment:
+            POSTGRES_USER: objectifzero
+            POSTGRES_PASSWORD: objectifzero
