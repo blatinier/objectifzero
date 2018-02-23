@@ -27,27 +27,6 @@ export function usercardsFetch(token) {
     };
 }
 
-export function cardsFetch(token) {
-    return (dispatch, state) => {
-        dispatch(simpleEvent(constants.CARDS_FETCH_REQUEST));
-        return fetch(`${SERVER_URL}/api/v1/cards/list-add/`, {
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                Authorization: `Token ${token}`
-            }
-        })
-            .then(checkHttpStatus)
-            .then(parseJSON)
-            .then((cards) => {
-                dispatch(simpleEventPayload(constants.CARDS_RECEIVE, { cards }));
-            })
-            .catch((error) => {
-                handleError(dispatch, error, constants.CARDS_FETCH_FAILURE);
-            });
-    };
-}
-
 export function createCard(token, values) {
     return (dispatch, state) => {
         dispatch(simpleEvent(constants.CARD_ADD_REQUEST));
@@ -113,7 +92,7 @@ export function deleteCard(token, cardSlug) {
             .then(checkHttpStatus)
             .then((response) => {
                 dispatch(simpleEvent(constants.CARD_DELETE_SUCCESS));
-                dispatch(cardsFetch(token));
+                dispatch(push('/zw-admin/card'));
             })
             .catch((error) => {
                 handleError(dispatch, error, constants.CARD_DELETE_FAILURE);

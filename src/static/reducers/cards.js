@@ -20,17 +20,9 @@ export default function cardsReducer(state = initialState, action) {
             };
 
         case constants.USER_CARDS_FETCH_REQUEST:
-        case constants.CARDS_FETCH_REQUEST:
             return {
                 ...state,
                 isFetchingCards: true
-            };
-
-        case constants.CARDS_RECEIVE:
-            return {
-                ...state,
-                cards: action.payload.cards.results,
-                isFetchingCards: false
             };
 
         case constants.CARD_ADD_REQUEST:
