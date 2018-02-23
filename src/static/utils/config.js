@@ -1,4 +1,4 @@
-export const SERVER_URL = 'http://objectifzero.latinier.fr';
+export const SERVER_URL = 'http://127.0.0.1:8042';
 
 // config should use named export as there can be different exports,
 // just need to export default also because of eslint rules
