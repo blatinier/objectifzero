@@ -44,23 +44,8 @@ class AdminCardView extends React.Component {
 
 AdminCardView.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    cards: PropTypes.arrayOf(
-        PropTypes.shape({
-            cost_score: PropTypes.number,
-            description: PropTypes.string,
-            difficulty_score: PropTypes.number,
-            image: PropTypes.string,
-            slug: PropTypes.string,
-            title: PropTypes.string,
-            waste_reduction_score: PropTypes.number
-        })
-    ),
     token: PropTypes.string.isRequired,
     cardsFetch: PropTypes.instanceOf(PromiseState),
-};
-
-AdminCardView.defaultProps = {
-    cards: [],
 };
 
 export default connect(({ token }) => ({

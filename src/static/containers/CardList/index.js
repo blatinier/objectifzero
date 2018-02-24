@@ -1,63 +1,46 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect, PromiseState } from 'react-refetch';
 import PropTypes from 'prop-types';
 
 import ShortCardView from '../Card';
-import * as actionCreators from '../../actions/cards';
+import { SERVER_URL } from '../../utils/config';
 
 class CardListView extends React.Component {
-    componentWillMount() {
-        const token = this.props.token;
-        this.props.actions.usercardsFetch(token);
-    }
-
     render() {
-        const { cards, isFetching } = this.props;
-        return (
-            <div className="col-lg-9">
-                {(isFetching || !cards) ?
-                    <p className="text-center">Loading cards...</p>
-                    :
+        const { usercardsFetch } = this.props;
+        let body;
+        if (usercardsFetch.pending) {
+            body = <p className="text-center">Loading cards...</p>;
+        } else if (usercardsFetch.fulfilled) {
+            const cards = usercardsFetch.value;
+            if (cards.length) {
+                body = (
                     <div>
                         {cards.map(card => <ShortCardView userview key={card.title} card={card} />)}
                     </div>
-                }
+                );
+            }
+        }
+        return (
+            <div className="col-lg-9">
+                {body}
             </div>
         );
     }
 }
 
-CardListView.defaultProps = {
-    cards: []
-};
-
 CardListView.propTypes = {
-    isFetching: PropTypes.bool.isRequired,
-    cards: PropTypes.arrayOf(
-        PropTypes.instanceOf(ShortCardView)
-    ),
     token: PropTypes.string.isRequired,
-    actions: PropTypes.shape({
-        usercardsFetch: PropTypes.func.isRequired
-    }).isRequired
+    usercardsFetch: PropTypes.instanceOf(PromiseState),
 };
 
-const mapStateToProps = (state) => {
-    let cards = {};
-    if (state.cards) {
-        cards = state.cards.cards;
-    }
-    return {
-        token: state.auth.token,
-        cards,
-        isFetching: state.cards.isFetchingCards,
-    };
-};
-
-const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(actionCreators, dispatch)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CardListView);
-export { CardListView as CardListViewNotConnected };
+export default connect(({ token }) => ({
+    usercardsFetch: {
+        url: `${SERVER_URL}/api/v1/cards/user_cards/`,
+        force: true,
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Token ${token}`,
+        },
+    },
+}))(CardListView);
