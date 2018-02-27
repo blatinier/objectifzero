@@ -3,6 +3,7 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import { Icon, Rate } from 'antd';
 import './style.scss';
 
 import * as actionCreators from '../../actions/cards';
@@ -17,24 +18,6 @@ class ShortCardView extends Component {
         const { slug } = this.props.card;
         this.props.dispatch(push(`/zw-admin/card-edit/${slug}`));
     }
-
-    renderGlyph = (glyph, score) => {
-        const classes = `fa fa-${glyph}`;
-        const glyphs = [];
-        const grayGlyph = 5 - score;
-        let i;
-        for (i = 0; i < score; i += 1) {
-            glyphs.push(<span key={`glyph-${glyph}-${i}`} className={classes} />);
-        }
-        for (i = 0; i < grayGlyph; i += 1) {
-            glyphs.push(<span key={`gray-glyph-${glyph}-${i}`} className={`${classes} gray`} />);
-        }
-        return (
-            <div className="scoreGlyph">
-                {glyphs}
-            </div>
-        );
-    };
 
     render = () => {
         const { card, admin, userview } = this.props;
@@ -100,9 +83,9 @@ class ShortCardView extends Component {
                             <p>{card.description}</p>
                         </div>
                         <div className="col-lg-2">
-                            {this.renderGlyph('trash', card.waste_reduction_score)}
-                            {this.renderGlyph('euro', card.cost_score)}
-                            {this.renderGlyph('cog', card.difficulty_score)}
+                            <Rate disabled defaultValue={card.waste_reduction_score} character={<Icon type="delete" />} />
+                            <Rate disabled defaultValue={card.cost_score} character="€" />
+                            <Rate disabled defaultValue={card.difficulty_score} character={<Icon type="tool" />} />
                         </div>
                     </div>
                     <div className="row">
