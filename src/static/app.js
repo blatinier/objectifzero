@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import { authLogoutAndRedirect } from './actions/auth';
 import './styles/main.scss';
+import 'antd/dist/antd.css'
 
 class App extends Component {
     static defaultProps = {
