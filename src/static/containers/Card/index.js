@@ -72,25 +72,25 @@ class ShortCardView extends Component {
         return (
             <div className="panel panel-default card">
                 <div className="panel-body">
-                    <div className="row">
+                    <Row>
                         <div className="pull-right">
                             {adminBtns}
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-lg-10">
+                    </Row>
+                    <Row>
+                        <Col span={20}>
                             <h2>{card.title}</h2>
                             <p>{card.description}</p>
-                        </div>
-                        <div className="col-lg-2">
+                        </Col>
+                        <Col span={4}>
                             <Rate disabled defaultValue={card.waste_reduction_score} character={<Icon type="delete" />} />
                             <Rate disabled defaultValue={card.cost_score} character="€" />
                             <Rate disabled defaultValue={card.difficulty_score} character={<Icon type="tool" />} />
-                        </div>
-                    </div>
-                    <div className="row">
+                        </Col>
+                    </Row>
+                    <Row>
                         {actionBtns}
-                    </div>
+                    </Row>
                 </div>
             </div>
         );
