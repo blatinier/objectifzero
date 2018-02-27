@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect, PromiseState } from 'react-refetch';
 import PropTypes from 'prop-types';
-
 import ShortCardView from '../Card';
 import { SERVER_URL } from '../../utils/config';
 

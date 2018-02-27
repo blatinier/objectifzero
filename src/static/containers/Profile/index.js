@@ -1,99 +1,80 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect, PromiseState } from 'react-refetch';
 import PropTypes from 'prop-types';
 import Switch from '../Switch';
 import './style.scss';
 
-import * as actionCreators from '../../actions/profile';
-
-class ProfileView extends React.Component {
-    componentWillMount() {
-        const token = this.props.token;
-        this.props.actions.profileFetch(token);
+class Profile extends React.Component {
+    updateProfile = key => (val) => {
+        this.props.updateProfile(key, val);
     }
-
-    updateField = (field, value) => {
-        const token = this.props.token;
-        this.props.actions.profileUpdateField(token, field, value);
-    }
-
-    updateCustomField = field => (val) => {
-        this.updateField(field, val);
-    };
 
     render = () => {
-        const { profile, isFetching } = this.props;
-        return (
-            <div className="profile-side-block col-lg-3">
-                {isFetching ?
-                    <p className="text-center">Loading profile...</p>
-                    :
+        const { fetchProfile } = this.props;
+        if (fetchProfile.pending) {
+            return (
+                <div className="profile-side-block col-lg-3">
+                    <p className="text-center">Loading profile...</p>;
+                </div>
+            );
+        } else if (fetchProfile.fulfilled) {
+            const {
+                pseudo, email, gender, home_owner,
+                has_garden, do_smoke,
+            } = fetchProfile.value;
+            return (
+                <div className="profile-side-block col-lg-3">
                     <div className="col-lg-12">
-                        <b>{profile.pseudo}</b>
+                        <b>{pseudo}</b>
                         <div className="row">
-                            <div className="col-lg-12 email">{profile.email}</div>
-                            <div className="col-lg-12 gender">Sexe : {profile.gender}</div>
+                            <div className="col-lg-12 email">{email}</div>
+                            <div className="col-lg-12 gender">Sexe : {gender}</div>
                             <div className="col-lg-7 home_owner">Je suis propriétaire :</div>
                             <Switch className="col-lg-5"
-                                isOn={profile.home_owner}
-                                action={this.updateCustomField('home_owner')}
+                                isOn={home_owner}
+                                action={this.updateProfile('home_owner')}
                             />
                             <div className="col-lg-7 has_garden">J&#39;ai un jardin :</div>
                             <Switch className="col-lg-5"
-                                isOn={profile.has_garden}
-                                action={this.updateCustomField('has_garden')}
+                                isOn={has_garden}
+                                action={this.updateProfile('has_garden')}
                             />
                             <div className="col-lg-7 do_smoke">Je suis fumeur :</div>
                             <Switch className="col-lg-5"
-                                isOn={profile.do_smoke}
-                                action={this.updateCustomField('do_smoke')}
+                                isOn={do_smoke}
+                                action={this.updateProfile('do_smoke')}
                             />
                         </div>
                     </div>
-                }
-            </div>
-        );
+                </div>
+            );
+        }
     }
 }
 
-ProfileView.propTypes = {
-    isFetching: PropTypes.bool.isRequired,
-    profile: PropTypes.shape({
-        pseudo: PropTypes.string,
-        email: PropTypes.string,
-        gender: PropTypes.string,
-        has_garden: PropTypes.bool,
-        do_smoke: PropTypes.bool,
-        home_owner: PropTypes.bool
-    }),
+Profile.propTypes = {
     token: PropTypes.string.isRequired,
-    actions: PropTypes.shape({
-        profileFetch: PropTypes.func.isRequired,
-        profileUpdateField: PropTypes.func.isRequired
-    }).isRequired
 };
 
-ProfileView.defaultProps = {
-    profile: {},
-    isFetching: true
-};
-
-const mapStateToProps = (state) => {
-    let profile = {};
-    if (state.profile) {
-        profile = state.profile.profile;
-    }
-    return {
-        token: state.auth.token,
-        profile,
-        isFetching: state.profile.isFetchingProfile,
-    };
-};
-
-const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(actionCreators, dispatch)
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileView);
-export { ProfileView as ProfileViewNotConnected };
+export default connect(({ token }) => ({
+    fetchProfile: {
+        url: `/api/v1/accounts/profile/`,
+        force: true,
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Token ${token}`,
+        },
+    },
+    updateProfile: (field, value) => ({
+        fetchProfile: {
+            url: `/api/v1/accounts/profile/`,
+            method: 'POST',
+            body: JSON.stringify({ [field]: value }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${token}`,
+            },
+        },
+    })
+}))(Profile);
