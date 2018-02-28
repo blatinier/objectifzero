@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, PromiseState } from 'react-refetch';
 import PropTypes from 'prop-types';
-import Switch from '../Switch';
+import { Switch, Row, Col } from 'antd';
 import './style.scss';
 
 class Profile extends React.Component {
@@ -13,9 +13,9 @@ class Profile extends React.Component {
         const { fetchProfile } = this.props;
         if (fetchProfile.pending) {
             return (
-                <div className="profile-side-block col-lg-3">
+                <Col span={6} className="profile-side-block">
                     <p className="text-center">Loading profile...</p>;
-                </div>
+                </Col>
             );
         } else if (fetchProfile.fulfilled) {
             const {
@@ -23,30 +23,38 @@ class Profile extends React.Component {
                 has_garden, do_smoke,
             } = fetchProfile.value;
             return (
-                <div className="profile-side-block col-lg-3">
-                    <div className="col-lg-12">
+                <Col span={6} className="profile-side-block">
+                    <Col span={24}>
                         <b>{pseudo}</b>
-                        <div className="row">
-                            <div className="col-lg-12 email">{email}</div>
-                            <div className="col-lg-12 gender">Sexe : {gender}</div>
-                            <div className="col-lg-7 home_owner">Je suis propriétaire :</div>
-                            <Switch className="col-lg-5"
-                                isOn={home_owner}
-                                action={this.updateProfile('home_owner')}
+                        <Row>
+                            <Col span={24} className="email">{email}</Col>
+                        </Row>
+                        <Row>
+                            <Col span={24} className="gender">Sexe : {gender}</Col>
+                        </Row>
+                        <Row>
+                            <Col span={14} className="home_owner">Je suis propriétaire :</Col>
+                            <Switch
+                                checked={home_owner}
+                                onChange={this.updateProfile('home_owner')}
                             />
-                            <div className="col-lg-7 has_garden">J&#39;ai un jardin :</div>
-                            <Switch className="col-lg-5"
-                                isOn={has_garden}
-                                action={this.updateProfile('has_garden')}
+                        </Row>
+                        <Row>
+                            <Col span={14} className="has_garden">J&#39;ai un jardin :</Col>
+                            <Switch
+                                checked={has_garden}
+                                onChange={this.updateProfile('has_garden')}
                             />
-                            <div className="col-lg-7 do_smoke">Je suis fumeur :</div>
-                            <Switch className="col-lg-5"
-                                isOn={do_smoke}
-                                action={this.updateProfile('do_smoke')}
+                        </Row>
+                        <Row>
+                            <Col span={14} className="do_smoke">Je suis fumeur :</Col>
+                            <Switch
+                                checked={do_smoke}
+                                onChange={this.updateProfile('do_smoke')}
                             />
-                        </div>
-                    </div>
-                </div>
+                        </Row>
+                    </Col>
+                </Col>
             );
         }
     }

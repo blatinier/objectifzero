@@ -3,113 +3,88 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import { Icon, Rate, Col, Row, Card, Button } from 'antd';
 import './style.scss';
 
 import * as actionCreators from '../../actions/cards';
 
 class ShortCardView extends Component {
     deleteCard = () => {
-        const { actions, token, card } = this.props;
-        actions.deleteCard(token, card.slug);
+        const { actions: { deleteCard }, token, card: { slug } } = this.props;
+        deleteCard(token, slug);
     };
 
     goToEditCard = () => {
-        const { slug } = this.props.card;
-        this.props.dispatch(push(`/zw-admin/card-edit/${slug}`));
+        const { cards: { slug }, dispatch } = this.props;
+        dispatch(push(`/zw-admin/card-edit/${slug}`));
     }
 
-    renderGlyph = (glyph, score) => {
-        const classes = `fa fa-${glyph}`;
-        const glyphs = [];
-        const grayGlyph = 5 - score;
-        let i;
-        for (i = 0; i < score; i += 1) {
-            glyphs.push(<span key={`glyph-${glyph}-${i}`} className={classes} />);
-        }
-        for (i = 0; i < grayGlyph; i += 1) {
-            glyphs.push(<span key={`gray-glyph-${glyph}-${i}`} className={`${classes} gray`} />);
-        }
-        return (
-            <div className="scoreGlyph">
-                {glyphs}
-            </div>
-        );
-    };
-
     render = () => {
-        const { card, admin, userview } = this.props;
+        const {
+            card: {
+                slug, status, title, description,
+                waste_reduction_score, cost_score,
+                difficulty_score,
+            },
+            admin,
+            userview,
+        } = this.props;
         const adminBtns = [];
         const actionBtns = [];
-        const { slug } = card;
         if (admin) {
-            adminBtns.push(<div key={`edit-btn-${slug}`} className="col-lg-2">
-                <i className="cursor fa fa-pencil fa-2x"
-                    onClick={this.goToEditCard}
-                />
-            </div>);
-            adminBtns.push(<div key={`delete-btn-${slug}`} className="col-lg-2">
-                <i className="cursor fa fa-times fa-2x"
-                    onClick={this.deleteCard}
-                />
-            </div>);
+            adminBtns.push(<Col span={12} key={`edit-btn-${slug}`}>
+                <Icon type="edit" onClick={this.goToEditCard} />
+            </Col>);
+            adminBtns.push(<Col span={12} key={`delete-btn-${slug}`}>
+                <Icon type="delete" onClick={this.deleteCard} />
+            </Col>);
         }
         if (userview) {
-            const { status } = card;
-            if (status == "NOT_STARTED" || !status) {
-                actionBtns.push(<button key={`start-btn-${slug}`}
-                    onClick={this.start}
-                    className="btn btn-success col-lg-offset-1 col-lg-2">
-                    Commencer !
-                </button>);
-                actionBtns.push(<button key={`not-concerned-btn-${slug}`}
-                    onClick={this.notConcerned}
-                    className="btn col-lg-offset-1 col-lg-2">
-                    Non concerné.
-                </button>);
-            } else if (status == "STARTED") {
-                actionBtns.push(<button key={`done-btn-${slug}`}
-                    onClick={this.done}
-                    className="btn btn-success col-lg-offset-1 col-lg-2">
-                    Fini !
-                </button>);
-            } else if (status == "DONE") {
-                actionBtns.push(<button key={`undone-btn-${slug}`}
-                    onClick={this.undone}
-                    className="btn btn-success col-lg-offset-1 col-lg-2">
-                    En fait non, reprendre.
-                </button>);
-            } else if (status == "NOT_CONCERNED") {
-                actionBtns.push(<button key={`un-not-concerned-btn-${slug}`}
-                    onClick={this.unNotConcerned}
-                    className="btn btn-success col-lg-offset-1 col-lg-2">
-                    En fait je suis concerné.
-                </button>);
+            switch (status) {
+                case "STARTED":
+                    actionBtns.push(<Button onClick={this.done} type="success">
+                        Fini !
+                    </Button>);
+                    break;
+                case "DONE":
+                    actionBtns.push(<Button onClick={this.undone} type="success">
+                        En fait non, reprendre.
+                    </Button>);
+                    break;
+                case "NOT_CONCERNED":
+                    actionBtns.push(<Button onClick={this.unNotConcerned} type="success">
+                        En fait je suis concerné.
+                    </Button>);
+                    break;
+                case "NOT_STARTED":
+                default:
+                    actionBtns.push(<Button onClick={this.start} type="success">
+                        Commencer !
+                    </Button>);
+                    actionBtns.push(<Button onClick={this.notConcerned}>
+                        Non concerné.
+                    </Button>);
+                    break;
             }
         }
         return (
-            <div className="panel panel-default card">
-                <div className="panel-body">
-                    <div className="row">
-                        <div className="pull-right">
-                            {adminBtns}
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-lg-10">
-                            <h2>{card.title}</h2>
-                            <p>{card.description}</p>
-                        </div>
-                        <div className="col-lg-2">
-                            {this.renderGlyph('trash', card.waste_reduction_score)}
-                            {this.renderGlyph('euro', card.cost_score)}
-                            {this.renderGlyph('cog', card.difficulty_score)}
-                        </div>
-                    </div>
-                    <div className="row">
-                        {actionBtns}
-                    </div>
-                </div>
-            </div>
+            <Row gutter={16}>
+                <Col span={12}>
+                    <Card title={title} extra={adminBtns}>
+                        <Row>
+                            <Col span={18}>
+                                <Row>{description}</Row>
+                                <Row>{actionBtns}</Row>
+                            </Col>
+                            <Col span={6}>
+                                <Rate disabled defaultValue={waste_reduction_score} character={<Icon type="delete" />} />
+                                <Rate disabled defaultValue={cost_score} character="€" />
+                                <Rate disabled defaultValue={difficulty_score} character={<Icon type="tool" />} />
+                            </Col>
+                        </Row>
+                    </Card>
+                </Col>
+            </Row>
         );
     };
 }
@@ -151,4 +126,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortCardView);
-export { ShortCardView as ShortCardViewNotConnected };

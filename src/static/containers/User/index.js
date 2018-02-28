@@ -3,6 +3,7 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import { Row, Col } from 'antd';
 
 import * as actionCreators from '../../actions/users';
 
@@ -34,13 +35,11 @@ class ShortUserView extends Component {
         return (
             <div className="panel panel-default user">
                 <div className="panel-body">
-                    <div className="row">
-                        {adminBtns}
-                    </div>
-                    <div className="col-lg-10">
+                    <Row>{adminBtns}</Row>
+                    <Col lg={20}>
                         <h2>{user.username}</h2>
                         <p>{user.email}</p>
-                    </div>
+                    </Col>
                 </div>
             </div>
         );
@@ -79,4 +78,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortUserView);
-export { ShortUserView as ShortUserViewNotConnected };

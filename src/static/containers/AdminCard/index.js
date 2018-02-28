@@ -3,10 +3,10 @@ import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
 import './style.scss';
 import { connect, PromiseState } from 'react-refetch';
+import { Col } from 'antd';
 
 import AdminMenu from '../AdminMenu';
 import ShortCardView from '../Card';
-import { SERVER_URL } from '../../utils/config';
 
 class AdminCardView extends React.Component {
     goToAddCard = () => {
@@ -31,12 +31,12 @@ class AdminCardView extends React.Component {
         return (
             <div className="protected">
                 <AdminMenu />
-                <div className="col-lg-9">
+                <Col lg={18}>
                     <a onClick={this.goToAddCard} className="btn btn-default btn-circle">
                         <i className="fa fa-plus" />
                     </a>
                     {cardsJsx}
-                </div>
+                </Col>
             </div>
         );
     }
@@ -50,7 +50,7 @@ AdminCardView.propTypes = {
 
 export default connect(({ token }) => ({
     cardsFetch: {
-        url: `${SERVER_URL}/api/v1/cards/list-add/`,
+        url: `/api/v1/cards/list-add/`,
         force: true,
         headers: {
             Accept: 'application/json',

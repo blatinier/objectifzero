@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import t from 'tcomb-form';
 import PropTypes from 'prop-types';
+import { Col } from 'antd';
 
 import AdminMenu from '../AdminMenu';
 import * as actionCreators from '../../actions/users';
@@ -85,7 +86,7 @@ class AdminUserAddView extends Component {
             {(this.props.isFetchingUser === true) ?
                 <p className="text-center">Loading user to edit...</p>
                 :
-                <div className="col-lg-9">
+                <Col lg={18}>
                     <form onSubmit={this.createUser}>
                         <Form ref={(ref) => { this.addUserForm = ref; }}
                             type={this.state.editing ? UserEdit : User}
@@ -96,7 +97,7 @@ class AdminUserAddView extends Component {
                             { this.state.editing ? 'Edit user!' : 'Create User!'}
                         </button>
                     </form>
-                </div>
+                </Col>
             }
         </div>
     );
@@ -144,4 +145,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminUserAddView);
-export { AdminUserAddView as AdminUserAddViewNotConnected };

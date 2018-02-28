@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { push } from 'react-router-redux';
 import t from 'tcomb-form';
 import PropTypes from 'prop-types';
+import { Col, Row } from 'antd';
 
 import * as constants from '../../constants';
 import { failure } from '../../actions/base';
@@ -78,13 +79,13 @@ class RegisterView extends React.Component {
             });
 
             statusText = (
-                <div className="row">
-                    <div className="col-sm-12">
+                <Row>
+                    <Col sm={24}>
                         <div className={statusTextClassNames}>
                             {this.props.statusText}
                         </div>
-                    </div>
-                </div>
+                    </Col>
+                </Row>
             );
         }
 
