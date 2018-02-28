@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { Icon, Rate } from 'antd';
+import { Icon, Rate, Col, Row } from 'antd';
 import './style.scss';
 
 import * as actionCreators from '../../actions/cards';
@@ -25,16 +25,16 @@ class ShortCardView extends Component {
         const actionBtns = [];
         const { slug } = card;
         if (admin) {
-            adminBtns.push(<div key={`edit-btn-${slug}`} className="col-lg-2">
+            adminBtns.push(<Col lg={4} key={`edit-btn-${slug}`}>
                 <i className="cursor fa fa-pencil fa-2x"
                     onClick={this.goToEditCard}
                 />
-            </div>);
-            adminBtns.push(<div key={`delete-btn-${slug}`} className="col-lg-2">
+            </Col>);
+            adminBtns.push(<Col lg={4} key={`delete-btn-${slug}`}>
                 <i className="cursor fa fa-times fa-2x"
                     onClick={this.deleteCard}
                 />
-            </div>);
+            </Col>);
         }
         if (userview) {
             const { status } = card;
@@ -88,9 +88,7 @@ class ShortCardView extends Component {
                             <Rate disabled defaultValue={card.difficulty_score} character={<Icon type="tool" />} />
                         </Col>
                     </Row>
-                    <Row>
-                        {actionBtns}
-                    </Row>
+                    <Row>{actionBtns}</Row>
                 </div>
             </div>
         );

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import t from 'tcomb-form';
+import { Col } from 'antd';
 import PropTypes from 'prop-types';
 
 import AdminMenu from '../AdminMenu';
@@ -116,7 +117,7 @@ class AdminCardAddView extends Component {
             {(this.props.isFetchingCard === true) ?
                 <p className="text-center">Loading card to edit...</p>
                 :
-                <div className="col-lg-9">
+                <Col lg={18}>
                     <form onSubmit={this.createCard}>
                         <Form ref={(ref) => { this.addCardForm = ref; }}
                             type={Card}
@@ -128,7 +129,7 @@ class AdminCardAddView extends Component {
                             { this.state.editing ? 'Edit card!' : 'Create Card!'}
                         </button>
                     </form>
-                </div>
+                </Col>
             }
         </div>
     );

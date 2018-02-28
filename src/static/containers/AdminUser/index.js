@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, PromiseState } from 'react-refetch';
 import { push } from 'react-router-redux';
+import { Col } from 'antd';
 
 import AdminMenu from '../AdminMenu';
 import ShortUserView from '../User';
-import { SERVER_URL } from '../../utils/config';
 
 class AdminUserView extends React.Component {
     goToAddUser = () => {
@@ -32,9 +32,7 @@ class AdminUserView extends React.Component {
                 <a onClick={this.goToAddUser} className="btn btn-default btn-circle">
                     <i className="fa fa-plus" />
                 </a>
-                <div className="col-lg-9">
-                    {usersDisplay}
-                </div>
+                <Col lg={18}>{usersDisplay}</Col>
             </div>
         );
     }
@@ -47,7 +45,7 @@ AdminUserView.propTypes = {
 
 export default connect(({ token }) => ({
     usersFetch: {
-        url: `${SERVER_URL}/api/v1/accounts/list-add/`,
+        url: `/api/v1/accounts/list-add/`,
         force: true,
         headers: {
             Accept: 'application/json',

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
+import { Col } from 'antd';
 
 class AdminMenu extends React.Component {
     goTo = url => () => {
@@ -9,7 +10,7 @@ class AdminMenu extends React.Component {
     };
 
     render = () => (
-        <div className="col-lg-3">
+        <Col lg={6}>
             <ul>
                 <li>
                     <a onClick={this.goTo('/zw-admin/user')}>
@@ -22,7 +23,7 @@ class AdminMenu extends React.Component {
                     </a>
                 </li>
             </ul>
-        </div>
+        </Col>
     );
 }
 

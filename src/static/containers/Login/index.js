@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { push } from 'react-router-redux';
 import t from 'tcomb-form';
 import PropTypes from 'prop-types';
+import { Row, Col } from 'antd';
 
 import * as actionCreators from '../../actions/auth';
 
@@ -72,13 +73,13 @@ class LoginView extends Component {
             });
 
             statusText = (
-                <div className="row">
-                    <div className="col-sm-12">
+                <Row>
+                    <Col sm={24}>
                         <div className={statusTextClassNames}>
                             {this.props.statusText}
                         </div>
-                    </div>
-                </div>
+                    </Col>
+                </Row>
             );
         }
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect, PromiseState } from 'react-refetch';
 import PropTypes from 'prop-types';
+import { Col } from 'antd';
 import ShortCardView from '../Card';
-import { SERVER_URL } from '../../utils/config';
 
 class CardListView extends React.Component {
     render() {
@@ -20,11 +20,7 @@ class CardListView extends React.Component {
                 );
             }
         }
-        return (
-            <div className="col-lg-9">
-                {body}
-            </div>
-        );
+        return (<Col lg={18}>{body}</Col>);
     }
 }
 
@@ -35,7 +31,7 @@ CardListView.propTypes = {
 
 export default connect(({ token }) => ({
     usercardsFetch: {
-        url: `${SERVER_URL}/api/v1/cards/user_cards/`,
+        url: `/api/v1/cards/user_cards/`,
         force: true,
         headers: {
             Accept: 'application/json',
