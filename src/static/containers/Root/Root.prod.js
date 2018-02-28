@@ -6,23 +6,21 @@ import PropTypes from 'prop-types';
 import routes from '../../routes';
 import App from '../../app';
 
-export default class Root extends React.Component {
-    static propTypes = {
-        store: PropTypes.shape().isRequired,
-        history: PropTypes.shape().isRequired
-    };
+const Root = ({ store, history }) => (
+    <div>
+        <Provider store={store}>
+            <App>
+                <ConnectedRouter history={history}>
+                    {routes}
+                </ConnectedRouter>
+            </App>
+        </Provider>
+    </div>
+);
 
-    render() {
-        return (
-            <div>
-                <Provider store={this.props.store}>
-                    <App>
-                        <ConnectedRouter history={this.props.history}>
-                            {routes}
-                        </ConnectedRouter>
-                    </App>
-                </Provider>
-            </div>
-        );
-    }
-}
+Root.propTypes = {
+    store: PropTypes.shape().isRequired,
+    history: PropTypes.shape().isRequired
+};
+
+export default Root;

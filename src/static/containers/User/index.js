@@ -78,4 +78,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortUserView);
-export { ShortUserView as ShortUserViewNotConnected };

@@ -3,94 +3,88 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { Icon, Rate, Col, Row } from 'antd';
+import { Icon, Rate, Col, Row, Card, Button } from 'antd';
 import './style.scss';
 
 import * as actionCreators from '../../actions/cards';
 
 class ShortCardView extends Component {
     deleteCard = () => {
-        const { actions, token, card } = this.props;
-        actions.deleteCard(token, card.slug);
+        const { actions: { deleteCard }, token, card: { slug } } = this.props;
+        deleteCard(token, slug);
     };
 
     goToEditCard = () => {
-        const { slug } = this.props.card;
-        this.props.dispatch(push(`/zw-admin/card-edit/${slug}`));
+        const { cards: { slug }, dispatch } = this.props;
+        dispatch(push(`/zw-admin/card-edit/${slug}`));
     }
 
     render = () => {
-        const { card, admin, userview } = this.props;
+        const {
+            card: {
+                slug, status, title, description,
+                waste_reduction_score, cost_score,
+                difficulty_score,
+            },
+            admin,
+            userview,
+        } = this.props;
         const adminBtns = [];
         const actionBtns = [];
-        const { slug } = card;
         if (admin) {
-            adminBtns.push(<Col lg={4} key={`edit-btn-${slug}`}>
-                <i className="cursor fa fa-pencil fa-2x"
-                    onClick={this.goToEditCard}
-                />
+            adminBtns.push(<Col span={12} key={`edit-btn-${slug}`}>
+                <Icon type="edit" onClick={this.goToEditCard} />
             </Col>);
-            adminBtns.push(<Col lg={4} key={`delete-btn-${slug}`}>
-                <i className="cursor fa fa-times fa-2x"
-                    onClick={this.deleteCard}
-                />
+            adminBtns.push(<Col span={12} key={`delete-btn-${slug}`}>
+                <Icon type="delete" onClick={this.deleteCard} />
             </Col>);
         }
         if (userview) {
-            const { status } = card;
-            if (status == "NOT_STARTED" || !status) {
-                actionBtns.push(<button key={`start-btn-${slug}`}
-                    onClick={this.start}
-                    className="btn btn-success col-lg-offset-1 col-lg-2">
-                    Commencer !
-                </button>);
-                actionBtns.push(<button key={`not-concerned-btn-${slug}`}
-                    onClick={this.notConcerned}
-                    className="btn col-lg-offset-1 col-lg-2">
-                    Non concerné.
-                </button>);
-            } else if (status == "STARTED") {
-                actionBtns.push(<button key={`done-btn-${slug}`}
-                    onClick={this.done}
-                    className="btn btn-success col-lg-offset-1 col-lg-2">
-                    Fini !
-                </button>);
-            } else if (status == "DONE") {
-                actionBtns.push(<button key={`undone-btn-${slug}`}
-                    onClick={this.undone}
-                    className="btn btn-success col-lg-offset-1 col-lg-2">
-                    En fait non, reprendre.
-                </button>);
-            } else if (status == "NOT_CONCERNED") {
-                actionBtns.push(<button key={`un-not-concerned-btn-${slug}`}
-                    onClick={this.unNotConcerned}
-                    className="btn btn-success col-lg-offset-1 col-lg-2">
-                    En fait je suis concerné.
-                </button>);
+            switch (status) {
+                case "STARTED":
+                    actionBtns.push(<Button onClick={this.done} type="success">
+                        Fini !
+                    </Button>);
+                    break;
+                case "DONE":
+                    actionBtns.push(<Button onClick={this.undone} type="success">
+                        En fait non, reprendre.
+                    </Button>);
+                    break;
+                case "NOT_CONCERNED":
+                    actionBtns.push(<Button onClick={this.unNotConcerned} type="success">
+                        En fait je suis concerné.
+                    </Button>);
+                    break;
+                case "NOT_STARTED":
+                default:
+                    actionBtns.push(<Button onClick={this.start} type="success">
+                        Commencer !
+                    </Button>);
+                    actionBtns.push(<Button onClick={this.notConcerned}>
+                        Non concerné.
+                    </Button>);
+                    break;
             }
         }
         return (
-            <div className="panel panel-default card">
-                <div className="panel-body">
-                    <Row>
-                        <div className="pull-right">
-                            {adminBtns}
-                        </div>
-                    </Row>
-                    <Row>
-                        <Col span={20}>
-                            <h2>{card.title}</h2>
-                            <p>{card.description}</p>
-                        </Col>
-                        <Col span={4}>
-                            <Rate disabled defaultValue={card.waste_reduction_score} character={<Icon type="delete" />} />
-                            <Rate disabled defaultValue={card.cost_score} character="€" />
-                            <Rate disabled defaultValue={card.difficulty_score} character={<Icon type="tool" />} />
-                        </Col>
-                    </Row>
-                    <Row>{actionBtns}</Row>
-                </div>
-            </div>
+            <Row gutter={16}>
+                <Col span={12}>
+                    <Card title={title} extra={adminBtns}>
+                        <Row>
+                            <Col span={18}>
+                                <Row>{description}</Row>
+                                <Row>{actionBtns}</Row>
+                            </Col>
+                            <Col span={6}>
+                                <Rate disabled defaultValue={waste_reduction_score} character={<Icon type="delete" />} />
+                                <Rate disabled defaultValue={cost_score} character="€" />
+                                <Rate disabled defaultValue={difficulty_score} character={<Icon type="tool" />} />
+                            </Col>
+                        </Row>
+                    </Card>
+                </Col>
+            </Row>
         );
     };
 }
@@ -132,4 +126,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortCardView);
-export { ShortCardView as ShortCardViewNotConnected };

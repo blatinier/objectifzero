@@ -190,4 +190,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminCardAddView);
-export { AdminCardAddView as AdminCardAddViewNotConnected };
