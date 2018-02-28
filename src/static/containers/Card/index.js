@@ -37,10 +37,11 @@ class ShortCardView extends Component {
     };
 
     render = () => {
-        const { card, admin } = this.props;
+        const { card, admin, userview } = this.props;
         const adminBtns = [];
+        const actionBtns = [];
+        const { slug } = card;
         if (admin) {
-            const { slug } = card;
             adminBtns.push(<div key={`edit-btn-${slug}`} className="col-lg-2">
                 <i className="cursor fa fa-pencil fa-2x"
                     onClick={this.goToEditCard}
@@ -52,20 +53,60 @@ class ShortCardView extends Component {
                 />
             </div>);
         }
+        if (userview) {
+            const { status } = card;
+            if (status == "NOT_STARTED" || !status) {
+                actionBtns.push(<button key={`start-btn-${slug}`}
+                    onClick={this.start}
+                    className="btn btn-success col-lg-offset-1 col-lg-2">
+                    Commencer !
+                </button>);
+                actionBtns.push(<button key={`not-concerned-btn-${slug}`}
+                    onClick={this.notConcerned}
+                    className="btn col-lg-offset-1 col-lg-2">
+                    Non concerné.
+                </button>);
+            } else if (status == "STARTED") {
+                actionBtns.push(<button key={`done-btn-${slug}`}
+                    onClick={this.done}
+                    className="btn btn-success col-lg-offset-1 col-lg-2">
+                    Fini !
+                </button>);
+            } else if (status == "DONE") {
+                actionBtns.push(<button key={`undone-btn-${slug}`}
+                    onClick={this.undone}
+                    className="btn btn-success col-lg-offset-1 col-lg-2">
+                    En fait non, reprendre.
+                </button>);
+            } else if (status == "NOT_CONCERNED") {
+                actionBtns.push(<button key={`un-not-concerned-btn-${slug}`}
+                    onClick={this.unNotConcerned}
+                    className="btn btn-success col-lg-offset-1 col-lg-2">
+                    En fait je suis concerné.
+                </button>);
+            }
+        }
         return (
             <div className="panel panel-default card">
                 <div className="panel-body">
-                    <div className="row pull-right">
-                        {adminBtns}
+                    <div className="row">
+                        <div className="pull-right">
+                            {adminBtns}
+                        </div>
                     </div>
-                    <div className="col-lg-10">
-                        <h2>{card.title}</h2>
-                        <p>{card.description}</p>
+                    <div className="row">
+                        <div className="col-lg-10">
+                            <h2>{card.title}</h2>
+                            <p>{card.description}</p>
+                        </div>
+                        <div className="col-lg-2">
+                            {this.renderGlyph('trash', card.waste_reduction_score)}
+                            {this.renderGlyph('euro', card.cost_score)}
+                            {this.renderGlyph('cog', card.difficulty_score)}
+                        </div>
                     </div>
-                    <div className="col-lg-2">
-                        {this.renderGlyph('trash', card.waste_reduction_score)}
-                        {this.renderGlyph('euro', card.cost_score)}
-                        {this.renderGlyph('cog', card.difficulty_score)}
+                    <div className="row">
+                        {actionBtns}
                     </div>
                 </div>
             </div>
@@ -74,12 +115,18 @@ class ShortCardView extends Component {
 }
 
 ShortCardView.defaultProps = {
-    admin: false
+    admin: false,
+    userview: false,
+    card: {
+        status: "NOT_STARTED"
+    }
 };
 
 ShortCardView.propTypes = {
     admin: PropTypes.bool.isRequired,
+    userview: PropTypes.bool.isRequired,
     card: PropTypes.shape({
+        status: PropTypes.string,
         slug: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,

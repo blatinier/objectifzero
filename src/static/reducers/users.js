@@ -1,9 +1,7 @@
 import * as constants from '../constants';
 
 const initialState = {
-    users: null,
     user: null,
-    isFetchingUsers: false,
     isCreatingUser: false,
     isEditingUser: false,
     isDeletingUser: false,
@@ -12,19 +10,6 @@ const initialState = {
 
 export default function usersReducer(state = initialState, action) {
     switch (action.type) {
-        case constants.USERS_RECEIVE:
-            return {
-                ...state,
-                users: action.payload.results,
-                isFetchingUsers: false
-            };
-
-        case constants.USERS_FETCH_REQUEST:
-            return {
-                ...state,
-                isFetchingUsers: true
-            };
-
         case constants.USER_ADD_REQUEST:
             return {
                 ...state,

@@ -1,11 +1,10 @@
-from django.shortcuts import get_object_or_404
-from django.utils.text import slugify
 from knox.auth import TokenAuthentication
 from rest_framework import status
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from cards.models import Card, UserCard, DataSource, CardStat
+from cards.models import Card
+from accounts.models import UserCard
 from cards.serializers import CardSerializer, CardShortSerializer
 
 
@@ -17,19 +16,13 @@ class UserCardView(ListAPIView):
 
     def get(self, request):
         """Process GET request and return card data."""
-        ucards = UserCard.objects.filter(user=request.user)
+        ucards = {uc.card: uc
+                  for uc in UserCard.objects.filter(user=request.user)}
+        cards = Card.objects.all()
         list_cards = []
-        for ucard in ucards:
-            list_cards.append(self.get_serializer(ucard).data)
+        for card in cards:
+            list_cards.append(self.get_serializer(ucards.get(card, card)).data)
         return Response(list_cards, status=status.HTTP_200_OK)
-
-
-class ListCardsView(ListAPIView):
-    """Return cards data."""
-    serializer_class = CardShortSerializer
-    queryset = Card.objects.get_queryset().order_by('id')
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
 
 
 class CardListCreateView(ListCreateAPIView):

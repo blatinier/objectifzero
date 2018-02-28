@@ -1,6 +1,5 @@
 import os
 from django.db import models
-from accounts.models import User
 
 DATA_SOURCE_STATUS = (
     ('VERIFIED', 'Verified'),
@@ -10,13 +9,6 @@ DATA_SOURCE_STATUS = (
 STATS_STATUS = (
     ('ACTIVE', 'Active'),
     ('ARCHIVED', 'Archived')
-)
-
-CARDS_STATUS = (
-    ('NOT_STARTED', 'Not started'),
-    ('NOT_CONCERNED', 'Not concerned'),
-    ('STARTED', 'Started'),
-    ('DONE', 'Done')
 )
 
 
@@ -71,11 +63,3 @@ class Card(models.Model):
     def delete(self, using=None):
         super().delete(using)
         self.card_stats.delete()
-
-
-class UserCard(models.Model):
-    user = models.ForeignKey(User)
-    card = models.ForeignKey(Card)
-    status = models.CharField(max_length=16,
-                              choices=CARDS_STATUS,
-                              default='NOT_STARTED')

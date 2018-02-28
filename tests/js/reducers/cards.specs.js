@@ -5,65 +5,6 @@ import cardsReducer from '../../../src/static/reducers/cards';
 import * as TYPES from '../../../src/static/constants';
 
 describe('Cards Reducers Tests', () => {
-    it('should handle USER_CARDS_RECEIVE', () => {
-        const reducerResponse = cardsReducer([], {
-            type: TYPES.USER_CARDS_RECEIVE,
-            payload: {
-                usercards: [
-                    { title: 'card 1' },
-                    { title: 'card 2' }
-                ]
-            }
-        });
-        expect(reducerResponse).to.eql({
-            cards: [
-                { title: 'card 1' },
-                { title: 'card 2' }
-            ],
-            isFetchingCards: false
-        });
-    });
-
-    it('should handle USER_CARDS_FETCH_REQUEST', () => {
-        const reducerResponse = cardsReducer([], {
-            type: TYPES.USER_CARDS_FETCH_REQUEST
-        });
-        expect(reducerResponse).to.eql({
-            isFetchingCards: true
-        });
-    });
-
-    it('should handle CARDS_RECEIVE', () => {
-        const reducerResponse = cardsReducer([], {
-            type: TYPES.CARDS_RECEIVE,
-            payload: {
-                cards: {
-                    results:
-                    [
-                        { title: 'card 1' },
-                        { title: 'card 2' }
-                    ]
-                }
-            }
-        });
-        expect(reducerResponse).to.eql({
-            cards: [
-                { title: 'card 1' },
-                { title: 'card 2' }
-            ],
-            isFetchingCards: false
-        });
-    });
-
-    it('should handle CARDS_FETCH_REQUEST', () => {
-        const reducerResponse = cardsReducer([], {
-            type: TYPES.CARDS_FETCH_REQUEST
-        });
-        expect(reducerResponse).to.eql({
-            isFetchingCards: true
-        });
-    });
-
     it('should handle CARD_ADD_REQUEST', () => {
         const reducerResponse = cardsReducer([], {
             type: TYPES.CARD_ADD_REQUEST

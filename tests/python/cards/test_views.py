@@ -4,7 +4,8 @@ from rest_framework import status
 
 from tests.python.base_test_view import BaseTestView
 
-from cards.models import Card, CardStat, UserCard, DataSource
+from cards.models import Card, CardStat, DataSource
+from accounts.models import UserCard
 from .test_models import CardFactory, CardStatFactory, DataSourceFactory
 
 
@@ -107,23 +108,14 @@ https://link2.pouet.org"""
         card = Card.objects.get(slug='test-no-help-links')
         self.assertIsNone(card.help_links)
 
-    def test_list_card_view(self):
-        url = reverse('cards:list_cards')
-        self.client.force_authenticate(user=self.staff_user)
-        response = self.client.get(url)
-        self.assertEqual(len(response.data['results']), 1)
-        expected = deepcopy(self.CARD_DATA)
-        expected['image'] = None
-        del expected['help_links']
-        self.assertEqual(response.data['results'], [expected])
-
     def test_list_usercard_view(self):
         url = reverse('cards:user_cards')
+        self.client.force_authenticate(user=self.user)
         # TODO
 
     def test_delete_card_view(self):
-        self.client.force_authenticate(user=self.staff_user)
         url_create = reverse('cards:create_card')
+        self.client.force_authenticate(user=self.staff_user)
         self.client.post(url_create, self.POST_DATA_CARD, format='json')
         # Fetch card to ensure it exists
         card = Card.objects.get(slug='test-title')

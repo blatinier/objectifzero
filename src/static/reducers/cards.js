@@ -1,9 +1,7 @@
 import * as constants from '../constants';
 
 const initialState = {
-    cards: null,
     current_card: null,
-    isFetchingCards: false,
     isCreatingCard: false,
     isEditingCard: false,
     isFetchingCard: false,
@@ -12,27 +10,6 @@ const initialState = {
 
 export default function cardsReducer(state = initialState, action) {
     switch (action.type) {
-        case constants.USER_CARDS_RECEIVE:
-            return {
-                ...state,
-                cards: action.payload.usercards,
-                isFetchingCards: false
-            };
-
-        case constants.USER_CARDS_FETCH_REQUEST:
-        case constants.CARDS_FETCH_REQUEST:
-            return {
-                ...state,
-                isFetchingCards: true
-            };
-
-        case constants.CARDS_RECEIVE:
-            return {
-                ...state,
-                cards: action.payload.cards.results,
-                isFetchingCards: false
-            };
-
         case constants.CARD_ADD_REQUEST:
             return {
                 ...state,

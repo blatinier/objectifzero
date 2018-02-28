@@ -6,27 +6,6 @@ import { SERVER_URL } from '../utils/config';
 import { checkHttpStatus, parseJSON } from '../utils';
 import * as constants from '../constants';
 
-export function usersFetch(token) {
-    return (dispatch, state) => {
-        dispatch(simpleEvent(constants.USERS_FETCH_REQUEST));
-        return fetch(`${SERVER_URL}/api/v1/accounts/list-add/`, {
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                Authorization: `Token ${token}`
-            }
-        })
-            .then(checkHttpStatus)
-            .then(parseJSON)
-            .then((response) => {
-                dispatch(simpleEventPayload(constants.USERS_RECEIVE, response));
-            })
-            .catch((error) => {
-                handleError(dispatch, error, constants.USERS_FETCH_FAILURE);
-            });
-    };
-}
-
 export function userFetch(token, username) {
     return (dispatch, state) => {
         dispatch(simpleEvent(constants.USER_FETCH_REQUEST));
@@ -113,11 +92,10 @@ export function deleteUser(token, username) {
             .then(checkHttpStatus)
             .then((response) => {
                 dispatch(simpleEvent(constants.USER_DELETE_SUCCESS));
-                dispatch(usersFetch(token));
+                dispatch(push('/zw-admin/user'));
             })
             .catch((error) => {
                 handleError(dispatch, error, constants.USER_DELETE_FAILURE);
             });
     };
 }
-
