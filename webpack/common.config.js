@@ -24,8 +24,6 @@ const VENDOR = [
     'redux',
     'react-router-redux',
     'jquery',
-    'bootstrap-loader',
-    'font-awesome-webpack!./styles/font-awesome.config.prod.js'
 ];
 
 const basePath = path.resolve(__dirname, '../src/static/');
@@ -37,7 +35,8 @@ const common = {
         app: PATHS.app
     },
     output: {
-        filename: '[name].[hash].js',
+//        filename: '[name].[hash].js',
+        filename: '[name].js',
         path: PATHS.build,
         publicPath: '/static'
     },

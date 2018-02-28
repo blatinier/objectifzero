@@ -22,15 +22,10 @@ export default function requireAuthentication(MyComponent) {
         }
 
         render = () => {
-            let displayComponent;
             if (this.props.isAuthenticated) {
-                displayComponent = <MyComponent {...this.props} />;
+                return <MyComponent {...this.props} />;
             }
-            return (
-                <div>
-                    {displayComponent}
-                </div>
-            );
+            return null;
         }
     }
 

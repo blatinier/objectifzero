@@ -28,11 +28,11 @@ describe('Cards Actions:', () => {
             }, {
                 payload: {
                     args: [
-                        "/zw-admin/card"
+                        '/zw-admin/card'
                     ],
-                    method: "push",
+                    method: 'push',
                 },
-                type: "@@router/CALL_HISTORY_METHOD",
+                type: '@@router/CALL_HISTORY_METHOD',
             },
         ];
 
