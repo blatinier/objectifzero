@@ -19,3 +19,4 @@ script:
   - bandit -r src
   - npm run coverage
   - npm run lintjs
+  - npm run nsp
