@@ -8,5 +8,5 @@ export default combineReducers({
     auth: authReducer,
     cards: cardsReducer,
     users: usersReducer,
-    routing: routerReducer
+    routing: routerReducer,
 });

@@ -83,7 +83,8 @@ class AdminUserAdd extends Component {
                                     <Form.Item label="Mot de passe">
                                         {getFieldDecorator('password', {
                                             rules: [{ required: true, message: 'Saisissez un mot de passe' }],
-                                        })(<Input prefix={<Icon type="lock" />}
+                                        })(<Input
+                                            prefix={<Icon type="lock" />}
                                             type="password"
                                             placeholder="Mot de passe"
                                         />)}
@@ -117,10 +118,12 @@ class AdminUserAdd extends Component {
                                     {getFieldDecorator('gender', {
                                         rules: [{ required: true, message: 'Please select a value' }],
                                         initialValue: get(this.props, 'user_data.gender', 'M'),
-                                    })(<Select>
-                                        <Option value="M">Male</Option>
-                                        <Option value="F">Female</Option>
-                                    </Select>)}
+                                    })(
+                                        <Select>
+                                            <Option value="M">Male</Option>
+                                            <Option value="F">Female</Option>
+                                        </Select>
+                                    )}
                                 </Form.Item>
                                 <Button htmlType="submit">
                                     { this.state.editing ? 'Edit user!' : 'Create User!'}
@@ -136,21 +139,22 @@ class AdminUserAdd extends Component {
 
 AdminUserAdd.defaultProps = {
     match: null,
-    user_data: null
+    user_data: null,
 };
 
 AdminUserAdd.propTypes = {
     token: PropTypes.string.isRequired,
     isFetchingUser: PropTypes.bool.isRequired,
+    form: PropTypes.shape().isRequired,
     match: PropTypes.shape({
         params: PropTypes.shape({
-            username: PropTypes.string
-        })
+            username: PropTypes.string,
+        }),
     }),
     actions: PropTypes.shape({
         createUser: PropTypes.func.isRequired,
         editUser: PropTypes.func.isRequired,
-        userFetch: PropTypes.func.isRequired
+        userFetch: PropTypes.func.isRequired,
     }).isRequired,
     user_data: PropTypes.shape({
         username: PropTypes.string,
@@ -160,10 +164,9 @@ AdminUserAdd.propTypes = {
         home_owner: PropTypes.bool,
         do_smoke: PropTypes.bool,
         email: PropTypes.string,
-        is_staff: PropTypes.bool
+        is_staff: PropTypes.bool,
     }),
 };
-
 
 const mapStateToProps = state => ({
     token: state.auth.token,
@@ -172,7 +175,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
 });
 
 const ConnectedAdminUserAdd = connect(mapStateToProps, mapDispatchToProps)(AdminUserAdd);

@@ -51,7 +51,7 @@ class AdminCard extends React.Component {
 
 AdminCard.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    cardsFetch: PropTypes.instanceOf(PromiseState),
+    cardsFetch: PropTypes.instanceOf(PromiseState).isRequired,
 };
 
 export default connect(({ token }) => ({

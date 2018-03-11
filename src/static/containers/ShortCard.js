@@ -31,41 +31,56 @@ class ShortCard extends Component {
         const adminBtns = [];
         const actionBtns = [];
         if (admin) {
-            adminBtns.push(<Col span={12} key={`edit-btn-${slug}`}>
-                <Icon type="edit" onClick={this.goToEditCard} />
-            </Col>);
-            adminBtns.push(<Col span={12} key={`delete-btn-${slug}`}>
-                <Icon type="delete" onClick={this.deleteCard} />
-            </Col>);
+            adminBtns.push(
+                <Col span={12} key={`edit-btn-${slug}`}>
+                    <Icon type="edit" onClick={this.goToEditCard} />
+                </Col>
+            );
+            adminBtns.push(
+                <Col span={12} key={`delete-btn-${slug}`}>
+                    <Icon type="delete" onClick={this.deleteCard} />
+                </Col>
+            );
         }
         if (userview) {
             switch (status) {
                 case 'STARTED':
-                    actionBtns.push(<Button key={`done-btn-${slug}`} onClick={this.done} type="success">
-                        Fini !
-                    </Button>);
+                    actionBtns.push(
+                        <Button key={`done-btn-${slug}`} onClick={this.done} type="success">
+                            Fini !
+                        </Button>
+                    );
                     break;
                 case 'DONE':
-                    actionBtns.push(<Button key={`undone-btn-${slug}`} onClick={this.undone} type="success">
-                        En fait non, reprendre.
-                    </Button>);
+                    actionBtns.push(
+                        <Button key={`undone-btn-${slug}`} onClick={this.undone} type="success">
+                            En fait non, reprendre.
+                        </Button>
+                    );
                     break;
                 case 'NOT_CONCERNED':
-                    actionBtns.push(<Button key={`un-not-concerned-btn-${slug}`}
-                        onClick={this.unNotConcerned}
-                        type="success"
-                    >
+                    actionBtns.push(
+                        <Button
+                            key={`un-not-concerned-btn-${slug}`}
+                            onClick={this.unNotConcerned}
+                            type="success"
+                        >
                             En fait je suis concerné.
-                    </Button>);
+                        </Button>
+                    );
                     break;
                 case 'NOT_STARTED':
                 default:
-                    actionBtns.push(<Button key={`start-btn-${slug}`} onClick={this.start} type="success">
-                        Commencer !
-                    </Button>);
-                    actionBtns.push(<Button key={`not-concerned-btn-${slug}`} onClick={this.notConcerned}>
-                        Non concerné.
-                    </Button>);
+                    actionBtns.push(
+                        <Button key={`start-btn-${slug}`} onClick={this.start} type="success">
+                            Commencer !
+                        </Button>
+                    );
+                    actionBtns.push(
+                        <Button key={`not-concerned-btn-${slug}`} onClick={this.notConcerned}>
+                            Non concerné.
+                        </Button>
+                    );
                     break;
             }
         }
@@ -79,7 +94,8 @@ class ShortCard extends Component {
                                 <Row type="flex" justify="space-around">{actionBtns}</Row>
                             </Col>
                             <Col span={6}>
-                                <Rate disabled
+                                <Rate
+                                    disabled
                                     defaultValue={waste_reduction_score}
                                     character={<Icon type="delete" />}
                                 />
@@ -93,14 +109,6 @@ class ShortCard extends Component {
         );
     };
 }
-
-ShortCard.defaultProps = {
-    admin: false,
-    userview: false,
-    card: {
-        status: 'NOT_STARTED',
-    }
-};
 
 ShortCard.propTypes = {
     admin: PropTypes.bool.isRequired,
@@ -117,8 +125,8 @@ ShortCard.propTypes = {
     token: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     actions: PropTypes.shape({
-        deleteCard: PropTypes.func.isRequired
-    }).isRequired
+        deleteCard: PropTypes.func.isRequired,
+    }).isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -127,7 +135,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(actionCreators, dispatch),
-    dispatch
+    dispatch,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortCard);

@@ -3,8 +3,8 @@ export function failure(eventType, error, message) {
         type: eventType,
         payload: {
             status: error,
-            statusText: message
-        }
+            statusText: message,
+        },
     };
 }
 
@@ -21,13 +21,13 @@ export function handleError(dispatch, error, eventType) {
 
 export function simpleEvent(evt) {
     return {
-        type: evt
+        type: evt,
     };
 }
 
 export function simpleEventPayload(evt, payload) {
     return {
         type: evt,
-        payload
+        payload,
     };
 }

@@ -4,7 +4,7 @@ import {
     Home, Login, Register, Dashboard,
     AdminUser, AdminUserAdd,
     AdminCard, AdminCardAdd,
-    NotFound
+    NotFound,
 } from './containers';
 import requireAuthentication from './utils/requireAuthentication';
 import requireStaff from './utils/requireStaff';

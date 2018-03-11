@@ -7,21 +7,21 @@ import { checkHttpStatus, parseJSON } from '../utils';
 import * as constants from '../constants';
 
 export function createCard(token, values) {
-    return (dispatch, state) => {
+    return (dispatch) => {
         dispatch(simpleEvent(constants.CARD_ADD_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/cards/list-add/`, {
             method: 'post',
             credentials: 'include',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${token}`
+                Authorization: `Token ${token}`,
             },
-            body: JSON.stringify(values)
+            body: JSON.stringify(values),
         })
             .then(checkHttpStatus)
             .then(parseJSON)
-            .then((response) => {
+            .then(() => {
                 dispatch(simpleEvent(constants.CARD_ADD_SUCCESS));
                 dispatch(push('/zw-admin/card'));
             })
@@ -32,21 +32,21 @@ export function createCard(token, values) {
 }
 
 export function editCard(token, slug, values) {
-    return (dispatch, state) => {
+    return (dispatch) => {
         dispatch(simpleEvent(constants.CARD_EDIT_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/cards/card/${slug}/`, {
             method: 'put',
             credentials: 'include',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${token}`
+                Authorization: `Token ${token}`,
             },
-            body: JSON.stringify(values)
+            body: JSON.stringify(values),
         })
             .then(checkHttpStatus)
             .then(parseJSON)
-            .then((response) => {
+            .then(() => {
                 dispatch(simpleEvent(constants.CARD_EDIT_SUCCESS));
                 dispatch(push('/zw-admin/card'));
             })
@@ -57,19 +57,19 @@ export function editCard(token, slug, values) {
 }
 
 export function deleteCard(token, cardSlug) {
-    return (dispatch, state) => {
+    return (dispatch) => {
         dispatch(simpleEvent(constants.CARD_DELETE_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/cards/card/${cardSlug}/`, {
             method: 'delete',
             credentials: 'include',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${token}`
-            }
+                Authorization: `Token ${token}`,
+            },
         })
             .then(checkHttpStatus)
-            .then((response) => {
+            .then(() => {
                 dispatch(simpleEvent(constants.CARD_DELETE_SUCCESS));
                 dispatch(push('/zw-admin/card'));
             })
@@ -80,14 +80,14 @@ export function deleteCard(token, cardSlug) {
 }
 
 export function cardFetch(token, slug) {
-    return (dispatch, state) => {
+    return (dispatch) => {
         dispatch(simpleEvent(constants.CARD_FETCH_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/cards/card/${slug}/`, {
             credentials: 'include',
             headers: {
                 Accept: 'application/json',
-                Authorization: `Token ${token}`
-            }
+                Authorization: `Token ${token}`,
+            },
         })
             .then(checkHttpStatus)
             .then(parseJSON)

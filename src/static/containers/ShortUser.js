@@ -23,11 +23,13 @@ class ShortUserView extends Component {
         const adminBtns = [];
         if (admin) {
             const { username } = user;
-            adminBtns.push(<Icon type="delete"
+            adminBtns.push(<Icon
+                type="delete"
                 key={`delete-btn-${username}`}
                 onClick={this.deleteUser}
             />);
-            adminBtns.push(<Icon type="edit"
+            adminBtns.push(<Icon
+                type="edit"
                 key={`edit-btn-${username}`}
                 onClick={this.goToEditUser}
             />);
@@ -43,10 +45,6 @@ class ShortUserView extends Component {
     };
 }
 
-ShortUserView.defaultProps = {
-    admin: false
-};
-
 ShortUserView.propTypes = {
     admin: PropTypes.bool.isRequired,
     user: PropTypes.shape({
@@ -61,8 +59,8 @@ ShortUserView.propTypes = {
     token: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     actions: PropTypes.shape({
-        deleteUser: PropTypes.func.isRequired
-    }).isRequired
+        deleteUser: PropTypes.func.isRequired,
+    }).isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -71,7 +69,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(actionCreators, dispatch),
-    dispatch
+    dispatch,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortUserView);

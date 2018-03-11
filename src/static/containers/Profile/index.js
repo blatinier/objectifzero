@@ -34,19 +34,22 @@ class Profile extends React.Component {
                         </Row>
                         <Row>
                             <Col span={14} className="home_owner">Je suis propriétaire :</Col>
-                            <Switch checked={home_owner}
+                            <Switch
+                                checked={home_owner}
                                 onChange={this.updateProfile('home_owner')}
                             />
                         </Row>
                         <Row>
                             <Col span={14} className="has_garden">J&#39;ai un jardin :</Col>
-                            <Switch checked={has_garden}
+                            <Switch
+                                checked={has_garden}
                                 onChange={this.updateProfile('has_garden')}
                             />
                         </Row>
                         <Row>
                             <Col span={14} className="do_smoke">Je suis fumeur :</Col>
-                            <Switch checked={do_smoke}
+                            <Switch
+                                checked={do_smoke}
                                 onChange={this.updateProfile('do_smoke')}
                             />
                         </Row>
@@ -59,6 +62,8 @@ class Profile extends React.Component {
 }
 
 Profile.propTypes = {
+    updateProfile: PropTypes.func.isRequired,
+    fetchProfile: PropTypes.shape().isRequired,
 };
 
 export default connect(({ token }) => ({
@@ -76,10 +81,10 @@ export default connect(({ token }) => ({
             method: 'POST',
             body: JSON.stringify({ [field]: value }),
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${token}`,
+                Authorization: `Token ${token}`,
             },
         },
-    })
+    }),
 }))(Profile);

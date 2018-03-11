@@ -9,7 +9,7 @@ export default function requireAuthentication(MyComponent) {
             this.checkAuth();
         }
 
-        componentWillReceiveProps(nextProps) {
+        componentWillReceiveProps() {
             this.checkAuth();
         }
 
@@ -32,14 +32,14 @@ export default function requireAuthentication(MyComponent) {
     AuthenticatedComponent.propTypes = {
         isAuthenticated: PropTypes.bool.isRequired,
         location: PropTypes.shape({
-            pathname: PropTypes.string.isRequired
+            pathname: PropTypes.string.isRequired,
         }).isRequired,
-        dispatch: PropTypes.func.isRequired
+        dispatch: PropTypes.func.isRequired,
     };
 
     const mapStateToProps = state => ({
         isAuthenticated: state.auth.isAuthenticated,
-        token: state.auth.token
+        token: state.auth.token,
     });
 
     return connect(mapStateToProps)(AuthenticatedComponent);

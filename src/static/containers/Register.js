@@ -29,12 +29,12 @@ class Register extends React.Component {
     };
 
     handleConfirmBlur = (e) => {
-        const value = e.target.value;
+        const { value } = e.target;
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     }
 
     checkPassword = (rule, value, callback) => {
-        const form = this.props.form;
+        const { form } = this.props;
         if (value && value !== form.getFieldValue('password')) {
             callback('Les deux mots de passe ne sont pas identiques.');
         } else {
@@ -43,7 +43,7 @@ class Register extends React.Component {
     }
 
     checkConfirm = (rule, value, callback) => {
-        const form = this.props.form;
+        const { form } = this.props;
         if (value && this.state.confirmDirty) {
             form.validateFields(['confirm'], { force: true });
         }
@@ -96,7 +96,8 @@ class Register extends React.Component {
                             {getFieldDecorator('passwordConfirmation', {
                                 rules: [{ required: true, message: 'Confirmez votre mot de passe' },
                                     { validator: this.checkPassword }],
-                            })(<Input prefix={<Icon type="lock" />}
+                            })(<Input
+                                prefix={<Icon type="lock" />}
                                 type="password"
                                 placeholder="Confirmation"
                                 onBlur={this.handleConfirmBlur}
@@ -117,24 +118,25 @@ Register.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     isAuthenticating: PropTypes.bool.isRequired,
     statusText: PropTypes.string,
+    form: PropTypes.shape({}).isRequired,
     actions: PropTypes.shape({
         authRegisterUser: PropTypes.func.isRequired,
-    }).isRequired
+    }).isRequired,
 };
 
 Register.defaultProps = {
-    statusText: ''
+    statusText: '',
 };
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
     isAuthenticating: state.auth.isAuthenticating,
-    statusText: state.auth.statusText
+    statusText: state.auth.statusText,
 });
 
 const mapDispatchToProps = dispatch => ({
     dispatch,
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
 });
 
 const ConnectedRegister = connect(mapStateToProps, mapDispatchToProps)(Register);

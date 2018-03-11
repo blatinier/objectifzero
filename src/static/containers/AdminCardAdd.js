@@ -77,7 +77,7 @@ class AdminCardAdd extends Component {
         const { form } = this.props;
         const helpLinkKeys = form.getFieldValue('helpLinkKeys');
         const nextHelpLinkKeys = helpLinkKeys.concat(linkId);
-        linkId++;
+        linkId += 1;
         form.setFieldsValue({
             helpLinkKeys: nextHelpLinkKeys,
         });
@@ -87,7 +87,7 @@ class AdminCardAdd extends Component {
         const { form } = this.props;
         const sourceKeys = form.getFieldValue('sourceKeys');
         const nextSourceKeys = sourceKeys.concat(sourceId);
-        sourceId++;
+        sourceId += 1;
         form.setFieldsValue({
             sourceKeys: nextSourceKeys,
         });
@@ -97,7 +97,7 @@ class AdminCardAdd extends Component {
         const { isFetchingCard, form: { getFieldValue, getFieldDecorator } } = this.props;
         getFieldDecorator('helpLinkKeys', { initialValue: [] });
         const helpLinkKeys = getFieldValue('helpLinkKeys');
-        const helpLinksItems = helpLinkKeys.map((k, index) => (
+        const helpLinksItems = helpLinkKeys.map(k => (
             <Form.Item>
                 {getFieldDecorator(`help_links[${k}]`, {
                     validateTrigger: ['onChange', 'onBlur'],
@@ -107,7 +107,8 @@ class AdminCardAdd extends Component {
                         message: 'Saisissez un lien.',
                     }],
                 })(<Input placeholder="Lien" />)}
-                <Icon className="dynamic-delete-button"
+                <Icon
+                    className="dynamic-delete-button"
                     type="minus-circle-o"
                     onClick={() => this.removeHelpLink(k)}
                 />
@@ -115,7 +116,7 @@ class AdminCardAdd extends Component {
         ));
         getFieldDecorator('sourceKeys', { initialValue: [] });
         const sourceKeys = getFieldValue('sourceKeys');
-        const sourcesItems = sourceKeys.map((k, index) => (
+        const sourcesItems = sourceKeys.map(k => (
             <fieldset>
                 <legend>Source n°{k}</legend>
                 <Form.Item label="Nom">
@@ -131,10 +132,12 @@ class AdminCardAdd extends Component {
                 <Form.Item>
                     {getFieldDecorator(`card_stats.data_sources[${k}].status`, {
                         initialValue: 'UNVERIFIED',
-                    })(<Radio.Group>
-                        <Radio value="VERIFIED">Vérifiée</Radio>
-                        <Radio value="UNVERIFIED">Non vérifiée</Radio>
-                       </Radio.Group>)}
+                    })(
+                        <Radio.Group>
+                            <Radio value="VERIFIED">Vérifiée</Radio>
+                            <Radio value="UNVERIFIED">Non vérifiée</Radio>
+                        </Radio.Group>
+                    )}
                 </Form.Item>
             </fieldset>
         ));
@@ -211,10 +214,12 @@ class AdminCardAdd extends Component {
                                         })(<InputNumber min={0} />)}
                                     </Form.Item>
                                     <Form.Item label="Status de la statistique">
-                                        {getFieldDecorator('card_stats.status', {})(<Select>
-                                            <Option value="ACTIVE">Active</Option>
-                                            <Option value="ARCHIVED">Archived</Option>
-                                        </Select>)}
+                                        {getFieldDecorator('card_stats.status', {})(
+                                            <Select>
+                                                <Option value="ACTIVE">Active</Option>
+                                                <Option value="ARCHIVED">Archived</Option>
+                                            </Select>
+                                        )}
                                     </Form.Item>
                                 </fieldset>
                                 <fieldset>
@@ -240,54 +245,31 @@ class AdminCardAdd extends Component {
 
 AdminCardAdd.defaultProps = {
     match: null,
-    card_data: null
 };
 
 AdminCardAdd.propTypes = {
     token: PropTypes.string.isRequired,
     isFetchingCard: PropTypes.bool.isRequired,
+    form: PropTypes.shape().isRequired,
     match: PropTypes.shape({
         params: PropTypes.shape({
-            slug: PropTypes.string
-        })
+            slug: PropTypes.string,
+        }),
     }),
     actions: PropTypes.shape({
         createCard: PropTypes.func.isRequired,
         editCard: PropTypes.func.isRequired,
-        cardFetch: PropTypes.func.isRequired
+        cardFetch: PropTypes.func.isRequired,
     }).isRequired,
-    card_data: PropTypes.shape({
-        title: PropTypes.string,
-        description: PropTypes.string,
-        image: PropTypes.string,
-        waste_reduction_score: PropTypes.number,
-        difficulty_score: PropTypes.number,
-        cost_score: PropTypes.number,
-        help_links: PropTypes.arrayOf(PropTypes.string),
-        card_stats: PropTypes.shape({
-            waste_reduction: PropTypes.number,
-            co2_reduction: PropTypes.number,
-            water_use_reduction: PropTypes.number,
-            status: PropTypes.string,
-            year: PropTypes.number,
-            data_sources: PropTypes.arrayOf(PropTypes.shape({
-                name: PropTypes.string,
-                link: PropTypes.string,
-                status: PropTypes.string
-            }))
-        }),
-    }),
 };
-
 
 const mapStateToProps = state => ({
     token: state.auth.token,
-    card_data: state.cards.current_card,
     isFetchingCard: state.cards.isFetchingCard,
 });
 
 const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
 });
 
 const ConnectedAdminCardAdd = connect(mapStateToProps, mapDispatchToProps)(AdminCardAdd);

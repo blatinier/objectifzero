@@ -68,11 +68,7 @@ App.propTypes = {
     dispatch: PropTypes.func.isRequired,
 };
 
-App.defaultProps = {
-    isStaff: false,
-};
-
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
     isStaff: state.auth.isStaff,
 });

@@ -7,14 +7,14 @@ import { checkHttpStatus, parseJSON } from '../utils';
 import * as constants from '../constants';
 
 export function userFetch(token, username) {
-    return (dispatch, state) => {
+    return (dispatch) => {
         dispatch(simpleEvent(constants.USER_FETCH_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/accounts/user/${username}/`, {
             credentials: 'include',
             headers: {
                 Accept: 'application/json',
-                Authorization: `Token ${token}`
-            }
+                Authorization: `Token ${token}`,
+            },
         })
             .then(checkHttpStatus)
             .then(parseJSON)
@@ -28,21 +28,21 @@ export function userFetch(token, username) {
 }
 
 export function createUser(token, values) {
-    return (dispatch, state) => {
+    return (dispatch) => {
         dispatch(simpleEvent(constants.USER_ADD_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/accounts/list-add/`, {
             method: 'post',
             credentials: 'include',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${token}`
+                Authorization: `Token ${token}`,
             },
-            body: JSON.stringify(values)
+            body: JSON.stringify(values),
         })
             .then(checkHttpStatus)
             .then(parseJSON)
-            .then((response) => {
+            .then(() => {
                 dispatch(simpleEvent(constants.USER_ADD_SUCCESS));
                 dispatch(push('/zw-admin/user'));
             })
@@ -53,21 +53,21 @@ export function createUser(token, values) {
 }
 
 export function editUser(token, username, values) {
-    return (dispatch, state) => {
+    return (dispatch) => {
         dispatch(simpleEvent(constants.USER_EDIT_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/accounts/user/${username}/`, {
             method: 'patch',
             credentials: 'include',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${token}`
+                Authorization: `Token ${token}`,
             },
-            body: JSON.stringify(values)
+            body: JSON.stringify(values),
         })
             .then(checkHttpStatus)
             .then(parseJSON)
-            .then((response) => {
+            .then(() => {
                 dispatch(simpleEvent(constants.USER_EDIT_SUCCESS));
                 dispatch(push('/zw-admin/user'));
             })
@@ -78,19 +78,19 @@ export function editUser(token, username, values) {
 }
 
 export function deleteUser(token, username) {
-    return (dispatch, state) => {
+    return (dispatch) => {
         dispatch(simpleEvent(constants.USER_DELETE_REQUEST));
         return fetch(`${SERVER_URL}/api/v1/accounts/user/${username}/`, {
             method: 'delete',
             credentials: 'include',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${token}`
-            }
+                Authorization: `Token ${token}`,
+            },
         })
             .then(checkHttpStatus)
-            .then((response) => {
+            .then(() => {
                 dispatch(simpleEvent(constants.USER_DELETE_SUCCESS));
                 dispatch(push('/zw-admin/user'));
             })

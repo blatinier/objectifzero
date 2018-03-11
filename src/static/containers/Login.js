@@ -14,7 +14,7 @@ class Login extends Component {
 
         const redirectRoute = this.props.location ? this.extractRedirect(this.props.location.search) || '/' : '/';
         this.state = {
-            redirectTo: redirectRoute
+            redirectTo: redirectRoute,
         };
     }
 
@@ -46,9 +46,9 @@ class Login extends Component {
         let statusTextNode = null;
         if (statusText) {
             const statusTextClassNames = classNames({
-                'alert': true,
+                alert: true,
                 'alert-danger': statusText.indexOf('Authentication Error') === 0,
-                'alert-success': statusText.indexOf('Authentication Error') !== 0
+                'alert-success': statusText.indexOf('Authentication Error') !== 0,
             });
 
             statusTextNode = (
@@ -92,28 +92,29 @@ Login.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     isAuthenticating: PropTypes.bool.isRequired,
     statusText: PropTypes.string,
+    form: PropTypes.shape({}).isRequired,
     actions: PropTypes.shape({
-        authLoginUser: PropTypes.func.isRequired
+        authLoginUser: PropTypes.func.isRequired,
     }).isRequired,
     location: PropTypes.shape({
-        search: PropTypes.string.isRequired
-    })
+        search: PropTypes.string.isRequired,
+    }),
 };
 
 Login.defaultProps = {
     statusText: '',
-    location: null
+    location: null,
 };
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
     isAuthenticating: state.auth.isAuthenticating,
-    statusText: state.auth.statusText
+    statusText: state.auth.statusText,
 });
 
 const mapDispatchToProps = dispatch => ({
     dispatch,
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
 });
 
 const ConnectedLogin = connect(mapStateToProps, mapDispatchToProps)(Login);

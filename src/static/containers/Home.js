@@ -24,11 +24,11 @@ Home.defaultProps = {
 };
 
 Home.propTypes = {
-    statusText: PropTypes.string
+    statusText: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
-    statusText: state.auth.statusText
+    statusText: state.auth.statusText,
 });
 
 export default connect(mapStateToProps)(Home);
