@@ -51,15 +51,12 @@ class ShortCard extends Component {
                     </Button>);
                     break;
                 case 'NOT_CONCERNED':
-                    actionBtns.push(
-                        <Button
-                            key={`un-not-concerned-btn-${slug}`}
-                            onClick={this.unNotConcerned}
-                            type="success"
-                        >
+                    actionBtns.push(<Button key={`un-not-concerned-btn-${slug}`}
+                        onClick={this.unNotConcerned}
+                        type="success"
+                    >
                             En fait je suis concerné.
-                        </Button>
-                    );
+                    </Button>);
                     break;
                 case 'NOT_STARTED':
                 default:
@@ -82,8 +79,7 @@ class ShortCard extends Component {
                                 <Row type="flex" justify="space-around">{actionBtns}</Row>
                             </Col>
                             <Col span={6}>
-                                <Rate
-                                    disabled
+                                <Rate disabled
                                     defaultValue={waste_reduction_score}
                                     character={<Icon type="delete" />}
                                 />

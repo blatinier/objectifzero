@@ -1,5 +1,4 @@
 const path = require('path');
-const autoprefixer = require('autoprefixer');
 const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
@@ -34,23 +33,28 @@ const common = {
         vendor: VENDOR,
         app: PATHS.app
     },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    chunks: "initial",
+                    test: path.resolve(__dirname, "node_modules"),
+                    name: "vendor",
+                    enforce: true
+                },
+                commons: {
+                    minChunks: 3,
+                    enforce: true
+                }
+            }
+        }
+    },
     output: {
-//        filename: '[name].[hash].js',
         filename: '[name].js',
         path: PATHS.build,
         publicPath: '/static'
     },
     plugins: [
-        // extract all common modules to vendor so we can load multiple apps in one page
-        // new webpack.optimize.CommonsChunkPlugin({
-        //     name: 'vendor',
-        //     filename: 'vendor.[hash].js'
-        // }),
-        new webpack.optimize.CommonsChunkPlugin({
-            children: true,
-            async: true,
-            minChunks: 2
-        }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, '../src/static/index.html'),
             hash: true,
@@ -73,7 +77,7 @@ const common = {
         })
     ],
     resolve: {
-        extensions: ['.jsx', '.js', '.json', '.scss', '.css'],
+        extensions: ['.jsx', '.js', '.json', '.css'],
         modules: ['node_modules']
     },
     module: {
@@ -90,32 +94,8 @@ const common = {
                 loader: 'file-loader?name=/images/[name].[ext]?[hash]'
             },
             {
-                test: /\.woff(\?.*)?$/,
-                loader: 'url-loader?name=/fonts/[name].[ext]&limit=10000&mimetype=application/font-woff'
-            },
-            {
-                test: /\.woff2(\?.*)?$/,
-                loader: 'url-loader?name=/fonts/[name].[ext]&limit=10000&mimetype=application/font-woff2'
-            },
-            {
-                test: /\.ttf(\?.*)?$/,
-                loader: 'url-loader?name=/fonts/[name].[ext]&limit=10000&mimetype=application/octet-stream'
-            },
-            {
-                test: /\.eot(\?.*)?$/,
-                loader: 'file-loader?name=/fonts/[name].[ext]'
-            },
-            {
-                test: /\.otf(\?.*)?$/,
-                loader: 'file-loader?name=/fonts/[name].[ext]&mimetype=application/font-otf'
-            },
-            {
                 test: /\.svg(\?.*)?$/,
                 loader: 'url-loader?name=/fonts/[name].[ext]&limit=10000&mimetype=image/svg+xml'
-            },
-            {
-                test: /\.json(\?.*)?$/,
-                loader: 'file-loader?name=/files/[name].[ext]'
             }
         ]
     },

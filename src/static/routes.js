@@ -1,9 +1,11 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import { Home, Login, Register, Dashboard,
+import {
+    Home, Login, Register, Dashboard,
     AdminUser, AdminUserAdd,
     AdminCard, AdminCardAdd,
-    NotFound } from './containers';
+    NotFound
+} from './containers';
 import requireAuthentication from './utils/requireAuthentication';
 import requireStaff from './utils/requireStaff';
 

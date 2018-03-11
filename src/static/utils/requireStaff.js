@@ -14,7 +14,9 @@ export default function requireStaff(MyComponent) {
         }
 
         checkAuthAndStaff = () => {
-            const { isAuthenticated, isStaff, location, dispatch } = this.props;
+            const {
+                isAuthenticated, isStaff, location, dispatch
+            } = this.props;
             if (!isAuthenticated && !isStaff) {
                 const redirectAfterLogin = location.pathname;
                 dispatch(push(`/login?next=${redirectAfterLogin}`));

@@ -23,20 +23,14 @@ class ShortUserView extends Component {
         const adminBtns = [];
         if (admin) {
             const { username } = user;
-            adminBtns.push(
-                <Icon
-                    type="delete"
-                    key={`delete-btn-${username}`}
-                    onClick={this.deleteUser}
-                />
-            );
-            adminBtns.push(
-                <Icon
-                    type="edit"
-                    key={`edit-btn-${username}`}
-                    onClick={this.goToEditUser}
-                />
-            );
+            adminBtns.push(<Icon type="delete"
+                key={`delete-btn-${username}`}
+                onClick={this.deleteUser}
+            />);
+            adminBtns.push(<Icon type="edit"
+                key={`edit-btn-${username}`}
+                onClick={this.goToEditUser}
+            />);
         }
         return (
             <Card title={user.username} extra={adminBtns}>

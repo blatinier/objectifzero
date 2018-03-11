@@ -71,70 +71,56 @@ class AdminUserAdd extends Component {
                                     {getFieldDecorator('username', {
                                         rules: [{ required: true, message: 'Saisissez un nom d\'utilisateur' }],
                                         initialValue: get(this.props, 'user_data.username', ''),
-                                    })(
-                                        <Input prefix={<Icon type="user" />} placeholder="Username" />
-                                    )}
+                                    })(<Input prefix={<Icon type="user" />} placeholder="Username" />)}
                                 </Form.Item>
                                 <Form.Item label="Email">
                                     {getFieldDecorator('email', {
                                         rules: [{ required: true, message: 'Saisissez un email' }],
                                         initialValue: get(this.props, 'user_data.email', ''),
-                                    })(
-                                        <Input prefix={<Icon type="mail" />} placeholder="Email" />
-                                    )}
+                                    })(<Input prefix={<Icon type="mail" />} placeholder="Email" />)}
                                 </Form.Item>
                                 { !this.state.editing ?
                                     <Form.Item label="Mot de passe">
                                         {getFieldDecorator('password', {
                                             rules: [{ required: true, message: 'Saisissez un mot de passe' }],
-                                        })(
-                                            <Input prefix={<Icon type="lock" />} type="password"
-                                                placeholder="Mot de passe" />
-                                        )}
+                                        })(<Input prefix={<Icon type="lock" />}
+                                            type="password"
+                                            placeholder="Mot de passe"
+                                        />)}
                                     </Form.Item>
-                                : null }
+                                    : null }
                                 <Form.Item>
                                     {getFieldDecorator('is_staff', {
                                         valuePropName: 'checked',
                                         initialValue: get(this.props, 'user_data.is_staff', false),
-                                    })(
-                                        <Switch />
-                                    )} Admin
+                                    })(<Switch />)} Admin
                                 </Form.Item>
                                 <Form.Item>
                                     {getFieldDecorator('has_garden', {
                                         valuePropName: 'checked',
                                         initialValue: get(this.props, 'user_data.has_garden', false),
-                                    })(
-                                        <Switch />
-                                    )} Jardin
+                                    })(<Switch />)} Jardin
                                 </Form.Item>
                                 <Form.Item>
                                     {getFieldDecorator('home_owner', {
                                         valuePropName: 'checked',
                                         initialValue: get(this.props, 'user_data.home_owner', false),
-                                    })(
-                                        <Switch />
-                                    )} Propriétaire
+                                    })(<Switch />)} Propriétaire
                                 </Form.Item>
                                 <Form.Item>
                                     {getFieldDecorator('do_smoke', {
                                         valuePropName: 'checked',
                                         initialValue: get(this.props, 'user_data.do_smoke', false),
-                                    })(
-                                        <Switch />
-                                    )} Fumeur
+                                    })(<Switch />)} Fumeur
                                 </Form.Item>
                                 <Form.Item label="Sexe">
                                     {getFieldDecorator('gender', {
                                         rules: [{ required: true, message: 'Please select a value' }],
                                         initialValue: get(this.props, 'user_data.gender', 'M'),
-                                    })(
-                                        <Select>
-                                              <Option value="M">Male</Option>
-                                              <Option value="F">Female</Option>
-                                        </Select>
-                                    )}
+                                    })(<Select>
+                                        <Option value="M">Male</Option>
+                                        <Option value="F">Female</Option>
+                                    </Select>)}
                                 </Form.Item>
                                 <Button htmlType="submit">
                                     { this.state.editing ? 'Edit user!' : 'Create User!'}

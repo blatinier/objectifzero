@@ -79,36 +79,28 @@ class Register extends React.Component {
                         <Form.Item>
                             {getFieldDecorator('username', {
                                 rules: [{ required: true, message: 'Saisissez un nom d\'utilisateur' }],
-                            })(
-                                <Input prefix={<Icon type="user" />} placeholder="Username" />
-                            )}
+                            })(<Input prefix={<Icon type="user" />} placeholder="Username" />)}
                         </Form.Item>
                         <Form.Item>
                             {getFieldDecorator('email', {
                                 rules: [{ required: true, message: 'Saisissez votre e-mail' }],
-                            })(
-                                <Input prefix={<Icon type="mail" />} placeholder="Email" />
-                            )}
+                            })(<Input prefix={<Icon type="mail" />} placeholder="Email" />)}
                         </Form.Item>
                         <Form.Item>
                             {getFieldDecorator('password', {
                                 rules: [{ required: true, message: 'Saisissez votre mot de passe' },
-                                        { validator: this.checkConfirm }],
-                            })(
-                                <Input prefix={<Icon type="lock" />} type="password" placeholder="Mot de passe" />
-                            )}
+                                    { validator: this.checkConfirm }],
+                            })(<Input prefix={<Icon type="lock" />} type="password" placeholder="Mot de passe" />)}
                         </Form.Item>
                         <Form.Item>
                             {getFieldDecorator('passwordConfirmation', {
                                 rules: [{ required: true, message: 'Confirmez votre mot de passe' },
-                                        { validator: this.checkPassword }],
-                            })(
-                                <Input prefix={<Icon type="lock" />}
-                                    type="password"
-                                    placeholder="Confirmation"
-                                    onBlur={this.handleConfirmBlur}
-                                />
-                            )}
+                                    { validator: this.checkPassword }],
+                            })(<Input prefix={<Icon type="lock" />}
+                                type="password"
+                                placeholder="Confirmation"
+                                onBlur={this.handleConfirmBlur}
+                            />)}
                         </Form.Item>
                         <Button disabled={isAuthenticating} htmlType="submit">
                             S&#39;inscrire !

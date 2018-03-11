@@ -70,16 +70,12 @@ class Login extends Component {
                         <Form.Item>
                             {getFieldDecorator('email', {
                                 rules: [{ required: true, message: 'Saisissez votre e-mail' }],
-                            })(
-                                <Input prefix={<Icon type="mail" />} placeholder="Email" />
-                            )}
+                            })(<Input prefix={<Icon type="mail" />} placeholder="Email" />)}
                         </Form.Item>
                         <Form.Item>
                             {getFieldDecorator('password', {
                                 rules: [{ required: true, message: 'Saisissez votre mot de passe' }],
-                            })(
-                                <Input prefix={<Icon type="lock" />} type="password" placeholder="Mot de passe" />
-                            )}
+                            })(<Input prefix={<Icon type="lock" />} type="password" placeholder="Mot de passe" />)}
                         </Form.Item>
                         <Button disabled={isAuthenticating} htmlType="submit">
                             Connexion !

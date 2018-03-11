@@ -69,7 +69,7 @@ class AdminCardAdd extends Component {
         const { form } = this.props;
         const helpLinkKeys = form.getFieldValue('helpLinkKeys');
         form.setFieldsValue({
-          helpLinkKeys: helpLinkKeys.filter(key => key !== k),
+            helpLinkKeys: helpLinkKeys.filter(key => key !== k),
         });
     }
 
@@ -79,7 +79,7 @@ class AdminCardAdd extends Component {
         const nextHelpLinkKeys = helpLinkKeys.concat(linkId);
         linkId++;
         form.setFieldsValue({
-          helpLinkKeys: nextHelpLinkKeys,
+            helpLinkKeys: nextHelpLinkKeys,
         });
     }
 
@@ -89,62 +89,55 @@ class AdminCardAdd extends Component {
         const nextSourceKeys = sourceKeys.concat(sourceId);
         sourceId++;
         form.setFieldsValue({
-          sourceKeys: nextSourceKeys,
+            sourceKeys: nextSourceKeys,
         });
     }
 
-    render () {
+    render() {
         const { isFetchingCard, form: { getFieldValue, getFieldDecorator } } = this.props;
         getFieldDecorator('helpLinkKeys', { initialValue: [] });
         const helpLinkKeys = getFieldValue('helpLinkKeys');
-        const helpLinksItems = helpLinkKeys.map((k, index) => {
-            return (
-                <Form.Item>
-                    {getFieldDecorator(`help_links[${k}]`, {
-                        validateTrigger: ['onChange', 'onBlur'],
-                        rules: [{
-                            required: true,
-                            whitespace: true,
-                            message: "Saisissez un lien.",
-                        }],
-                    })(<Input placeholder="Lien" />)}
-                    <Icon
-                        className="dynamic-delete-button"
-                        type="minus-circle-o"
-                        onClick={() => this.removeHelpLink(k)}
-                    />
-                </Form.Item>
-            );
-        });
+        const helpLinksItems = helpLinkKeys.map((k, index) => (
+            <Form.Item>
+                {getFieldDecorator(`help_links[${k}]`, {
+                    validateTrigger: ['onChange', 'onBlur'],
+                    rules: [{
+                        required: true,
+                        whitespace: true,
+                        message: 'Saisissez un lien.',
+                    }],
+                })(<Input placeholder="Lien" />)}
+                <Icon className="dynamic-delete-button"
+                    type="minus-circle-o"
+                    onClick={() => this.removeHelpLink(k)}
+                />
+            </Form.Item>
+        ));
         getFieldDecorator('sourceKeys', { initialValue: [] });
         const sourceKeys = getFieldValue('sourceKeys');
-        const sourcesItems = sourceKeys.map((k, index) => {
-            return (
-                <fieldset>
-                    <legend>Source n°{k}</legend>
-                    <Form.Item label="Nom">
-                        {getFieldDecorator(`card_stats.data_sources[${k}].name`, {
-                            rules: [{ required: true, message: 'Nom de la source.' }],
-                        })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="Lien">
-                        {getFieldDecorator(`card_stats.data_sources[${k}].link`, {
-                            rules: [{ required: true, message: 'Lien vers la source.' }],
-                        })(<Input />)}
-                    </Form.Item>
-                    <Form.Item>
-                        {getFieldDecorator(`card_stats.data_sources[${k}].status`, {
-                            initialValue: 'UNVERIFIED',
-                        })(
-                            <Radio.Group>
-                                <Radio value="VERIFIED">Vérifiée</Radio>
-                                <Radio value="UNVERIFIED">Non vérifiée</Radio>
-                            </Radio.Group>
-                        )}
-                    </Form.Item>
-                </fieldset>
-            );
-        });
+        const sourcesItems = sourceKeys.map((k, index) => (
+            <fieldset>
+                <legend>Source n°{k}</legend>
+                <Form.Item label="Nom">
+                    {getFieldDecorator(`card_stats.data_sources[${k}].name`, {
+                        rules: [{ required: true, message: 'Nom de la source.' }],
+                    })(<Input />)}
+                </Form.Item>
+                <Form.Item label="Lien">
+                    {getFieldDecorator(`card_stats.data_sources[${k}].link`, {
+                        rules: [{ required: true, message: 'Lien vers la source.' }],
+                    })(<Input />)}
+                </Form.Item>
+                <Form.Item>
+                    {getFieldDecorator(`card_stats.data_sources[${k}].status`, {
+                        initialValue: 'UNVERIFIED',
+                    })(<Radio.Group>
+                        <Radio value="VERIFIED">Vérifiée</Radio>
+                        <Radio value="UNVERIFIED">Non vérifiée</Radio>
+                       </Radio.Group>)}
+                </Form.Item>
+            </fieldset>
+        ));
         return (
             <Layout>
                 <Sider>
@@ -218,12 +211,10 @@ class AdminCardAdd extends Component {
                                         })(<InputNumber min={0} />)}
                                     </Form.Item>
                                     <Form.Item label="Status de la statistique">
-                                        {getFieldDecorator('card_stats.status', {})(
-                                            <Select>
-                                                <Option value="ACTIVE">Active</Option>
-                                                <Option value="ARCHIVED">Archived</Option>
-                                            </Select>
-                                        )}
+                                        {getFieldDecorator('card_stats.status', {})(<Select>
+                                            <Option value="ACTIVE">Active</Option>
+                                            <Option value="ARCHIVED">Archived</Option>
+                                        </Select>)}
                                     </Form.Item>
                                 </fieldset>
                                 <fieldset>
@@ -279,13 +270,11 @@ AdminCardAdd.propTypes = {
             water_use_reduction: PropTypes.number,
             status: PropTypes.string,
             year: PropTypes.number,
-            data_sources: PropTypes.arrayOf(
-                PropTypes.shape({
-                    name: PropTypes.string,
-                    link: PropTypes.string,
-                    status: PropTypes.string
-                })
-            )
+            data_sources: PropTypes.arrayOf(PropTypes.shape({
+                name: PropTypes.string,
+                link: PropTypes.string,
+                status: PropTypes.string
+            }))
         }),
     }),
 };

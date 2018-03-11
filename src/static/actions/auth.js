@@ -109,8 +109,10 @@ export function authRegisterUser(username, email, password) {
             })
             .catch((error) => {
                 if (error && typeof error.response !== 'undefined' && error.response.status < 500) {
-                    dispatch(failure(constants.AUTH_REGISTER_USER_FAILURE,
-                        'Erreur de saisie', 'Email invalide ou déjà enregistré.'));
+                    dispatch(failure(
+                        constants.AUTH_REGISTER_USER_FAILURE,
+                        'Erreur de saisie', 'Email invalide ou déjà enregistré.'
+                    ));
                 }
                 return Promise.resolve();
             });

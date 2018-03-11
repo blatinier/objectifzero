@@ -24,7 +24,7 @@ class AdminCard extends React.Component {
             if (cards.length) {
                 cardsJsx = (
                     <div>
-                        {cards.map((card) => (<ShortCard admin key={card.title} card={card} />))}
+                        {cards.map(card => (<ShortCard admin key={card.title} card={card} />))}
                     </div>
                 );
             }
