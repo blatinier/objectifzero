@@ -1,3 +1,4 @@
+import { deepClone } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -47,16 +48,17 @@ class AdminCardAdd extends Component {
             if (err) {
                 return;
             }
-            if (values.help_links) {
-                values.help_links = values.help_links.join('\n');
+            const clonedValues = deepClone(values);
+            if (clonedValues.help_links) {
+                clonedValues.help_links = clonedValues.help_links.join('\n');
             } else {
-                values.help_links = '';
+                clonedValues.help_links = '';
             }
             if (this.state.editing) {
                 const { slug } = this.props.match.params;
-                editCard(token, slug, values);
+                editCard(token, slug, clonedValues);
             } else {
-                createCard(token, values);
+                createCard(token, clonedValues);
             }
         });
     };
