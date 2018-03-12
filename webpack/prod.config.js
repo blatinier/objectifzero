@@ -13,11 +13,5 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin('styles/[name].css')
-        new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        })
     ]
 };
