@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { Button, Col, Form, Icon, Input, Layout, Select, Switch } from 'antd';
+import { Col, Form, Layout } from 'antd';
 
 import AdminMenu from './AdminMenu';
 import * as actionCreators from '../actions/users';
@@ -11,7 +11,6 @@ import { generateForm } from '../utils/generateForm';
 import { createUserFields, editUserFields } from '../utils/forms/user';
 
 const { Sider, Content } = Layout;
-const { Option } = Select;
 
 class AdminUserAdd extends Component {
     state = {
@@ -67,7 +66,7 @@ class AdminUserAdd extends Component {
             do_smoke: get(this.props, 'user_data.do_smoke', false),
             gender: get(this.props, 'user_data.gender', 'M'),
         };
-        let userForm
+        let userForm;
         if (this.state.editing) {
             userForm = generateForm(form, this.createUser, editUserFields, initialData, 'Edit User!');
         } else {

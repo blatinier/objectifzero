@@ -10,7 +10,7 @@
     ],
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".ios.js", ".android.js"]
+        "extensions": [".jsx", ".js", ".ios.js", ".android.js"]
       }
     }
   },
