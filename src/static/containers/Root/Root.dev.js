@@ -7,27 +7,24 @@ import routes from '../../routes';
 import DevTools from './DevTools';
 import App from '../../app';
 
-
-export default class Root extends React.Component {
-    static propTypes = {
-        store: PropTypes.shape().isRequired,
-        history: PropTypes.shape().isRequired
-    };
-
-    render() {
-        return (
+const Root = ({ store, history }) => (
+    <div>
+        <Provider store={store}>
             <div>
-                <Provider store={this.props.store}>
-                    <div>
-                        <App>
-                            <ConnectedRouter history={this.props.history}>
-                                {routes}
-                            </ConnectedRouter>
-                        </App>
-                        <DevTools />
-                    </div>
-                </Provider>
+                <App>
+                    <ConnectedRouter history={history}>
+                        {routes}
+                    </ConnectedRouter>
+                </App>
+                <DevTools />
             </div>
-        );
-    }
-}
+        </Provider>
+    </div>
+);
+
+Root.propTypes = {
+    store: PropTypes.shape().isRequired,
+    history: PropTypes.shape().isRequired,
+};
+
+export default Root;

@@ -10,13 +10,12 @@ before_script:
 # command to install dependencies
 install:
   - pip install -r py-requirements/dev.txt
-  - nvm install 6
+  - nvm install node
   - npm install
   - npm run prod
 # command to run tests
 script:
   - py.test -c pytest_ci.ini tests/
   - bandit -r src
-  - npm run coverage
   - npm run lintjs
-  - npm run lintscss
+  - npm run nsp

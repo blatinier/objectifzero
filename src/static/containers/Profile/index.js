@@ -1,8 +1,8 @@
 import React from 'react';
-import { connect, PromiseState } from 'react-refetch';
+import { connect } from 'react-refetch';
 import PropTypes from 'prop-types';
 import { Switch, Row, Col } from 'antd';
-import './style.scss';
+import './style.css';
 
 class Profile extends React.Component {
     updateProfile = key => (val) => {
@@ -13,9 +13,9 @@ class Profile extends React.Component {
         const { fetchProfile } = this.props;
         if (fetchProfile.pending) {
             return (
-                <Col span={6} className="profile-side-block">
+                <div className="profile-side-block">
                     <p className="text-center">Loading profile...</p>;
-                </Col>
+                </div>
             );
         } else if (fetchProfile.fulfilled) {
             const {
@@ -23,7 +23,7 @@ class Profile extends React.Component {
                 has_garden, do_smoke,
             } = fetchProfile.value;
             return (
-                <Col span={6} className="profile-side-block">
+                <div className="profile-side-block">
                     <Col span={24}>
                         <b>{pseudo}</b>
                         <Row>
@@ -54,19 +54,21 @@ class Profile extends React.Component {
                             />
                         </Row>
                     </Col>
-                </Col>
+                </div>
             );
         }
+        return null;
     }
 }
 
 Profile.propTypes = {
-    token: PropTypes.string.isRequired,
+    updateProfile: PropTypes.func.isRequired,
+    fetchProfile: PropTypes.shape().isRequired,
 };
 
 export default connect(({ token }) => ({
     fetchProfile: {
-        url: `/api/v1/accounts/profile/`,
+        url: '/api/v1/accounts/profile/',
         force: true,
         headers: {
             Accept: 'application/json',
@@ -75,14 +77,14 @@ export default connect(({ token }) => ({
     },
     updateProfile: (field, value) => ({
         fetchProfile: {
-            url: `/api/v1/accounts/profile/`,
+            url: '/api/v1/accounts/profile/',
             method: 'POST',
             body: JSON.stringify({ [field]: value }),
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Token ${token}`,
+                Authorization: `Token ${token}`,
             },
         },
-    })
+    }),
 }))(Profile);

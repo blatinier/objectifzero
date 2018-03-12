@@ -5,7 +5,7 @@ const initialState = {
     isCreatingCard: false,
     isEditingCard: false,
     isFetchingCard: false,
-    isDeletingCard: false
+    isDeletingCard: false,
 };
 
 export default function cardsReducer(state = initialState, action) {
@@ -13,54 +13,54 @@ export default function cardsReducer(state = initialState, action) {
         case constants.CARD_ADD_REQUEST:
             return {
                 ...state,
-                isCreatingCard: true
+                isCreatingCard: true,
             };
 
         case constants.CARD_ADD_FAILURE:
         case constants.CARD_ADD_SUCCESS:
             return {
                 ...state,
-                isCreatingCard: false
+                isCreatingCard: false,
             };
 
         case constants.CARD_DELETE_REQUEST:
             return {
                 ...state,
-                isDeletingCard: true
+                isDeletingCard: true,
             };
 
         case constants.CARD_DELETE_FAILURE:
         case constants.CARD_DELETE_SUCCESS:
             return {
                 ...state,
-                isDeletingCard: false
+                isDeletingCard: false,
             };
 
         case constants.CARD_EDIT_REQUEST:
             return {
                 ...state,
-                isEditingCard: true
+                isEditingCard: true,
             };
 
         case constants.CARD_EDIT_FAILURE:
         case constants.CARD_EDIT_SUCCESS:
             return {
                 ...state,
-                isEditingCard: false
+                isEditingCard: false,
             };
 
         case constants.CARD_RECEIVE:
             return {
                 ...state,
                 current_card: action.payload,
-                isFetchingCard: false
+                isFetchingCard: false,
             };
 
         case constants.CARD_FETCH_REQUEST:
             return {
                 ...state,
                 current_card: null,
-                isFetchingCard: true
+                isFetchingCard: true,
             };
 
         default:

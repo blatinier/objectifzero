@@ -12,8 +12,8 @@ export function authLoginUserSuccess(token, user) {
         type: constants.AUTH_LOGIN_USER_SUCCESS,
         payload: {
             token,
-            user
-        }
+            user,
+        },
     };
 }
 
@@ -23,14 +23,14 @@ export function authLoginUserFailure(error, message) {
         type: constants.AUTH_LOGIN_USER_FAILURE,
         payload: {
             status: error,
-            statusText: message
-        }
+            statusText: message,
+        },
     };
 }
 
 export function authLoginUserRequest() {
     return {
-        type: constants.AUTH_LOGIN_USER_REQUEST
+        type: constants.AUTH_LOGIN_USER_REQUEST,
     };
 }
 
@@ -38,12 +38,12 @@ export function authLogout() {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('user');
     return {
-        type: constants.AUTH_LOGOUT_USER
+        type: constants.AUTH_LOGOUT_USER,
     };
 }
 
 export function authLogoutAndRedirect() {
-    return (dispatch, state) => {
+    return (dispatch) => {
         dispatch(authLogout());
         dispatch(push('/login'));
         return Promise.resolve(); // TODO: we need a promise here because of the tests, find a better way
@@ -57,10 +57,10 @@ export function authLoginUser(email, password, redirect = '/dashboard') {
         return fetch(`${SERVER_URL}/api/v1/accounts/login/`, {
             method: 'post',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Basic ${auth}`
-            }
+                Authorization: `Basic ${auth}`,
+            },
         })
             .then(checkHttpStatus)
             .then(parseJSON)
@@ -98,19 +98,21 @@ export function authRegisterUser(username, email, password) {
                 username,
             }),
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-            }
+            },
         })
             .then(checkHttpStatus)
             .then(parseJSON)
-            .then((response) => {
+            .then(() => {
                 dispatch(authLoginUser(email, password, '/dashboard'));
             })
             .catch((error) => {
                 if (error && typeof error.response !== 'undefined' && error.response.status < 500) {
-                    dispatch(failure(constants.AUTH_REGISTER_USER_FAILURE,
-                        'Erreur de saisie', 'Email invalide ou déjà enregistré.'));
+                    dispatch(failure(
+                        constants.AUTH_REGISTER_USER_FAILURE,
+                        'Erreur de saisie', 'Email invalide ou déjà enregistré.',
+                    ));
                 }
                 return Promise.resolve();
             });

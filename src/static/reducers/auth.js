@@ -2,9 +2,8 @@ import {
     AUTH_LOGIN_USER_REQUEST,
     AUTH_LOGIN_USER_SUCCESS,
     AUTH_LOGIN_USER_FAILURE,
-    AUTH_LOGOUT_USER
+    AUTH_LOGOUT_USER,
 } from '../constants';
-
 
 const initialState = {
     token: null,
@@ -12,7 +11,7 @@ const initialState = {
     isAuthenticated: false,
     isAuthenticating: false,
     isStaff: false,
-    statusText: null
+    statusText: null,
 };
 
 export default function authReducer(state = initialState, action) {
@@ -21,7 +20,7 @@ export default function authReducer(state = initialState, action) {
             return {
                 ...state,
                 isAuthenticating: true,
-                statusText: null
+                statusText: null,
             };
 
         case AUTH_LOGIN_USER_SUCCESS:
@@ -32,7 +31,7 @@ export default function authReducer(state = initialState, action) {
                 isStaff: action.payload.user.is_staff,
                 token: action.payload.token,
                 userName: action.payload.user.email,
-                statusText: 'You have been successfully logged in.'
+                statusText: 'You have been successfully logged in.',
             };
 
         case AUTH_LOGIN_USER_FAILURE:
@@ -43,7 +42,7 @@ export default function authReducer(state = initialState, action) {
                 isStaff: false,
                 token: null,
                 userName: null,
-                statusText: `Authentication Error: ${action.payload.status} - ${action.payload.statusText}`
+                statusText: `Authentication Error: ${action.payload.status} - ${action.payload.statusText}`,
             };
 
         case AUTH_LOGOUT_USER:
@@ -53,7 +52,7 @@ export default function authReducer(state = initialState, action) {
                 isStaff: false,
                 token: null,
                 userName: null,
-                statusText: 'You have been successfully logged out.'
+                statusText: 'You have been successfully logged out.',
             };
 
         default:

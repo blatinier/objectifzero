@@ -5,7 +5,7 @@ const initialState = {
     isCreatingUser: false,
     isEditingUser: false,
     isDeletingUser: false,
-    isFetchingUser: false
+    isFetchingUser: false,
 };
 
 export default function usersReducer(state = initialState, action) {
@@ -13,54 +13,54 @@ export default function usersReducer(state = initialState, action) {
         case constants.USER_ADD_REQUEST:
             return {
                 ...state,
-                isCreatingUser: true
+                isCreatingUser: true,
             };
 
         case constants.USER_ADD_FAILURE:
         case constants.USER_ADD_SUCCESS:
             return {
                 ...state,
-                isCreatingUser: false
+                isCreatingUser: false,
             };
 
         case constants.USER_DELETE_REQUEST:
             return {
                 ...state,
-                isDeletingUser: true
+                isDeletingUser: true,
             };
 
         case constants.USER_DELETE_FAILURE:
         case constants.USER_DELETE_SUCCESS:
             return {
                 ...state,
-                isDeletingUser: false
+                isDeletingUser: false,
             };
 
         case constants.USER_EDIT_REQUEST:
             return {
                 ...state,
-                isEditingUser: true
+                isEditingUser: true,
             };
 
         case constants.USER_EDIT_FAILURE:
         case constants.USER_EDIT_SUCCESS:
             return {
                 ...state,
-                isEditingUser: false
+                isEditingUser: false,
             };
 
         case constants.USER_RECEIVE:
             return {
                 ...state,
                 user: action.payload,
-                isFetchingUser: false
+                isFetchingUser: false,
             };
 
         case constants.USER_FETCH_REQUEST:
             return {
                 ...state,
                 user: null,
-                isFetchingUser: true
+                isFetchingUser: true,
             };
 
         default:

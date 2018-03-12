@@ -9,12 +9,14 @@ export default function requireStaff(MyComponent) {
             this.checkAuthAndStaff();
         }
 
-        componentWillReceiveProps(nextProps) {
+        componentWillReceiveProps() {
             this.checkAuthAndStaff();
         }
 
         checkAuthAndStaff = () => {
-            const { isAuthenticated, isStaff, location, dispatch } = this.props;
+            const {
+                isAuthenticated, isStaff, location, dispatch,
+            } = this.props;
             if (!isAuthenticated && !isStaff) {
                 const redirectAfterLogin = location.pathname;
                 dispatch(push(`/login?next=${redirectAfterLogin}`));
@@ -39,15 +41,15 @@ export default function requireStaff(MyComponent) {
         isAuthenticated: PropTypes.bool.isRequired,
         isStaff: PropTypes.bool.isRequired,
         location: PropTypes.shape({
-            pathname: PropTypes.string.isRequired
+            pathname: PropTypes.string.isRequired,
         }).isRequired,
-        dispatch: PropTypes.func.isRequired
+        dispatch: PropTypes.func.isRequired,
     };
 
     const mapStateToProps = state => ({
         isAuthenticated: state.auth.isAuthenticated,
         isStaff: state.auth.isStaff,
-        token: state.auth.token
+        token: state.auth.token,
     });
 
     return connect(mapStateToProps)(AuthenticatedStaffComponent);
