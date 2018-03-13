@@ -1,4 +1,4 @@
-import { deepClone } from 'lodash';
+import { cloneDeep } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -7,6 +7,8 @@ import PropTypes from 'prop-types';
 
 import AdminMenu from './AdminMenu';
 import * as actionCreators from '../actions/cards';
+import { generateForm } from '../utils/generateForm';
+import { cardFields } from '../utils/forms/card';
 
 const { Option } = Select;
 const { Content, Sider } = Layout;
@@ -48,7 +50,7 @@ class AdminCardAdd extends Component {
             if (err) {
                 return;
             }
-            const clonedValues = deepClone(values);
+            const clonedValues = cloneDeep(values);
             if (clonedValues.help_links) {
                 clonedValues.help_links = clonedValues.help_links.join('\n');
             } else {
@@ -143,6 +145,13 @@ class AdminCardAdd extends Component {
                 </Form.Item>
             </fieldset>
         ));
+        let cardForm;
+        const initialData = {}  // Update when we link the fetch!
+        if (this.state.editing) {
+            cardForm = generateForm(form, this.createCard, cardFields, initialData, 'Edit card!')
+        } else {
+            cardForm = generateForm(form, this.createCard, cardFields, initialData, 'Create card!')
+        }
         return (
             <Layout>
                 <Sider>
@@ -156,87 +165,7 @@ class AdminCardAdd extends Component {
                         </div>
                         :
                         <Col span={12} offset={6}>
-                            <Form onSubmit={this.createCard}>
-                                <fieldset>
-                                    <legend>Carte</legend>
-                                    <Form.Item label="Titre">
-                                        {getFieldDecorator('title', {
-                                            rules: [{ required: true, message: 'Saisissez un titre' }],
-                                        })(<Input placeholder="Titre" />)}
-                                    </Form.Item>
-                                    <Form.Item label="Description">
-                                        {getFieldDecorator('description', {
-                                            rules: [{ required: true, message: 'Saisissez une description' }],
-                                        })(<Input type="textarea" rows={4} placeholder="Description" />)}
-                                    </Form.Item>
-                                    <Form.Item label="Score de réduction des déchets">
-                                        {getFieldDecorator('waste_reduction_score', {
-                                            rules: [{ required: true, message: 'Score de réduction des déchets' }],
-                                        })(<InputNumber min={0} max={10} />)}
-                                    </Form.Item>
-                                    <Form.Item label="Score de difficulté">
-                                        {getFieldDecorator('difficulty_score', {
-                                            rules: [{ required: true, message: 'Score de difficulté' }],
-                                        })(<InputNumber min={0} max={10} />)}
-                                    </Form.Item>
-                                    <Form.Item label="Score de coût">
-                                        {getFieldDecorator('cost_score', {
-                                            rules: [{ required: true, message: 'Score de coût' }],
-                                        })(<InputNumber min={0} max={10} />)}
-                                    </Form.Item>
-                                    <Form.Item label="Published">
-                                        {getFieldDecorator('published', {
-                                            valuePropName: 'checked',
-                                            initialValue: false,
-                                        })(<Switch />)}
-                                    </Form.Item>
-                                    {helpLinksItems}
-                                    <Form.Item label="Liens d'aide">
-                                        <Button type="dashed" onClick={this.addHelpLink}>
-                                            <Icon type="plus" /> Ajouter un lien d&apos;aide
-                                        </Button>
-                                    </Form.Item>
-                                </fieldset>
-                                <fieldset>
-                                    <legend>Statistiques</legend>
-                                    <Form.Item label="Réduction de déchets (kg/an)">
-                                        {getFieldDecorator('card_stats.waste_reduction', {
-                                        })(<InputNumber min={0} />)}
-                                    </Form.Item>
-                                    <Form.Item label="Réduction de CO2 (kg/an)">
-                                        {getFieldDecorator('card_stats.co2_reduction', {
-                                        })(<InputNumber min={0} />)}
-                                    </Form.Item>
-                                    <Form.Item label="Réduction de consommation d'eau (L/an)">
-                                        {getFieldDecorator('card_stats.water_use_reduction', {
-                                        })(<InputNumber min={0} />)}
-                                    </Form.Item>
-                                    <Form.Item label="Année de validité de la statistique">
-                                        {getFieldDecorator('card_stats.year', {
-                                        })(<InputNumber min={0} />)}
-                                    </Form.Item>
-                                    <Form.Item label="Status de la statistique">
-                                        {getFieldDecorator('card_stats.status', {})(
-                                            <Select>
-                                                <Option value="ACTIVE">Active</Option>
-                                                <Option value="ARCHIVED">Archived</Option>
-                                            </Select>
-                                        )}
-                                    </Form.Item>
-                                </fieldset>
-                                <fieldset>
-                                    <legend>Source de donnée</legend>
-                                    {sourcesItems}
-                                    <Form.Item label="Sources">
-                                        <Button type="dashed" onClick={this.addSource}>
-                                            <Icon type="plus" /> Nouvelle source
-                                        </Button>
-                                    </Form.Item>
-                                </fieldset>
-                                <Button htmlType="submit">
-                                    { this.state.editing ? 'Edit card!' : 'Create Card!'}
-                                </Button>
-                            </Form>
+                            {cardForm}
                         </Col>
                     }
                 </Content>
@@ -247,6 +176,7 @@ class AdminCardAdd extends Component {
 
 AdminCardAdd.defaultProps = {
     match: null,
+    cardData: null,
 };
 
 AdminCardAdd.propTypes = {
@@ -263,11 +193,13 @@ AdminCardAdd.propTypes = {
         editCard: PropTypes.func.isRequired,
         cardFetch: PropTypes.func.isRequired,
     }).isRequired,
+    cardData: PropTypes.shape({}),
 };
 
 const mapStateToProps = state => ({
     token: state.auth.token,
     isFetchingCard: state.cards.isFetchingCard,
+    cardData: state.cards.current_card,
 });
 
 const mapDispatchToProps = dispatch => ({
