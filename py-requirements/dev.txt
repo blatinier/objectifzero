@@ -1,4 +1,4 @@
--r base.txt
+-r requirements.txt
 
 mock==2.0.0
 factory-boy==2.9.2
