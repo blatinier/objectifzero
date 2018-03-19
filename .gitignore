@@ -27,6 +27,7 @@ src/static_root/
 # Node modules
 node_modules/
 yarn.lock
+yarn-error.log
 npm-debug.log
 
 # Coverage

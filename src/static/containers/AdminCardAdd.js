@@ -98,53 +98,7 @@ class AdminCardAdd extends Component {
     }
 
     render() {
-        const { isFetchingCard, form: { getFieldValue, getFieldDecorator } } = this.props;
-        getFieldDecorator('helpLinkKeys', { initialValue: [] });
-        const helpLinkKeys = getFieldValue('helpLinkKeys');
-        const helpLinksItems = helpLinkKeys.map(k => (
-            <Form.Item>
-                {getFieldDecorator(`help_links[${k}]`, {
-                    validateTrigger: ['onChange', 'onBlur'],
-                    rules: [{
-                        required: true,
-                        whitespace: true,
-                        message: 'Saisissez un lien.',
-                    }],
-                })(<Input placeholder="Lien" />)}
-                <Icon
-                    className="dynamic-delete-button"
-                    type="minus-circle-o"
-                    onClick={() => this.removeHelpLink(k)}
-                />
-            </Form.Item>
-        ));
-        getFieldDecorator('sourceKeys', { initialValue: [] });
-        const sourceKeys = getFieldValue('sourceKeys');
-        const sourcesItems = sourceKeys.map(k => (
-            <fieldset>
-                <legend>Source n°{k}</legend>
-                <Form.Item label="Nom">
-                    {getFieldDecorator(`card_stats.data_sources[${k}].name`, {
-                        rules: [{ required: true, message: 'Nom de la source.' }],
-                    })(<Input />)}
-                </Form.Item>
-                <Form.Item label="Lien">
-                    {getFieldDecorator(`card_stats.data_sources[${k}].link`, {
-                        rules: [{ required: true, message: 'Lien vers la source.' }],
-                    })(<Input />)}
-                </Form.Item>
-                <Form.Item>
-                    {getFieldDecorator(`card_stats.data_sources[${k}].status`, {
-                        initialValue: 'UNVERIFIED',
-                    })(
-                        <Radio.Group>
-                            <Radio value="VERIFIED">Vérifiée</Radio>
-                            <Radio value="UNVERIFIED">Non vérifiée</Radio>
-                        </Radio.Group>
-                    )}
-                </Form.Item>
-            </fieldset>
-        ));
+        const { isFetchingCard, form } = this.props;
         let cardForm;
         const initialData = {}  // Update when we link the fetch!
         if (this.state.editing) {

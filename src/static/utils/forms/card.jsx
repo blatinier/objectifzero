@@ -1,6 +1,10 @@
 import React from 'react';
-import { Icon, Input, Select, Switch } from 'antd';
+import { Icon, Input, Select, Switch, InputNumber } from 'antd';
 
+import HelpLink from './components/helpLink';
+import Sources from './components/sources';
+
+const Option = Select.Option;
 
 const titleField = {
     label: 'Title',
@@ -103,7 +107,7 @@ const statusField = {
 const sourcesField = {
     label: 'Sources',
     id: 'card_stats.data_sources',
-    component: <Source />,
+    component: <Sources />,
 };
 
 export const cardFields = [
