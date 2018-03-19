@@ -1,4 +1,4 @@
-import { deepClone } from 'lodash';
+import { cloneDeep } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -48,7 +48,7 @@ class AdminCardAdd extends Component {
             if (err) {
                 return;
             }
-            const clonedValues = deepClone(values);
+            const clonedValues = cloneDeep(values);
             if (clonedValues.help_links) {
                 clonedValues.help_links = clonedValues.help_links.join('\n');
             } else {
