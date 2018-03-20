@@ -2,16 +2,39 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
-import { Col, Icon, Layout, Menu, Row } from 'antd';
+import { Button, Col, Icon, Layout, Menu, Modal, Row } from 'antd';
 import 'antd/dist/antd.css';
 
 import { authLogoutAndRedirect } from './actions/auth';
 import './app.css';
 
-const { Header } = Layout;
+const { Header, Footer } = Layout;
 
 class App extends Component {
     goTo = url => () => this.props.dispatch(push(url));
+
+    openCredits = () => {
+        Modal.info({
+            title: 'Crédits',
+            content: (
+                <div>
+                    Icones réalisée par
+                    <a href="http://www.freepik.com" title="Freepik"> Freepik </a>
+                    de <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com </a>
+                    sous license
+                    <a
+                        href="http://creativecommons.org/licenses/by/3.0/"
+                        title="Creative Commons BY 3.0"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        CC 3.0 BY
+                    </a>.
+                </div>
+            ),
+            onOk() {},
+        });
+    }
 
     handleMenu = (e) => {
         if (e.key === 'logout') {
@@ -56,6 +79,12 @@ class App extends Component {
                     </Row>
                 </Header>
                 <Layout>{children}</Layout>
+                <Footer className="main-footer">
+                    <Button.Group>
+                        <Button href="https://github.com/blatinier/objectifzero">Github</Button>
+                        <Button onClick={this.openCredits}>Crédits</Button>
+                    </Button.Group>
+                </Footer>
             </Layout>
         );
     }
