@@ -1,5 +1,14 @@
-if (process.env.NODE_ENV === 'production') {
-    module.exports = require('./configureStore.prod'); // eslint-disable-line global-require
-} else {
-    module.exports = require('./configureStore.dev'); // eslint-disable-line global-require
+import thunk from 'redux-thunk';
+import { applyMiddleware, createStore } from 'redux';
+import { routerMiddleware } from 'react-router-redux';
+
+import rootReducer from '../reducers';
+
+export default function configureStore(initialState, history) {
+    // Add so dispatched route actions to the history
+    const reduxRouterMiddleware = routerMiddleware(history);
+
+    const middleware = applyMiddleware(thunk, reduxRouterMiddleware);
+
+    return createStore(rootReducer, initialState, middleware);
 }
