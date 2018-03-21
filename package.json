@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "antd": "3.3.0",
+    "async-validator": "^1.8.2",
     "autoprefixer": "8.1.0",
     "babel-core": "6.26.0",
     "babel-loader": "7.1.4",

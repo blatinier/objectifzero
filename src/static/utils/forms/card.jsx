@@ -1,5 +1,7 @@
 import React from 'react';
 import { Icon, Input, Select, Switch, InputNumber } from 'antd';
+import { defaultTo } from 'lodash';
+import Schema from 'async-validator';
 
 import HelpLink from './components/helpLink';
 import Sources from './components/sources';
@@ -66,6 +68,24 @@ const publishedField = {
 const helpLinkField = {
     label: 'Liens d\'aide',
     id: 'help_links',
+    rules: [
+        {
+            // Only take input which have been written
+            transform: value => value ? (value.filter(link => link.length > 0)) : [],
+            validator: (rule, value, cb) => {
+                for (let link of value) {
+                    const urlValidator = new Schema({ link: { type: 'url' } });
+                    urlValidator.validate({ link }, (errors) => {
+                        if (errors) {
+                            cb('One of the helpLinks is incorrect');
+                        }
+                    });
+                }
+                // No error
+                cb();
+            },
+        },
+    ],
     component: <HelpLink />,
 };
 
@@ -107,6 +127,25 @@ const statusField = {
 const sourcesField = {
     label: 'Sources',
     id: 'card_stats.data_sources',
+    rules: [
+        {
+            transform: value => defaultTo(value, []),
+            validator: (rule, values, cb) => {
+                for (let value of values) {
+                    if (value.name.length === 0 || value.link.length === 0) {
+                        cb('One of sources is incorrect. Name and link are required')
+                    }
+                    const urlValidator = new Schema({ link: { type: 'url' } });
+                    urlValidator.validate({ link: value.link }, (error) => {
+                        if (error) {
+                            cb('One of sources is incorrect. Link must be an url');
+                        }
+                    });
+                }
+                cb();
+            },
+        },
+    ],
     component: <Sources />,
 };
 

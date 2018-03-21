@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Col, Form, Icon, Input, InputNumber, Layout, Radio, Select, Spin, Switch } from 'antd';
+import { Col, Form, Layout, Spin } from 'antd';
 import PropTypes from 'prop-types';
 
 import AdminMenu from './AdminMenu';
@@ -10,11 +10,8 @@ import * as actionCreators from '../actions/cards';
 import { generateForm } from '../utils/generateForm';
 import { cardFields } from '../utils/forms/card';
 
-const { Option } = Select;
 const { Content, Sider } = Layout;
 
-let linkId = 0;
-let sourceId = 0;
 class AdminCardAdd extends Component {
     state = {
         editing: false,
@@ -69,42 +66,15 @@ class AdminCardAdd extends Component {
         this.form = form;
     }
 
-    removeHelpLink = (k) => {
-        const { form } = this.props;
-        const helpLinkKeys = form.getFieldValue('helpLinkKeys');
-        form.setFieldsValue({
-            helpLinkKeys: helpLinkKeys.filter(key => key !== k),
-        });
-    }
-
-    addHelpLink = () => {
-        const { form } = this.props;
-        const helpLinkKeys = form.getFieldValue('helpLinkKeys');
-        const nextHelpLinkKeys = helpLinkKeys.concat(linkId);
-        linkId += 1;
-        form.setFieldsValue({
-            helpLinkKeys: nextHelpLinkKeys,
-        });
-    }
-
-    addSource = () => {
-        const { form } = this.props;
-        const sourceKeys = form.getFieldValue('sourceKeys');
-        const nextSourceKeys = sourceKeys.concat(sourceId);
-        sourceId += 1;
-        form.setFieldsValue({
-            sourceKeys: nextSourceKeys,
-        });
-    }
-
     render() {
         const { isFetchingCard, form } = this.props;
         let cardForm;
-        const initialData = {}  // Update when we link the fetch!
+        // Update when we link the fetch!
+        const initialData = {};
         if (this.state.editing) {
-            cardForm = generateForm(form, this.createCard, cardFields, initialData, 'Edit card!')
+            cardForm = generateForm(form, this.createCard, cardFields, initialData, 'Edit card!');
         } else {
-            cardForm = generateForm(form, this.createCard, cardFields, initialData, 'Create card!')
+            cardForm = generateForm(form, this.createCard, cardFields, initialData, 'Create card!');
         }
         return (
             <Layout>
@@ -130,7 +100,6 @@ class AdminCardAdd extends Component {
 
 AdminCardAdd.defaultProps = {
     match: null,
-    cardData: null,
 };
 
 AdminCardAdd.propTypes = {
@@ -147,13 +116,11 @@ AdminCardAdd.propTypes = {
         editCard: PropTypes.func.isRequired,
         cardFetch: PropTypes.func.isRequired,
     }).isRequired,
-    cardData: PropTypes.shape({}),
 };
 
 const mapStateToProps = state => ({
     token: state.auth.token,
     isFetchingCard: state.cards.isFetchingCard,
-    cardData: state.cards.current_card,
 });
 
 const mapDispatchToProps = dispatch => ({
