@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect, PromiseState } from 'react-refetch';
 import { push } from 'react-router-redux';
@@ -22,9 +22,9 @@ class AdminUser extends React.Component {
         } else if (usersFetch.fulfilled) {
             const users = usersFetch.value.results;
             usersDisplay = (
-                <div>
+                <Fragment>
                     {users.map(user => <ShortUser admin key={user.email} user={user} />)}
-                </div>
+                </Fragment>
             );
         }
 
