@@ -15,7 +15,7 @@
   "author": "Benoît Latinier <benoit@latinier.fr>",
   "license": "MIT",
   "dependencies": {
-    "antd": "3.3.0",
+    "antd": "3.3.1",
     "async-validator": "^1.8.2",
     "autoprefixer": "8.1.0",
     "babel-core": "6.26.0",
