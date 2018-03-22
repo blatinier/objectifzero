@@ -40,4 +40,5 @@ shippable/
 
 # Configuration files
 src/static/utils/config.js
-src/djangoreactredux/settings/
+src/djangoreactredux/settings/gunicorn.py
+src/djangoreactredux/settings/prod.py
