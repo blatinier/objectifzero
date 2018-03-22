@@ -9,7 +9,7 @@ import Sources from './components/sources';
 const Option = Select.Option;
 
 const titleField = {
-    label: 'Title',
+    label: 'Titre',
     id: 'title',
     rules: [{
         required: true,
@@ -33,7 +33,7 @@ const wasteReductionScoreField = {
     id: 'waste_reduction_score',
     rules: [{
         required: true,
-        message: 'Score de réduction des déchets',
+        message: 'Saisissez un score de réduction des déchets',
     }],
     component: <InputNumber min={0} max={10} />,
 };
@@ -43,7 +43,7 @@ const difficultyScoreField = {
     id: 'difficulty_score',
     rules: [{
         required: true,
-        message: 'Score de difficulté',
+        message: 'Saisissez un score de difficulté',
     }],
     component: <InputNumber min={0} max={10} />,
 };
@@ -53,7 +53,7 @@ const costScoreField = {
     id: 'cost_score',
     rules: [{
         required: true,
-        message: 'Score de coût',
+        message: 'Saisissez un score de coût',
     }],
     component: <InputNumber min={0} max={10} />,
 };
@@ -77,7 +77,7 @@ const helpLinkField = {
                     const urlValidator = new Schema({ link: { type: 'url' } });
                     urlValidator.validate({ link }, (errors) => {
                         if (errors) {
-                            cb('One of the helpLinks is incorrect');
+                            cb('Au moins un des liens d\'aide est incorrect');
                         }
                     });
                 }
@@ -96,13 +96,13 @@ const wasteReductionField = {
 };
 
 const coReductionField = {
-    label: 'Réducton de CO3 (kg/an)',
+    label: 'Réducton de CO2 (kg/an)',
     id: 'card_stats.co2_reduction',
     component: <InputNumber min={0} />,
 };
 
 const waterUseReductionField = {
-    label: 'Réduction de consommation d\'eau (kg/an)',
+    label: 'Réduction de consommation d\'eau (L/an)',
     id: 'card_stats.water_use_reduction',
     component: <InputNumber min={0} />,
 };
@@ -133,12 +133,12 @@ const sourcesField = {
             validator: (rule, values, cb) => {
                 for (let value of values) {
                     if (value.name.length === 0 || value.link.length === 0) {
-                        cb('One of sources is incorrect. Name and link are required')
+                        cb('Au moins une des sources est incorrecte : le nom et le lien sont requis')
                     }
                     const urlValidator = new Schema({ link: { type: 'url' } });
                     urlValidator.validate({ link: value.link }, (error) => {
                         if (error) {
-                            cb('One of sources is incorrect. Link must be an url');
+                            cb('Au moins une des sources est incorrecte : le lien doit être une url');
                         }
                     });
                 }

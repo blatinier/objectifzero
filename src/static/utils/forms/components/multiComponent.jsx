@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import { defaultTo } from 'lodash';
 import { Button, Icon, Row, Col, Input, Radio } from 'antd';
 
@@ -85,34 +85,27 @@ class MultiComponent extends Component {
 
     render = () => {
         const { values } = this.state;
-        const items = [];
-
-        for (let index in values) {
-            const value = values[index];
-            const component = this.buildComponent(value, index, this.onChange(index));
-            const item = (
-                <Row key={index}>
-                    <Col span={12}>
-                        {component}
-                    </Col>
-                    <Col span={12}>
-                        <Icon
-                            type="minus-circle-o"
-                            onClick={this.removeItem(index)}
-                        />
-                    </Col>
-                </Row>
-            );
-            items.push(item);
-        }
+        const items = values.map((value, index) => (
+            <Row key={index}>
+                <Col span={12}>
+                    {this.buildComponent(value, index, this.onChange(index))}
+                </Col>
+                <Col span={12}>
+                    <Icon
+                        type="minus-circle-o"
+                        onClick={this.removeItem(index)}
+                    />
+                </Col>
+            </Row>
+        ));
 
         return (
-            <div>
+            <Fragment>
                 {items}
                 <Button type="dashed" onClick={this.addItem}>
                     <Icon type="plus" />
                 </Button>
-            </div>
+            </Fragment>
         );
 
     }
