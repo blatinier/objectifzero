@@ -4,7 +4,7 @@
     line-height: 64px;
 }
 
-#root, #root > div, #root > div > div,  .layout {
+#root, #root > div, .layout {
     height: 100%;
 }
 

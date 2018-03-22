@@ -2,9 +2,10 @@ import fetch from 'isomorphic-fetch';
 import { push } from 'react-router-redux';
 
 import { handleError, simpleEvent, simpleEventPayload } from './base';
-import { SERVER_URL } from '../utils/config';
 import { checkHttpStatus, parseJSON } from '../utils';
 import * as constants from '../constants';
+
+const { SERVER_URL } = process.env;
 
 export function createCard(token, values) {
     return (dispatch) => {
