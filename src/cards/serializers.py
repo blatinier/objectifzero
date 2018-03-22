@@ -2,25 +2,6 @@ from django.utils.text import slugify
 from rest_framework import serializers
 
 from cards.models import Card, CardStat, DataSource
-from accounts.models import UserCard
-
-
-class UserCardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserCard
-        fields = ('slug', 'title', 'description',
-                  'waste_reduction_score', 'difficulty_score',
-                  'cost_score', 'image')
-
-    def to_representation(self, obj):
-        return {'slug': obj.card.slug,
-                'title': obj.card.title,
-                'description': obj.card.description,
-                'waste_reduction_score': obj.card.waste_reduction_score,
-                'difficulty_score': obj.card.difficulty_score,
-                'cost_score': obj.card.cost_score,
-                'image': obj.card.image,
-                'status': obj.status}
 
 
 class CardShortSerializer(serializers.ModelSerializer):

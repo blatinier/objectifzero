@@ -63,12 +63,6 @@ const common = {
             filename: 'index.html',
             inject: 'body'
         }),
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: TARGET === 'dev' ? '"development"' : '"production"',
-            },
-            '__DEVELOPMENT__': TARGET === 'dev'
-        }),
         new webpack.ProvidePlugin({
             '$': 'jquery',
             'jQuery': 'jquery',

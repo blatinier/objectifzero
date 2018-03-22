@@ -5,7 +5,7 @@ import { connect, PromiseState } from 'react-refetch';
 import { Col, Icon, Layout, Row } from 'antd';
 
 import AdminMenu from './AdminMenu';
-import ShortCard from './ShortCard';
+import ZeroCard from './ZeroCard';
 
 const { Content, Sider } = Layout;
 
@@ -24,7 +24,7 @@ class AdminCard extends React.Component {
             if (cards.length) {
                 cardsJsx = (
                     <Fragment>
-                        {cards.map(card => (<ShortCard admin key={card.title} card={card} />))}
+                        {cards.map(card => (<ZeroCard admin key={card.title} card={card} />))}
                     </Fragment>
                 );
             }

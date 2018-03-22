@@ -1,0 +1,13 @@
+.ant-rate-star {
+    cursor: pointer;
+    min-width: 25px;
+    text-align: center;
+}
+
+.zerocard {
+    margin-bottom: 30px;
+}
+
+.data-sources > li {
+    list-style-type: none;
+}

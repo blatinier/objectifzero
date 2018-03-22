@@ -4,25 +4,7 @@ from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, L
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from cards.models import Card
-from accounts.models import UserCard
 from cards.serializers import CardSerializer, CardShortSerializer
-
-
-class UserCardView(ListAPIView):
-    """Return user cards data."""
-    serializer_class = CardShortSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request):
-        """Process GET request and return card data."""
-        ucards = {uc.card: uc
-                  for uc in UserCard.objects.filter(user=request.user)}
-        cards = Card.objects.all()
-        list_cards = []
-        for card in cards:
-            list_cards.append(self.get_serializer(ucards.get(card, card)).data)
-        return Response(list_cards, status=status.HTTP_200_OK)
 
 
 class CardListCreateView(ListCreateAPIView):

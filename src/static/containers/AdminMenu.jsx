@@ -15,8 +15,8 @@ class AdminMenu extends React.Component {
 
     render = () => (
         <Menu theme="dark" onClick={this.handleMenu}>
-            <Menu.Item key="adminUsers"><Icon type="user" /> Users</Menu.Item>
-            <Menu.Item key="adminCards"><Icon type="credit-card" /> Cards</Menu.Item>
+            <Menu.Item key="adminUsers"><Icon type="user" /> Utilisateurs</Menu.Item>
+            <Menu.Item key="adminCards"><Icon type="credit-card" /> Cartes</Menu.Item>
         </Menu>
     );
 }

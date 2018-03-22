@@ -26,6 +26,7 @@ INSTALLED_APPS = (
 
     'accounts',
     'cards',
+    'user_cards',
     'base'
 )
 

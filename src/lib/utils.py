@@ -2,6 +2,7 @@ from disposable_email_checker.validators import validate_disposable_email
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email as django_validate_email
 from django.db import transaction
+from rest_framework import permissions
 
 
 def validate_email(value):
@@ -44,3 +45,8 @@ class AtomicMixin(object):
             transaction.set_rollback(True)
 
         return response
+
+
+class IsOwner(permissions.IsAuthenticated):
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user
