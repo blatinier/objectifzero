@@ -1,5 +1,6 @@
 import os
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 DATA_SOURCE_STATUS = (
     ('VERIFIED', 'Verified'),
@@ -59,6 +60,8 @@ class Card(models.Model):
 
     # External links
     help_links = models.TextField(blank=True, null=True)
+
+    published = models.BooleanField(_('published'), default=False)
 
     def delete(self, using=None):
         super().delete(using)

@@ -4,12 +4,11 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))  # remove /sswmain/settings to get base folder
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ajsdgas7&*kosdsa21[]jaksdhlka-;kmcv8l$#diepsm8&ah^'
-
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
+
+PAGE_CACHE_SECONDS = 60
 
 # Application definition
 
@@ -109,3 +108,46 @@ REST_KNOX = {
     'AUTH_TOKEN_CHARACTER_LENGTH': 64,
     'USER_SERIALIZER': 'knox.serializers.UserSerializer'
 }
+
+REST_FRAMEWORK['EXCEPTION_HANDLER'] = 'django_rest_logger.handlers.rest_exception_handler'  # NOQA (ignore all errors on this line)
+
+# ####### Logging
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'root': {
+        'level': 'WARNING',
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s '
+                      '%(process)d %(thread)d %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'ERROR',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers':['console'],
+            'propagate': True,
+            'level':'DEBUG',
+        }
+    },
+}
+
+DEFAULT_LOGGER = 'django.request'
+
+LOGGER_EXCEPTION = DEFAULT_LOGGER
+LOGGER_ERROR = DEFAULT_LOGGER
+LOGGER_WARNING = DEFAULT_LOGGER

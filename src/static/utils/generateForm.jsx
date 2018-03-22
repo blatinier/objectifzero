@@ -15,7 +15,7 @@ const generateFormItem = (form, item, initialData) => {
         options.valuePropName = valuePropName;
     }
     return (
-        <FormItem label={label}>
+        <FormItem key={label} label={label}>
             {getFieldDecorator(id, options)(component)}
         </FormItem>
     );
@@ -36,7 +36,7 @@ export const generateForm = (form, onSubmit, fieldSets, initialData, buttonName)
                 formItems.push(generateFormItem(form, item, initialData));
             }
             fields.push(
-                <fieldset>
+                <fieldset key={legendName}>
                     <legend>{legendName}</legend>
                     {formItems}
                 </fieldset>

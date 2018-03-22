@@ -1,1 +1,1 @@
-from djangoreactredux.settings.prod import *  # NOQA (ignore all errors on this line)
+from djangoreactredux.settings.base import *  # NOQA (ignore all errors on this line)
