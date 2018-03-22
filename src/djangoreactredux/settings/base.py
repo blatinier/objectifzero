@@ -8,6 +8,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
 
+PAGE_CACHE_SECONDS = 60
+
 # Application definition
 
 INSTALLED_APPS = (
