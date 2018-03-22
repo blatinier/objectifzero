@@ -1,26 +1,13 @@
-import fetch from 'isomorphic-fetch';
 import { push } from 'react-router-redux';
 
 import { handleError, simpleEvent, simpleEventPayload } from './base';
-import { checkHttpStatus, parseJSON } from '../utils';
+import { api, parseJSON } from '../utils';
 import * as constants from '../constants';
-
-const { SERVER_URL } = process.env;
 
 export function createCard(token, values) {
     return (dispatch) => {
         dispatch(simpleEvent(constants.CARD_ADD_REQUEST));
-        return fetch(`${SERVER_URL}/api/v1/cards/list-add/`, {
-            method: 'post',
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Token ${token}`,
-            },
-            body: JSON.stringify(values),
-        })
-            .then(checkHttpStatus)
+        return api('post', token, '/cards/list-add/', values)
             .then(parseJSON)
             .then(() => {
                 dispatch(simpleEvent(constants.CARD_ADD_SUCCESS));
@@ -35,17 +22,7 @@ export function createCard(token, values) {
 export function editCard(token, slug, values) {
     return (dispatch) => {
         dispatch(simpleEvent(constants.CARD_EDIT_REQUEST));
-        return fetch(`${SERVER_URL}/api/v1/cards/card/${slug}/`, {
-            method: 'put',
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Token ${token}`,
-            },
-            body: JSON.stringify(values),
-        })
-            .then(checkHttpStatus)
+        return api('put', token, `/cards/card/${slug}/`, values)
             .then(parseJSON)
             .then(() => {
                 dispatch(simpleEvent(constants.CARD_EDIT_SUCCESS));
@@ -57,19 +34,10 @@ export function editCard(token, slug, values) {
     };
 }
 
-export function deleteCard(token, cardSlug) {
+export function deleteCard(token, slug) {
     return (dispatch) => {
         dispatch(simpleEvent(constants.CARD_DELETE_REQUEST));
-        return fetch(`${SERVER_URL}/api/v1/cards/card/${cardSlug}/`, {
-            method: 'delete',
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Token ${token}`,
-            },
-        })
-            .then(checkHttpStatus)
+        return api('delete', token, `/cards/card/${slug}/`)
             .then(() => {
                 dispatch(simpleEvent(constants.CARD_DELETE_SUCCESS));
                 dispatch(push('/zw-admin/card'));
@@ -83,14 +51,7 @@ export function deleteCard(token, cardSlug) {
 export function cardFetch(token, slug) {
     return (dispatch) => {
         dispatch(simpleEvent(constants.CARD_FETCH_REQUEST));
-        return fetch(`${SERVER_URL}/api/v1/cards/card/${slug}/`, {
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                Authorization: `Token ${token}`,
-            },
-        })
-            .then(checkHttpStatus)
+        return api('get', token, `/cards/card/${slug}/`)
             .then(parseJSON)
             .then((response) => {
                 dispatch(simpleEventPayload(constants.CARD_RECEIVE, response));

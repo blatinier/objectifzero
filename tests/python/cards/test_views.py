@@ -108,11 +108,6 @@ https://link2.pouet.org"""
         card = Card.objects.get(slug='test-no-help-links')
         self.assertIsNone(card.help_links)
 
-    def test_list_usercard_view(self):
-        url = reverse('cards:user_cards')
-        self.client.force_authenticate(user=self.user)
-        # TODO
-
     def test_delete_card_view(self):
         url_create = reverse('cards:create_card')
         self.client.force_authenticate(user=self.staff_user)

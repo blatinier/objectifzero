@@ -4,9 +4,6 @@ from django.utils.translation import ugettext_lazy as _
 import cards.views
 
 urlpatterns = [
-    url(_(r'^user_cards/$'),
-        cards.views.UserCardView.as_view(),
-        name='user_cards'),
     url(_(r'^list-add/$'),
         cards.views.CardListCreateView.as_view(),
         name='create_card'),

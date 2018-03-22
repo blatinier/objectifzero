@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-refetch';
 import PropTypes from 'prop-types';
 import { Card } from 'antd';
-import './style.css';
+
+import './Profile.css';
 
 class Profile extends React.Component {
     updateProfile = key => (val) => {

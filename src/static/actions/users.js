@@ -1,23 +1,13 @@
-import fetch from 'isomorphic-fetch';
 import { push } from 'react-router-redux';
 
 import { handleError, simpleEvent, simpleEventPayload } from './base';
-import { checkHttpStatus, parseJSON } from '../utils';
+import { api, parseJSON } from '../utils';
 import * as constants from '../constants';
-
-const { SERVER_URL } = process.env;
 
 export function userFetch(token, username) {
     return (dispatch) => {
         dispatch(simpleEvent(constants.USER_FETCH_REQUEST));
-        return fetch(`${SERVER_URL}/api/v1/accounts/user/${username}/`, {
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                Authorization: `Token ${token}`,
-            },
-        })
-            .then(checkHttpStatus)
+        return api('get', token, `/accounts/user/${username}/`)
             .then(parseJSON)
             .then((response) => {
                 dispatch(simpleEventPayload(constants.USER_RECEIVE, response));
@@ -29,74 +19,36 @@ export function userFetch(token, username) {
 }
 
 export function createUser(token, values) {
-    return (dispatch) => {
-        dispatch(simpleEvent(constants.USER_ADD_REQUEST));
-        return fetch(`${SERVER_URL}/api/v1/accounts/list-add/`, {
-            method: 'post',
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Token ${token}`,
-            },
-            body: JSON.stringify(values),
+    return dispatch => api('post', token, '/accounts/list-add/', values)
+        .then(parseJSON)
+        .then(() => {
+            dispatch(simpleEvent(constants.USER_ADD_SUCCESS));
+            dispatch(push('/zw-admin/user'));
         })
-            .then(checkHttpStatus)
-            .then(parseJSON)
-            .then(() => {
-                dispatch(simpleEvent(constants.USER_ADD_SUCCESS));
-                dispatch(push('/zw-admin/user'));
-            })
-            .catch((error) => {
-                handleError(dispatch, error, constants.USER_ADD_FAILURE);
-            });
-    };
+        .catch((error) => {
+            handleError(dispatch, error, constants.USER_ADD_FAILURE);
+        });
 }
 
 export function editUser(token, username, values) {
-    return (dispatch) => {
-        dispatch(simpleEvent(constants.USER_EDIT_REQUEST));
-        return fetch(`${SERVER_URL}/api/v1/accounts/user/${username}/`, {
-            method: 'patch',
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Token ${token}`,
-            },
-            body: JSON.stringify(values),
+    return dispatch => api('patch', token, `/accounts/user/${username}/`, values)
+        .then(parseJSON)
+        .then(() => {
+            dispatch(simpleEvent(constants.USER_EDIT_SUCCESS));
+            dispatch(push('/zw-admin/user'));
         })
-            .then(checkHttpStatus)
-            .then(parseJSON)
-            .then(() => {
-                dispatch(simpleEvent(constants.USER_EDIT_SUCCESS));
-                dispatch(push('/zw-admin/user'));
-            })
-            .catch((error) => {
-                handleError(dispatch, error, constants.USER_EDIT_FAILURE);
-            });
-    };
+        .catch((error) => {
+            handleError(dispatch, error, constants.USER_EDIT_FAILURE);
+        });
 }
 
 export function deleteUser(token, username) {
-    return (dispatch) => {
-        dispatch(simpleEvent(constants.USER_DELETE_REQUEST));
-        return fetch(`${SERVER_URL}/api/v1/accounts/user/${username}/`, {
-            method: 'delete',
-            credentials: 'include',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Token ${token}`,
-            },
+    return dispatch => api('delete', token, `/accounts/user/${username}/`)
+        .then(() => {
+            dispatch(simpleEvent(constants.USER_DELETE_SUCCESS));
+            dispatch(push('/zw-admin/user'));
         })
-            .then(checkHttpStatus)
-            .then(() => {
-                dispatch(simpleEvent(constants.USER_DELETE_SUCCESS));
-                dispatch(push('/zw-admin/user'));
-            })
-            .catch((error) => {
-                handleError(dispatch, error, constants.USER_DELETE_FAILURE);
-            });
-    };
+        .catch((error) => {
+            handleError(dispatch, error, constants.USER_DELETE_FAILURE);
+        });
 }
