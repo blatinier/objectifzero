@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-refetch';
 import PropTypes from 'prop-types';
-import { Switch, Row, Col } from 'antd';
+import { Card } from 'antd';
 import './style.css';
 
 class Profile extends React.Component {
@@ -19,41 +19,13 @@ class Profile extends React.Component {
             );
         } else if (fetchProfile.fulfilled) {
             const {
-                pseudo, email, gender, home_owner,
-                has_garden, do_smoke,
+                pseudo, email,
             } = fetchProfile.value;
             return (
                 <div className="profile-side-block">
-                    <Col span={24}>
-                        <b>{pseudo}</b>
-                        <Row>
-                            <Col span={24} className="email">{email}</Col>
-                        </Row>
-                        <Row>
-                            <Col span={24} className="gender">Sexe : {gender}</Col>
-                        </Row>
-                        <Row>
-                            <Col span={14} className="home_owner">Je suis propriétaire :</Col>
-                            <Switch
-                                checked={home_owner}
-                                onChange={this.updateProfile('home_owner')}
-                            />
-                        </Row>
-                        <Row>
-                            <Col span={14} className="has_garden">J&#39;ai un jardin :</Col>
-                            <Switch
-                                checked={has_garden}
-                                onChange={this.updateProfile('has_garden')}
-                            />
-                        </Row>
-                        <Row>
-                            <Col span={14} className="do_smoke">Je suis fumeur :</Col>
-                            <Switch
-                                checked={do_smoke}
-                                onChange={this.updateProfile('do_smoke')}
-                            />
-                        </Row>
-                    </Col>
+                    <Card>
+                        <Card.Meta title={pseudo} description={email} />
+                    </Card>
                 </div>
             );
         }

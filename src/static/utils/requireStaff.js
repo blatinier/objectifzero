@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
@@ -30,9 +30,9 @@ export default function requireStaff(MyComponent) {
                 displayComponent = <MyComponent {...this.props} />;
             }
             return (
-                <div>
+                <Fragment>
                     {displayComponent}
-                </div>
+                </Fragment>
             );
         }
     }

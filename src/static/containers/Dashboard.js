@@ -7,11 +7,7 @@ import CardList from './CardList';
 const Dashboard = ({ token }) => (
     <Row>
         <Col span={6}><Profile token={token} /></Col>
-        <Col span={18}>
-            <Row gutter={16}>
-                <CardList token={token} />
-            </Row>
-        </Col>
+        <Col span={18}><CardList token={token} /></Col>
     </Row>
 );
 

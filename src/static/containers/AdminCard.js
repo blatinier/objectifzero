@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
 import { connect, PromiseState } from 'react-refetch';
@@ -23,9 +23,9 @@ class AdminCard extends React.Component {
             const cards = cardsFetch.value.results;
             if (cards.length) {
                 cardsJsx = (
-                    <div>
+                    <Fragment>
                         {cards.map(card => (<ShortCard admin key={card.title} card={card} />))}
-                    </div>
+                    </Fragment>
                 );
             }
         }

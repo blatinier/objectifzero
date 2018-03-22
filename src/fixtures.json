@@ -1,19 +1,66 @@
 [
-{
-  "model": "accounts.user",
-  "fields": {
-    "last_login": "2015-12-29T00:57:23.201Z",
-    "date_joined": "2015-12-29T00:57:23.201Z",
-    "date_updated": "2015-12-29T00:57:23.201Z",
-    "confirmed_email": false,
-    "email": "a@a.com",
-    "gender": "M",
-    "is_active": true,
-    "password": "pbkdf2_sha256$20000$fSnaTbagnHiD$lZ5k1ZHDNM4oZir2IrWIrcRh0bEh4wYu+uuhh4ZZ9ZQ=",
-    "is_staff": true,
-    "is_superuser": true,
-    "activation_key": "64f5b041-81ed-4251-bf62-54b9c0a14848"
-  },
-  "pk": "7c32d60d-6312-42f6-a73a-22da56b07374"
-}
+    {
+      "model": "accounts.user",
+      "fields": {
+        "last_login": "2015-12-29T00:57:23.201Z",
+        "date_joined": "2015-12-29T00:57:23.201Z",
+        "date_updated": "2015-12-29T00:57:23.201Z",
+        "confirmed_email": false,
+        "email": "a@a.com",
+        "gender": "M",
+        "is_active": true,
+        "password": "pbkdf2_sha256$20000$fSnaTbagnHiD$lZ5k1ZHDNM4oZir2IrWIrcRh0bEh4wYu+uuhh4ZZ9ZQ=",
+        "is_staff": true,
+        "is_superuser": true,
+        "activation_key": "64f5b041-81ed-4251-bf62-54b9c0a14848"
+      },
+      "pk": "7c32d60d-6312-42f6-a73a-22da56b07374"
+    },
+    {
+        "model": "cards.datasource",
+        "pk": 1,
+        "fields": {
+            "name": "lma;mzle,k,jk jklm;op,kl",
+            "link": "l;m\u00f9l;,koniopml jnipoml ,pol;;,ml",
+            "status": "UNVERIFIED"
+        }
+    },
+    {
+        "model": "cards.datasource",
+        "pk": 2,
+        "fields": {
+            "name": "az,ekla,elka,zekl,aekl,azlke,",
+            "link": "lakz,elkaz,elka,zelkza,e",
+            "status": "UNVERIFIED"
+        }
+    },
+    {
+        "model": "cards.cardstat",
+        "pk": 2,
+        "fields": {
+            "waste_reduction": "11.0",
+            "co2_reduction": "22.0",
+            "water_use_reduction": "33.0",
+            "status": "ACTIVE",
+            "year": 2000,
+            "data_sources": [
+                2
+            ]
+        }
+    },
+    {
+        "model": "cards.card",
+        "pk": 2,
+        "fields": {
+            "slug": "pipo",
+            "title": "pipo",
+            "description": "pouet",
+            "image": "",
+            "card_stats": 2,
+            "waste_reduction_score": 1,
+            "difficulty_score": 2,
+            "cost_score": 3,
+            "help_links": "link 1\nlink3"
+        }
+    }
 ]

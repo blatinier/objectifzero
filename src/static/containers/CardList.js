@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect, PromiseState } from 'react-refetch';
 import PropTypes from 'prop-types';
 import ShortCard from './ShortCard';
@@ -10,9 +10,9 @@ const CardList = ({ usercardsFetch }) => {
         const cards = usercardsFetch.value;
         if (cards.length) {
             return (
-                <div>
-                    {cards.map(card => <ShortCard userview key={card.title} card={card} />)}
-                </div>
+                <Fragment>
+                    {cards.map(card => <ShortCard admin={false} userview key={card.title} card={card} />)}
+                </Fragment>
             );
         }
     }

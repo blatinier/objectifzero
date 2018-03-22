@@ -3,3 +3,11 @@
     float: right;
     line-height: 64px;
 }
+
+#root, #root > div, #root > div > div,  .layout {
+    height: 100%;
+}
+
+.main-footer {
+    text-align: center;
+}
