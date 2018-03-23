@@ -13,3 +13,5 @@ pytest-pythonpath==0.7.1
 pytest-xdist==1.20.0
 
 ptpython==0.41
+
+docker-compose==1.20.1

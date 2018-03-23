@@ -42,3 +42,5 @@ shippable/
 src/static/utils/config.js
 src/djangoreactredux/settings/gunicorn.py
 src/djangoreactredux/settings/prod.py
+docker-compose.override.yml
+webpack/custom_config.js
