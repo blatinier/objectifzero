@@ -66,7 +66,6 @@ const common = {
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: TARGET === 'dev' ? '"development"' : '"production"',
-                SERVER_URL: JSON.stringify(process.env.SERVER_URL),
             },
             '__DEVELOPMENT__': TARGET === 'dev'
         }),
