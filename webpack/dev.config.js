@@ -24,7 +24,7 @@ module.exports = {
     plugins: [
         new MiniCssExtractPlugin('styles/[name].css'),
         new webpack.DefinePlugin({
-            "SERVER_URL": JSON.stringify(SERVER_URL),
+            "process.env.SERVER_URL": JSON.stringify(SERVER_URL),
         }),
     ]
 };

@@ -1,8 +1,11 @@
 import fetch from 'isomorphic-fetch';
 import { push } from 'react-router-redux';
+
 import { checkHttpStatus, parseJSON } from '../utils';
 import { failure } from './base';
 import * as constants from '../constants';
+
+const { SERVER_URL } = process.env;
 
 export function authLoginUserSuccess(token, user) {
     sessionStorage.setItem('token', token);

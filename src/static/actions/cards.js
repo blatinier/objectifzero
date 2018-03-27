@@ -5,6 +5,8 @@ import { handleError, simpleEvent, simpleEventPayload } from './base';
 import { checkHttpStatus, parseJSON } from '../utils';
 import * as constants from '../constants';
 
+const { SERVER_URL } = process.env;
+
 export function createCard(token, values) {
     return (dispatch) => {
         dispatch(simpleEvent(constants.CARD_ADD_REQUEST));
