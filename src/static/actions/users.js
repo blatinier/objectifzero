@@ -5,6 +5,8 @@ import { handleError, simpleEvent, simpleEventPayload } from './base';
 import { checkHttpStatus, parseJSON } from '../utils';
 import * as constants from '../constants';
 
+const { SERVER_URL } = process.env;
+
 export function userFetch(token, username) {
     return (dispatch) => {
         dispatch(simpleEvent(constants.USER_FETCH_REQUEST));
