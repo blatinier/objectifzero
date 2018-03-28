@@ -1,10 +1,10 @@
-import { cloneDeep } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Col, Form, Layout, Spin } from 'antd';
+import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import { Col, Form, Layout, Spin } from 'antd';
+import { get, cloneDeep } from 'lodash';
 
 import AdminMenu from './AdminMenu';
 import * as actionCreators from '../actions/cards';
@@ -35,6 +35,15 @@ class AdminCardAdd extends Component {
                 editing: true,
             });
         }
+    };
+
+    cancelCard = () => {
+        const {
+            form: { resetFields },
+            dispatch
+        } = this.props;
+        resetFields();
+        dispatch(push('/zw-admin/card'));
     };
 
     validateCard = (e) => {
@@ -70,23 +79,26 @@ class AdminCardAdd extends Component {
     render() {
         const { isFetchingCard, form, cardData } = this.props;
         let cardForm;
-        const initialData = {
-            title: get(cardData, 'title', ''),
-            description: get(cardData, 'description', ''),
-            waste_reduction_score: get(cardData, 'waste_reduction_score'),
-            difficulty_score: get(cardData, 'difficulty_score'),
-            cost_score: get(cardData, 'cost_score'),
-            published: get(cardData, 'published', false),
-            help_links: get(cardData, 'help_links', []),
-            card_stats: {
-                waste_reduction: get(cardData, 'card_stats.waste_reduction'),
-                water_use_reduction: get(cardData, 'card_stats.water_use_reduction'),
-                year: get(cardData, 'card_stats.year'),
-                status: get(cardData, 'card_stats.status'),
-                data_sources: get(cardData, 'data_sources', []),
-            },
-        };
-        cardForm = generateForm(form, this.validateCard, cardFields, initialData, this.state.editing ? 'Edit card!' : 'Create card!');
+        let initialData = {};
+        if (this.state.editing) {
+            initialData = {
+                title: get(cardData, 'title', ''),
+                description: get(cardData, 'description', ''),
+                waste_reduction_score: get(cardData, 'waste_reduction_score'),
+                difficulty_score: get(cardData, 'difficulty_score'),
+                cost_score: get(cardData, 'cost_score'),
+                published: get(cardData, 'published', false),
+                help_links: get(cardData, 'help_links', []),
+                card_stats: {
+                    waste_reduction: get(cardData, 'card_stats.waste_reduction'),
+                    water_use_reduction: get(cardData, 'card_stats.water_use_reduction'),
+                    year: get(cardData, 'card_stats.year'),
+                    status: get(cardData, 'card_stats.status'),
+                    data_sources: get(cardData, 'data_sources', []),
+                },
+            };
+        }
+        cardForm = generateForm(form, this.validateCard, this.cancelCard, cardFields, initialData, this.state.editing ? 'Edit card!' : 'Create card!');
         return (
             <Layout>
                 <Sider>
@@ -114,6 +126,7 @@ AdminCardAdd.defaultProps = {
 };
 
 AdminCardAdd.propTypes = {
+    dispatch: PropTypes.func.isRequired,
     token: PropTypes.string.isRequired,
     isFetchingCard: PropTypes.bool.isRequired,
     form: PropTypes.shape().isRequired,

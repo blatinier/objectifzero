@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { get } from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import { Col, Form, Layout } from 'antd';
 
 import AdminMenu from './AdminMenu';
@@ -29,9 +30,18 @@ class AdminUserAdd extends Component {
     };
 
     componentWillReceiveProps = (nextProps) => {
-        if (nextProps.user_data) {
+        if (nextProps.match.params.username) {
             this.setState({ editing: true });
         }
+    };
+
+    cancelUser = () => {
+        const {
+            form: { resetFields },
+            dispatch
+        } = this.props;
+        this.props.form.resetFields();
+        dispatch(push('/zw-admin/user'));
     };
 
     createUser = (e) => {
@@ -57,21 +67,23 @@ class AdminUserAdd extends Component {
             isFetchingUser,
             form,
         } = this.props;
-        const initialData = {
-            username: get(this.props, 'user_data.username', ''),
-            email: get(this.props, 'user_data.email', ''),
-            is_staff: get(this.props, 'user_data.is_staff', false),
-            has_garden: get(this.props, 'user_data.has_garden', false),
-            home_owner: get(this.props, 'user_data.home_owner', false),
-            do_smoke: get(this.props, 'user_data.do_smoke', false),
-            gender: get(this.props, 'user_data.gender', 'M'),
-        };
-        let userForm;
+        let initialData = {};
+        let userFields = createUserFields;
+        let btnText = 'Create user!';
         if (this.state.editing) {
-            userForm = generateForm(form, this.createUser, editUserFields, initialData, 'Edit User!');
-        } else {
-            userForm = generateForm(form, this.createUser, createUserFields, initialData, 'Create User!');
+            initialData = {
+                username: get(this.props, 'user_data.username', ''),
+                email: get(this.props, 'user_data.email', ''),
+                is_staff: get(this.props, 'user_data.is_staff', false),
+                has_garden: get(this.props, 'user_data.has_garden', false),
+                home_owner: get(this.props, 'user_data.home_owner', false),
+                do_smoke: get(this.props, 'user_data.do_smoke', false),
+                gender: get(this.props, 'user_data.gender'),
+            };
+            userFields = editUserFields;
+            btnText = 'Edit User!';
         }
+        const userForm = generateForm(form, this.createUser, this.cancelUser, userFields, initialData, btnText);
 
         return (
             <Layout>
@@ -98,6 +110,7 @@ AdminUserAdd.defaultProps = {
 };
 
 AdminUserAdd.propTypes = {
+    dispatch: PropTypes.func.isRequired,
     token: PropTypes.string.isRequired,
     isFetchingUser: PropTypes.bool.isRequired,
     form: PropTypes.shape().isRequired,

@@ -1,5 +1,8 @@
 import React from 'react';
 import { Button, Form } from 'antd';
+
+import './Form.css';
+
 const FormItem = Form.Item
 
 const generateFormItem = (form, item, initialData) => {
@@ -30,7 +33,7 @@ const generateFormItem = (form, item, initialData) => {
     );
 };
 
-export const generateForm = (form, onSubmit, fieldSets, initialData, buttonName) => {
+export const generateForm = (form, onSubmit, onCancel, fieldSets, initialData, buttonName) => {
     const fields = [];
     if (fieldSets.length === 1) {
         const items = fieldSets[0].items;
@@ -57,8 +60,19 @@ export const generateForm = (form, onSubmit, fieldSets, initialData, buttonName)
     return (
         <Form onSubmit={onSubmit}>
             {fields}
-            <Button htmlType="submit">
+            <Button
+                className="validate-form"
+                htmlType="submit"
+                type="primary"
+                size="large"
+            >
                 {buttonName}
+            </Button>
+            <Button
+                onClick={onCancel}
+                size="large"
+            >
+                Cancel
             </Button>
         </Form>
     );
