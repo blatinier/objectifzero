@@ -39,8 +39,8 @@ class CardSerializer(serializers.ModelSerializer):
                   'cost_score', 'card_stats', 'help_links')
 
     def create(self, data):
-        data_stats = data.pop("card_stats")
-        data_sources = data_stats.pop("data_sources")
+        data_stats = data.pop("card_stats", {})
+        data_sources = data_stats.pop("data_sources", [])
         sources = self.get_sources(data_sources)
         stats = CardStat.objects.create(**data_stats)
         stats.data_sources.add(*sources)
@@ -50,8 +50,8 @@ class CardSerializer(serializers.ModelSerializer):
         return card
 
     def update(self, instance, validated_data):
-        data_stats = validated_data.pop("card_stats")
-        data_sources = data_stats.pop("data_sources")
+        data_stats = validated_data.pop("card_stats", {})
+        data_sources = data_stats.pop("data_sources", [])
         sources = self.get_sources(data_sources)
         stats = instance.card_stats
 
