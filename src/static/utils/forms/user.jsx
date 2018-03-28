@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon, Input, Select, Switch } from 'antd';
 
+const Option = Select.Option;
 
 const usernameField = {
     label: 'Username',

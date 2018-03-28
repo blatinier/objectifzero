@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Col, Form, Layout, Spin } from 'antd';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 
 import AdminMenu from './AdminMenu';
 import * as actionCreators from '../actions/cards';
@@ -36,7 +37,7 @@ class AdminCardAdd extends Component {
         }
     };
 
-    createCard = (e) => {
+    validateCard = (e) => {
         e.preventDefault();
         const {
             token,
@@ -67,15 +68,25 @@ class AdminCardAdd extends Component {
     }
 
     render() {
-        const { isFetchingCard, form } = this.props;
+        const { isFetchingCard, form, cardData } = this.props;
         let cardForm;
-        // Update when we link the fetch!
-        const initialData = {};
-        if (this.state.editing) {
-            cardForm = generateForm(form, this.createCard, cardFields, initialData, 'Edit card!');
-        } else {
-            cardForm = generateForm(form, this.createCard, cardFields, initialData, 'Create card!');
-        }
+        const initialData = {
+            title: get(cardData, 'title', ''),
+            description: get(cardData, 'description', ''),
+            waste_reduction_score: get(cardData, 'waste_reduction_score'),
+            difficulty_score: get(cardData, 'difficulty_score'),
+            cost_score: get(cardData, 'cost_score'),
+            published: get(cardData, 'published', false),
+            help_links: get(cardData, 'help_links', []),
+            card_stats: {
+                waste_reduction: get(cardData, 'card_stats.waste_reduction'),
+                water_use_reduction: get(cardData, 'card_stats.water_use_reduction'),
+                year: get(cardData, 'card_stats.year'),
+                status: get(cardData, 'card_stats.status'),
+                data_sources: get(cardData, 'data_sources', []),
+            },
+        };
+        cardForm = generateForm(form, this.validateCard, cardFields, initialData, this.state.editing ? 'Edit card!' : 'Create card!');
         return (
             <Layout>
                 <Sider>
@@ -116,11 +127,13 @@ AdminCardAdd.propTypes = {
         editCard: PropTypes.func.isRequired,
         cardFetch: PropTypes.func.isRequired,
     }).isRequired,
+    cardData: PropTypes.shape({}),
 };
 
 const mapStateToProps = state => ({
     token: state.auth.token,
     isFetchingCard: state.cards.isFetchingCard,
+    cardData: state.cards.current_card,
 });
 
 const mapDispatchToProps = dispatch => ({
