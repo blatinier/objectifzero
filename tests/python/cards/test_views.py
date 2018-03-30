@@ -17,7 +17,7 @@ class CardsTests(BaseTestView):
         "waste_reduction_score": 3,
         "difficulty_score": 4,
         "cost_score": 7,
-        "help_links": "help link 1\nhelp link 2",
+        "help_links": ['help link 1', 'help link 2'],
         "card_stats": {
             "waste_reduction": 78,
             "co2_reduction": 56,
@@ -42,8 +42,7 @@ class CardsTests(BaseTestView):
         'waste_reduction_score': 9,
         'difficulty_score': 7,
         'cost_score': 4,
-        'help_links': """https://link1.pipo.com
-https://link2.pouet.org"""
+        'help_links': ['https://link1.pipo.com', 'https://link2.pouet.org'],
     }
 
     CARD_STATS_DATA = {
@@ -75,7 +74,7 @@ https://link2.pouet.org"""
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         card = Card.objects.get(slug='test-title')
         self.assertEqual('test title', card.title)
-        self.assertEqual('help link 1\nhelp link 2', card.help_links)
+        self.assertEqual(['help link 1', 'help link 2'], card.help_links)
         self.assertEqual(2010, card.card_stats.year)
         self.assertEqual("Source1", card.card_stats.data_sources.all()[0].name)
         self.assertEqual("Source2", card.card_stats.data_sources.all()[1].name)
@@ -83,7 +82,7 @@ https://link2.pouet.org"""
         url_edit = reverse('cards:fetch_card', kwargs={'slug': 'test-title'})
         put_data = deepcopy(self.POST_DATA_CARD)
         put_data['title'] = "test title edited"
-        put_data['help_links'] = "help link 1\nhelp link 2\nhelp link 3"
+        put_data['help_links'] = ['help link 1', 'help link 2', 'help link 3']
         put_data['card_stats']['year'] = 2000
         put_data['card_stats']['data_sources'] = [{"name": "SourceEdit1",
                                                    "link": "linkedit1",
@@ -93,7 +92,8 @@ https://link2.pouet.org"""
             Card.objects.get(slug='test-title')
         card = Card.objects.get(slug='test-title-edited')
         self.assertEqual('test title edited', card.title)
-        self.assertEqual('help link 1\nhelp link 2\nhelp link 3', card.help_links)
+        self.assertEqual(['help link 1', 'help link 2', 'help link 3'],
+                         card.help_links)
         self.assertEqual(2000, card.card_stats.year)
         self.assertEqual("SourceEdit1", card.card_stats.data_sources.all()[0].name)
 
@@ -106,7 +106,7 @@ https://link2.pouet.org"""
         response = self.client.post(url, post_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         card = Card.objects.get(slug='test-no-help-links')
-        self.assertIsNone(card.help_links)
+        self.assertEqual([], card.help_links)
 
     def test_delete_card_view(self):
         url_create = reverse('cards:create_card')
