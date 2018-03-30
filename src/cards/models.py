@@ -2,6 +2,8 @@ import os
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from base.custom_models import ListField
+
 DATA_SOURCE_STATUS = (
     ('VERIFIED', 'Verified'),
     ('UNVERIFIED', 'Unverified')
@@ -19,27 +21,27 @@ def get_card_image_path(instance, filename):
 
 
 class DataSource(models.Model):
-    name = models.CharField(max_length=256)
-    link = models.TextField(max_length=4096)
+    name = models.CharField(max_length=256, blank=True, null=True)
+    link = models.TextField(max_length=4096, blank=True, null=True)
     status = models.CharField(max_length=16,
                               choices=DATA_SOURCE_STATUS,
-                              default='UNVERIFIED')
+                              default='UNVERIFIED', blank=True, null=True)
 
     def __str__(self):
-        return "<DataSource {name}:{status}>".format(name=self.name, status=self.status)
+        return "<DataSource {name}:{status}>".format(name=self.name,
+                                                     status=self.status)
 
 
 class CardStat(models.Model):
-    waste_reduction = models.DecimalField(decimal_places=1,
-                                          max_digits=6)
-    co2_reduction = models.DecimalField(decimal_places=1,
-                                        max_digits=6)
-    water_use_reduction = models.DecimalField(decimal_places=1,
-                                              max_digits=6)
-    status = models.CharField(max_length=16,
-                              choices=STATS_STATUS,
-                              default='ACTIVE')
-    year = models.SmallIntegerField()
+    waste_reduction = models.DecimalField(decimal_places=1, max_digits=6,
+            blank=True, null=True)
+    co2_reduction = models.DecimalField(decimal_places=1, max_digits=6,
+            blank=True, null=True)
+    water_use_reduction = models.DecimalField(decimal_places=1, max_digits=6,
+            blank=True, null=True)
+    status = models.CharField(max_length=16, choices=STATS_STATUS,
+            default='ACTIVE', blank=True, null=True)
+    year = models.SmallIntegerField(blank=True, null=True)
     data_sources = models.ManyToManyField(DataSource)
 
 
@@ -59,7 +61,7 @@ class Card(models.Model):
     cost_score = models.SmallIntegerField()
 
     # External links
-    help_links = models.TextField(blank=True, null=True)
+    help_links = ListField(blank=True, null=True)
 
     published = models.BooleanField(_('published'), default=False)
 

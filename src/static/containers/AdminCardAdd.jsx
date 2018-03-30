@@ -58,11 +58,6 @@ class AdminCardAdd extends Component {
                 return;
             }
             const clonedValues = cloneDeep(values);
-            if (clonedValues.help_links) {
-                clonedValues.help_links = clonedValues.help_links.join('\n');
-            } else {
-                clonedValues.help_links = '';
-            }
             if (this.state.editing) {
                 const { slug } = this.props.match.params;
                 editCard(token, slug, clonedValues);
@@ -90,11 +85,12 @@ class AdminCardAdd extends Component {
                 published: get(cardData, 'published', false),
                 help_links: get(cardData, 'help_links', []),
                 card_stats: {
+                    co2_reduction: get(cardData, 'card_stats.co2_reduction'),
                     waste_reduction: get(cardData, 'card_stats.waste_reduction'),
                     water_use_reduction: get(cardData, 'card_stats.water_use_reduction'),
                     year: get(cardData, 'card_stats.year'),
                     status: get(cardData, 'card_stats.status'),
-                    data_sources: get(cardData, 'data_sources', []),
+                    data_sources: get(cardData, 'card_stats.data_sources', []),
                 },
             };
         }

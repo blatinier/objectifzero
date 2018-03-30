@@ -14,11 +14,13 @@ const generateFormItem = (form, item, initialData) => {
     if (initialData) {
         if (id.includes('.')) {
             const splitArray = id.split('.');
-            let init = splitArray[0];
-            for (let data of splitArray.slice(1)) {
-                init = init[data];
+            if (splitArray[0] in initialData) {
+                let init = initialData[splitArray[0]];
+                for (let data of splitArray.slice(1)) {
+                    init = init[data];
+                }
+                options.initialValue = init;
             }
-            options.initialValue = init;
         } else if (id in initialData) {
             options.initialValue = initialData[id];
         }

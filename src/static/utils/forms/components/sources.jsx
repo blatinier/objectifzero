@@ -9,7 +9,7 @@ class Sources extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sources: defaultTo(props.values, []),
+            sources: defaultTo(props.value, []),
         };
     };
 
