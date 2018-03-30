@@ -32,7 +32,8 @@ class CardSerializer(serializers.ModelSerializer):
     card_stats = CardStatSerializer()
     slug = serializers.CharField(required=False)
     help_links = serializers.ListField(
-            child=serializers.CharField()
+            child=serializers.CharField(),
+            required=False
             )
 
     class Meta:

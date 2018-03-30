@@ -106,7 +106,7 @@ class CardsTests(BaseTestView):
         response = self.client.post(url, post_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         card = Card.objects.get(slug='test-no-help-links')
-        self.assertEqual([], card.help_links)
+        self.assertIsNone(card.help_links)
 
     def test_delete_card_view(self):
         url_create = reverse('cards:create_card')
