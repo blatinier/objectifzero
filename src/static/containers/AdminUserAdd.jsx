@@ -38,7 +38,7 @@ class AdminUserAdd extends Component {
     cancelUser = () => {
         const {
             form: { resetFields },
-            dispatch
+            dispatch,
         } = this.props;
         this.props.form.resetFields();
         dispatch(push('/zw-admin/user'));
@@ -68,8 +68,8 @@ class AdminUserAdd extends Component {
             form,
         } = this.props;
         let initialData = {};
-        let userFields = createUserFields;
-        let btnText = 'Create user!';
+        let userFieldsAction = createUserFields;
+        let btnText = 'Créer !';
         if (this.state.editing) {
             initialData = {
                 username: get(this.props, 'user_data.username', ''),
@@ -80,10 +80,10 @@ class AdminUserAdd extends Component {
                 do_smoke: get(this.props, 'user_data.do_smoke', false),
                 gender: get(this.props, 'user_data.gender'),
             };
-            userFields = editUserFields;
-            btnText = 'Edit User!';
+            userFieldsAction = editUserFields;
+            btnText = 'Éditer !';
         }
-        const userForm = generateForm(form, this.createUser, this.cancelUser, userFields, initialData, btnText);
+        const userForm = generateForm(form, this.createUser, this.cancelUser, userFieldsAction, initialData, btnText);
 
         return (
             <Layout>

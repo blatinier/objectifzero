@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Form } from 'antd';
+import { get } from 'lodash';
 
 import './Form.css';
 
@@ -12,18 +13,7 @@ const generateFormItem = (form, item, initialData) => {
         rules
     };
     if (initialData) {
-        if (id.includes('.')) {
-            const splitArray = id.split('.');
-            if (splitArray[0] in initialData) {
-                let init = initialData[splitArray[0]];
-                for (let data of splitArray.slice(1)) {
-                    init = init[data];
-                }
-                options.initialValue = init;
-            }
-        } else if (id in initialData) {
-            options.initialValue = initialData[id];
-        }
+        options.initialValue = get(initialData, id);
     }
     if (valuePropName) {
         options.valuePropName = valuePropName;
@@ -74,7 +64,7 @@ export const generateForm = (form, onSubmit, onCancel, fieldSets, initialData, b
                 onClick={onCancel}
                 size="large"
             >
-                Cancel
+                Annuler
             </Button>
         </Form>
     );

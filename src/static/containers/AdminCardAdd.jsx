@@ -40,7 +40,7 @@ class AdminCardAdd extends Component {
     cancelCard = () => {
         const {
             form: { resetFields },
-            dispatch
+            dispatch,
         } = this.props;
         resetFields();
         dispatch(push('/zw-admin/card'));

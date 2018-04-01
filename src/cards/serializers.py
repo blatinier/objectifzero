@@ -77,8 +77,7 @@ class CardSerializer(serializers.ModelSerializer):
         sources = []
         for data_src in source_list:
             try:
-                ds = DataSource.objects.get(name=data_src['name'],
-                        link=data_src['link'], status=data_src['status'])
+                ds = DataSource.objects.get(**data_src)
             except DataSource.DoesNotExist:
                 ds = DataSource.objects.create(**data_src)
             sources.append(ds)

@@ -34,13 +34,13 @@ class DataSource(models.Model):
 
 class CardStat(models.Model):
     waste_reduction = models.DecimalField(decimal_places=1, max_digits=6,
-            blank=True, null=True)
+                                          blank=True, null=True)
     co2_reduction = models.DecimalField(decimal_places=1, max_digits=6,
-            blank=True, null=True)
+                                        blank=True, null=True)
     water_use_reduction = models.DecimalField(decimal_places=1, max_digits=6,
-            blank=True, null=True)
+                                              blank=True, null=True)
     status = models.CharField(max_length=16, choices=STATS_STATUS,
-            default='ACTIVE', blank=True, null=True)
+                              default='ACTIVE', blank=True, null=True)
     year = models.SmallIntegerField(blank=True, null=True)
     data_sources = models.ManyToManyField(DataSource)
 
