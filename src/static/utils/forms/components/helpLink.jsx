@@ -9,7 +9,7 @@ class HelpLink extends Component {
     constructor(props) {
         super(props);
         this.state = {
-           helplinks: defaultTo(props.values, []),
+           helpLinks: defaultTo(props.value, []),
         };
     };
 

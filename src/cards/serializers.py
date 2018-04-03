@@ -31,6 +31,10 @@ class CardStatSerializer(serializers.ModelSerializer):
 class CardSerializer(serializers.ModelSerializer):
     card_stats = CardStatSerializer()
     slug = serializers.CharField(required=False)
+    help_links = serializers.ListField(
+            child=serializers.CharField(),
+            required=False
+            )
 
     class Meta:
         model = Card
@@ -39,8 +43,8 @@ class CardSerializer(serializers.ModelSerializer):
                   'cost_score', 'card_stats', 'help_links')
 
     def create(self, data):
-        data_stats = data.pop("card_stats")
-        data_sources = data_stats.pop("data_sources")
+        data_stats = data.pop("card_stats", {})
+        data_sources = data_stats.pop("data_sources", [])
         sources = self.get_sources(data_sources)
         stats = CardStat.objects.create(**data_stats)
         stats.data_sources.add(*sources)
@@ -50,8 +54,8 @@ class CardSerializer(serializers.ModelSerializer):
         return card
 
     def update(self, instance, validated_data):
-        data_stats = validated_data.pop("card_stats")
-        data_sources = data_stats.pop("data_sources")
+        data_stats = validated_data.pop("card_stats", {})
+        data_sources = data_stats.pop("data_sources", [])
         sources = self.get_sources(data_sources)
         stats = instance.card_stats
 
@@ -73,7 +77,7 @@ class CardSerializer(serializers.ModelSerializer):
         sources = []
         for data_src in source_list:
             try:
-                ds = DataSource.objects.get(link=data_src['link'])
+                ds = DataSource.objects.get(**data_src)
             except DataSource.DoesNotExist:
                 ds = DataSource.objects.create(**data_src)
             sources.append(ds)

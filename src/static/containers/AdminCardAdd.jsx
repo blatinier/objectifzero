@@ -1,9 +1,10 @@
-import { cloneDeep } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Col, Form, Layout, Spin } from 'antd';
+import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
+import { Col, Form, Layout, Spin } from 'antd';
+import { get, cloneDeep } from 'lodash';
 
 import AdminMenu from './AdminMenu';
 import * as actionCreators from '../actions/cards';
@@ -36,7 +37,16 @@ class AdminCardAdd extends Component {
         }
     };
 
-    createCard = (e) => {
+    cancelCard = () => {
+        const {
+            form: { resetFields },
+            dispatch,
+        } = this.props;
+        resetFields();
+        dispatch(push('/zw-admin/card'));
+    };
+
+    validateCard = (e) => {
         e.preventDefault();
         const {
             token,
@@ -48,11 +58,6 @@ class AdminCardAdd extends Component {
                 return;
             }
             const clonedValues = cloneDeep(values);
-            if (clonedValues.help_links) {
-                clonedValues.help_links = clonedValues.help_links.join('\n');
-            } else {
-                clonedValues.help_links = '';
-            }
             if (this.state.editing) {
                 const { slug } = this.props.match.params;
                 editCard(token, slug, clonedValues);
@@ -67,15 +72,29 @@ class AdminCardAdd extends Component {
     }
 
     render() {
-        const { isFetchingCard, form } = this.props;
+        const { isFetchingCard, form, cardData } = this.props;
         let cardForm;
-        // Update when we link the fetch!
-        const initialData = {};
+        let initialData = {};
         if (this.state.editing) {
-            cardForm = generateForm(form, this.createCard, cardFields, initialData, 'Edit card!');
-        } else {
-            cardForm = generateForm(form, this.createCard, cardFields, initialData, 'Create card!');
+            initialData = {
+                title: get(cardData, 'title', ''),
+                description: get(cardData, 'description', ''),
+                waste_reduction_score: get(cardData, 'waste_reduction_score'),
+                difficulty_score: get(cardData, 'difficulty_score'),
+                cost_score: get(cardData, 'cost_score'),
+                published: get(cardData, 'published', false),
+                help_links: get(cardData, 'help_links', []),
+                card_stats: {
+                    co2_reduction: get(cardData, 'card_stats.co2_reduction'),
+                    waste_reduction: get(cardData, 'card_stats.waste_reduction'),
+                    water_use_reduction: get(cardData, 'card_stats.water_use_reduction'),
+                    year: get(cardData, 'card_stats.year'),
+                    status: get(cardData, 'card_stats.status'),
+                    data_sources: get(cardData, 'card_stats.data_sources', []),
+                },
+            };
         }
+        cardForm = generateForm(form, this.validateCard, this.cancelCard, cardFields, initialData, this.state.editing ? 'Edit card!' : 'Create card!');
         return (
             <Layout>
                 <Sider>
@@ -103,6 +122,7 @@ AdminCardAdd.defaultProps = {
 };
 
 AdminCardAdd.propTypes = {
+    dispatch: PropTypes.func.isRequired,
     token: PropTypes.string.isRequired,
     isFetchingCard: PropTypes.bool.isRequired,
     form: PropTypes.shape().isRequired,
@@ -116,11 +136,13 @@ AdminCardAdd.propTypes = {
         editCard: PropTypes.func.isRequired,
         cardFetch: PropTypes.func.isRequired,
     }).isRequired,
+    cardData: PropTypes.shape({}),
 };
 
 const mapStateToProps = state => ({
     token: state.auth.token,
     isFetchingCard: state.cards.isFetchingCard,
+    cardData: state.cards.current_card,
 });
 
 const mapDispatchToProps = dispatch => ({

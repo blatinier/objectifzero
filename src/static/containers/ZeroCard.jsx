@@ -216,16 +216,18 @@ ZeroCard.propTypes = {
         waste_reduction_score: PropTypes.number.isRequired,
         difficulty_score: PropTypes.number.isRequired,
         cost_score: PropTypes.number.isRequired,
-        help_links: PropTypes.string,
+        help_links: PropTypes.arrayOf(PropTypes.string),
         card_stats: PropTypes.shape({
             co2_reduction: PropTypes.number,
             waste_reduction: PropTypes.number,
             water_use_reduction: PropTypes.number,
-            data_sources: PropTypes.shape({
-                name: PropTypes.string,
-                link: PropTypes.string,
-                status: PropTypes.string,
-            }),
+            data_sources: PropTypes.arrayOf(
+                PropTypes.shape({
+                    name: PropTypes.string,
+                    link: PropTypes.string,
+                    status: PropTypes.string,
+                })
+            ),
         }),
     }).isRequired,
     token: PropTypes.string.isRequired,
