@@ -17,9 +17,13 @@ class UserCardView(ListAPIView):
 
     def get(self, request):
         """Process GET request and return card data."""
+        user = request.user
         ucards = {uc.card: uc
-                  for uc in UserCard.objects.filter(user=request.user)}
-        cards = Card.objects.all()
+                  for uc in UserCard.objects.filter(user=user)}
+        if user.is_staff:
+            cards = Card.objects.all()
+        else:
+            cards = Card.objects.filter(published=True)
         list_cards = []
         for card in cards:
             user_card = ucards.get(card)
