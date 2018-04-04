@@ -84,7 +84,7 @@ class ZeroCard extends Component {
             card: {
                 slug, status, title, description,
                 waste_reduction_score, cost_score,
-                difficulty_score, help_links,
+                difficulty_score, help_links, published,
                 card_stats: {
                     co2_reduction,
                     waste_reduction,
@@ -99,6 +99,7 @@ class ZeroCard extends Component {
 
         const { visible } = this.state;
         const actionBtns = [];
+        const extra = published ? <Icon type="check" /> : <Icon type="close" />;
         if (admin) {
             actionBtns.push(<Icon type="edit" key={`edit-${slug}`} onClick={this.goToEditCard} />);
             actionBtns.push(<Icon type="delete" key={`delete-${slug}`} onClick={this.delCard} />);
@@ -151,7 +152,7 @@ class ZeroCard extends Component {
         actionBtns.push(<Icon type="eye-o" key={`see-${slug}`} onClick={this.see} />);
         return (
             <Col span={24} className="zerocard">
-                <Card title={title} actions={actionBtns}>
+                <Card title={title} actions={actionBtns} extra={extra}>
                     <Col span={19}>
                         <Row>{description}</Row>
                     </Col>

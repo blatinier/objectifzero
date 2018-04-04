@@ -20,7 +20,7 @@ class UserCardView(ListAPIView):
         user = request.user
         ucards = {uc.card: uc
                   for uc in UserCard.objects.filter(user=user)}
-        if user.is_superuser:
+        if user.is_staff:
             cards = Card.objects.all()
         else:
             cards = Card.objects.filter(published=True)
