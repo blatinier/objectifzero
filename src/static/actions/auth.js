@@ -56,7 +56,7 @@ export function authLoginUser(email, password, redirect = '/dashboard') {
     return (dispatch) => {
         dispatch(authLoginUserRequest());
         const auth = btoa(`${email}:${password}`);
-        return fetch(`${SERVER_URL}/api/v1/accounts/login/`, {
+        return fetch(`${SERVER_URL}/api/v1/users/login/`, {
             method: 'post',
             headers: {
                 Accept: 'application/json',
@@ -92,7 +92,7 @@ export function authLoginUser(email, password, redirect = '/dashboard') {
 export function authRegisterUser(username, email, password) {
     return (dispatch) => {
         dispatch(authLoginUserRequest());
-        return fetch(`${SERVER_URL}/api/v1/accounts/register/`, {
+        return fetch(`${SERVER_URL}/api/v1/users/register/`, {
             method: 'post',
             body: JSON.stringify({
                 email,

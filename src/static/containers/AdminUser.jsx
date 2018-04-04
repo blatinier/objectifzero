@@ -56,7 +56,7 @@ AdminUser.propTypes = {
 
 export default connect(({ token }) => ({
     usersFetch: {
-        url: '/api/v1/accounts/list-add/',
+        url: '/api/v1/users/list-add/',
         force: true,
         headers: {
             Accept: 'application/json',

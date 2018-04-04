@@ -43,7 +43,7 @@ Profile.propTypes = {
 
 export default connect(({ token }) => ({
     fetchProfile: {
-        url: '/api/v1/accounts/profile/',
+        url: '/api/v1/users/profile/',
         force: true,
         headers: {
             Accept: 'application/json',
@@ -52,7 +52,7 @@ export default connect(({ token }) => ({
     },
     updateProfile: (field, value) => ({
         fetchProfile: {
-            url: '/api/v1/accounts/profile/',
+            url: '/api/v1/users/profile/',
             method: 'POST',
             body: JSON.stringify({ [field]: value }),
             headers: {

@@ -4,7 +4,7 @@ from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, L
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from cards.models import Card
-from accounts.models import UserCard
+from users.models import UserCard
 from user_cards.serializers import UserCardSerializer
 from lib.utils import IsOwner
 

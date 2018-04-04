@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from accounts.models import User
+from users.models import User
 from lib.utils import validate_email as email_is_valid
 
 
