@@ -1,10 +1,12 @@
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { connect, PromiseState } from 'react-refetch';
+import { push } from 'react-router-redux';
 import { Col, Row } from 'antd';
 import { isArray } from 'lodash';
-import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
-import { connect, PromiseState } from 'react-refetch';
 
 import ZeroCard from './ZeroCard';
+import withRedirectOnLogout from '../utils/withRedirectOnLogout';
 
 import './Dashboard.css';
 
@@ -59,4 +61,4 @@ export default connect(({ token }) => ({
             ...usercardsFetch(token),
         },
     }),
-}))(Dashboard);
+}))(withRedirectOnLogout(Dashboard, { refetchFunc: 'usercardsFetch' }));

@@ -6,6 +6,7 @@ import { Col, Icon, Layout, Row } from 'antd';
 
 import AdminMenu from './AdminMenu';
 import ShortUser from './ShortUser';
+import withRedirectOnLogout from '../utils/withRedirectOnLogout';
 
 const { Sider, Content } = Layout;
 
@@ -62,4 +63,4 @@ export default connect(({ token }) => ({
             Authorization: `Token ${token}`,
         },
     },
-}))(AdminUser);
+}))(withRedirectOnLogout(AdminUser, { refetchFunc: 'usersFetch' }));
