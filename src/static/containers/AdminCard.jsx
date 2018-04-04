@@ -6,6 +6,7 @@ import { Col, Icon, Layout, Row } from 'antd';
 
 import AdminMenu from './AdminMenu';
 import ZeroCard from './ZeroCard';
+import withRedirectOnLogout from '../utils/withRedirectOnLogout';
 
 const { Content, Sider } = Layout;
 
@@ -63,4 +64,4 @@ export default connect(({ token }) => ({
             Authorization: `Token ${token}`,
         },
     },
-}))(AdminCard);
+}))(withRedirectOnLogout(AdminCard, { refetchFunc: 'cardsFetch' }));

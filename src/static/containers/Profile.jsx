@@ -3,6 +3,8 @@ import { connect } from 'react-refetch';
 import PropTypes from 'prop-types';
 import { Card } from 'antd';
 
+import withRedirectOnLogout from '../utils/withRedirectOnLogout';
+
 import './Profile.css';
 
 class Profile extends React.Component {
@@ -60,4 +62,4 @@ export default connect(({ token }) => ({
             },
         },
     }),
-}))(Profile);
+}))(withRedirectOnLogout(Profile, { refetchFunc: 'fetchProfile' }));
