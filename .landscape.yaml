@@ -1,4 +1,4 @@
 python-targets: 3
 ignore-paths:
     - src/cards/migrations
-    - src/accounts/migrations
+    - src/users/migrations

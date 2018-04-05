@@ -1,9 +1,9 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from accounts.serializers import UserRegistrationSerializer, UserSerializer
+from users.serializers import UserRegistrationSerializer, UserSerializer
 from lib.testutils import CustomTestCase
-from tests.python.accounts.test_models import UserFactory
+from tests.python.users.test_models import UserFactory
 
 
 class UserRegistrationSerializerTest(CustomTestCase, APITestCase):

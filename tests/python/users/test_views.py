@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from lib.testutils import CustomTestCase
-from tests.python.accounts.test_serializers import UserRegistrationSerializerTest
+from tests.python.users.test_serializers import UserRegistrationSerializerTest
 from .test_models import UserFactory
 
 
@@ -40,15 +40,15 @@ class AccountTests(CustomTestCase, APITestCase):
 
     def test_account_register_unsuccessful(self):
         self.assert_invalid_data_response(invalid_data_dicts=UserRegistrationSerializerTest.INVALID_DATA_DICT,
-                                          url=reverse('accounts:register'))
+                                          url=reverse('users:register'))
 
     def test_account_login_unsuccessful(self):
         self.client.credentials(HTTP_AUTHORIZATION=get_basic_auth_header('emailwilllogin@mydomain.com', 'wrong'))
-        response = self.client.post(reverse('accounts:login'))
+        response = self.client.post(reverse('users:login'))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_account_register_successful(self):
-        url = reverse('accounts:register')
+        url = reverse('users:register')
         data = {
             'email': 'emailsuccess@mydomain.com',
             'username': 'test views user 5',
@@ -58,7 +58,7 @@ class AccountTests(CustomTestCase, APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # Confirm user can login after register
-        url_login = reverse('accounts:login')
+        url_login = reverse('users:login')
         self.client.credentials(HTTP_AUTHORIZATION=get_basic_auth_header('emailwilllogin@mydomain.com', 'test'))
         response_login = self.client.post(url_login, format='json')
         self.assertTrue('token' in response_login.data)
@@ -66,7 +66,7 @@ class AccountTests(CustomTestCase, APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Token {}'.format(response_login.data['token']))
 
     def test_account_register_email_already_exists(self):
-        url = reverse('accounts:register')
+        url = reverse('users:register')
         data = {
             'email': 'emailsuccess@mydomain.com',
             'username': 'test views user 6',
@@ -76,13 +76,13 @@ class AccountTests(CustomTestCase, APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # Confirm user can login after register
-        url_login = reverse('accounts:login')
+        url_login = reverse('users:login')
         self.client.credentials(HTTP_AUTHORIZATION=get_basic_auth_header('emailwilllogin@mydomain.com', 'test'))
         response_login = self.client.post(url_login, format='json')
         self.assertTrue('token' in response_login.data)
         self.assertEqual(response_login.status_code, status.HTTP_200_OK)
 
-        url = reverse('accounts:register')
+        url = reverse('users:register')
         data = {
             'email': 'emailsuccess@mydomain.com',
             'username': 'test views user 7',
@@ -94,7 +94,7 @@ class AccountTests(CustomTestCase, APITestCase):
 
     def test_account_login_successful_and_perform_actions(self):
         # Ensure we can login with given credentials.
-        url = reverse('accounts:login')
+        url = reverse('users:login')
         self.client.credentials(HTTP_AUTHORIZATION=get_basic_auth_header('emailwilllogin@mydomain.com', 'test'))
         response = self.client.post(url, format='json')
         self.assertTrue('token' in response.data)
@@ -102,14 +102,14 @@ class AccountTests(CustomTestCase, APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Token {}'.format(response.data['token']))
 
         # user confirmed account unsuccessfully
-        url = reverse('accounts:status')
+        url = reverse('users:status')
         response = self.client.get(url)
         self.assertEqual(response.data['status'], False)
 
     def test_account_confirm_email_unsuccessful(self):
         # wrong activation key
         invalid_data = {'status': status.HTTP_404_NOT_FOUND, 'method': 'GET', 'data': {}, 'label': 'Not found'}
-        self.assert_invalid_data_response(url=reverse('accounts:confirm_email', args=[str(uuid.uuid4())]),
+        self.assert_invalid_data_response(url=reverse('users:confirm_email', args=[str(uuid.uuid4())]),
                                           invalid_data_dicts=[invalid_data])
 
     def test_account_confirm_email_successful(self):
@@ -117,18 +117,18 @@ class AccountTests(CustomTestCase, APITestCase):
                                   confirmed_email=False)
 
         # confirm email successful
-        url = reverse('accounts:confirm_email', args=[str(user.activation_key)])
+        url = reverse('users:confirm_email', args=[str(user.activation_key)])
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # email already confirmed
-        url = reverse('accounts:confirm_email', args=[str(user.activation_key)])
+        url = reverse('users:confirm_email', args=[str(user.activation_key)])
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_account_profile_view_update(self):
-        url_profile = reverse('accounts:profile')
-        url_login = reverse('accounts:login')
+        url_profile = reverse('users:profile')
+        url_login = reverse('users:login')
         # Login
         self.client.credentials(HTTP_AUTHORIZATION=get_basic_auth_header('emailwilllogin@mydomain.com', 'test'))
         response_login = self.client.post(url_login, format='json')
