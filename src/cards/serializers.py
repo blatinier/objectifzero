@@ -40,7 +40,7 @@ class CardSerializer(serializers.ModelSerializer):
         model = Card
         fields = ('slug', 'title', 'description',
                   'waste_reduction_score', 'difficulty_score',
-                  'cost_score', 'card_stats', 'help_links')
+                  'cost_score', 'card_stats', 'help_links', 'published')
 
     def create(self, data):
         data_stats = data.pop("card_stats", {})
