@@ -1,8 +1,6 @@
 Django==2.0.4
 django-extensions==2.0.6
 
-django-disposable-email-checker==1.2.1
-
 # PostgresSQL
 psycopg2==2.7.4
 

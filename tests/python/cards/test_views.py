@@ -1,5 +1,5 @@
 from copy import deepcopy
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from rest_framework import status
 
 from tests.python.base_test_view import BaseTestView
