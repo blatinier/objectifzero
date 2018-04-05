@@ -1,7 +1,7 @@
 import pytest
 from rest_framework.test import APITestCase
 from lib.testutils import CustomTestCase
-from tests.python.accounts.test_models import UserFactory
+from tests.python.users.test_models import UserFactory
 
 
 @pytest.mark.django_db

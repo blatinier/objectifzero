@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from accounts.models import UserCard
-from accounts.serializers import UserSerializer
+from users.models import UserCard
+from users.serializers import UserSerializer
 from cards.serializers import CardSerializer
 
 

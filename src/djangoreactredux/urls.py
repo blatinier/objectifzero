@@ -7,7 +7,7 @@ from base.views import IndexView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/v1/accounts/', include('accounts.urls', namespace='accounts')),
+    url(r'^api/v1/users/', include('users.urls', namespace='users')),
     url(r'^api/v1/cards/', include('cards.urls', namespace='cards')),
     url(r'^api/v1/user_cards/', include('user_cards.urls', namespace='user_cards')),
 

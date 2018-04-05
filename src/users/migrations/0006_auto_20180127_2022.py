@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('cards', '0008_auto_20180127_2022'),
-        ('accounts', '0005_auto_20171112_0322'),
+        ('users', '0005_auto_20171112_0322'),
     ]
 
     operations = [
@@ -27,6 +27,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='cards',
-            field=models.ManyToManyField(through='accounts.UserCard', to='cards.Card'),
+            field=models.ManyToManyField(through='users.UserCard', to='cards.Card'),
         ),
     ]

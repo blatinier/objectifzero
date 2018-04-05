@@ -10,8 +10,8 @@ from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
-from accounts.models import User
-from accounts.serializers import UserRegistrationSerializer, UserSerializer
+from users.models import User
+from users.serializers import UserRegistrationSerializer, UserSerializer
 from lib.utils import AtomicMixin
 
 
