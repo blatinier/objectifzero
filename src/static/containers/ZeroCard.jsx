@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Badge, Button, Card, Col, Icon, Modal, Rate, Row } from 'antd';
-import { FaTrash, FaCloud, FaTint, FaCheck, FaClose } from 'react-icons/lib/fa';
+import { FaMoney, FaTrash, FaCloud, FaTint, FaCheck, FaClose } from 'react-icons/lib/fa';
 
 import { deleteCard } from '../actions/cards';
 import editUserCard from '../actions/userCards';
@@ -184,11 +184,12 @@ class ZeroCard extends Component {
                     <Col span={5}>
                         <Rate
                             disabled
+                            allowHalf
                             defaultValue={waste_reduction_score}
                             character={<Icon type="delete" />}
                         />
-                        <Rate disabled defaultValue={cost_score} character="€" />
-                        <Rate disabled defaultValue={difficulty_score} character={<Icon type="tool" />} />
+                        <Rate disabled allowHalf defaultValue={cost_score} character={ <FaMoney /> } />
+                        <Rate disabled allowHalf defaultValue={difficulty_score} character={<Icon type="tool" />} />
                     </Col>
                 </Card>
                 <Modal
@@ -206,11 +207,22 @@ class ZeroCard extends Component {
                         <Col span={5}>
                             <Rate
                                 disabled
+                                allowHalf
                                 defaultValue={waste_reduction_score}
                                 character={<Icon type="delete" />}
                             />
-                            <Rate disabled defaultValue={cost_score} character="€" />
-                            <Rate disabled defaultValue={difficulty_score} character={<Icon type="tool" />} />
+                            <Rate
+                                disabled
+                                allowHalf
+                                defaultValue={cost_score}
+                                character={ <FaMoney /> }
+                            />
+                            <Rate
+                                disabled
+                                allowHalf
+                                defaultValue={difficulty_score}
+                                character={<Icon type="tool" />}
+                            />
                         </Col>
                         { (help_links) ? (
                             <Col span={19}>
