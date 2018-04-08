@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { Badge, Button, Card, Col, Icon, Modal, Rate, Row } from 'antd';
+import { FaTrash, FaCloud, FaTint, FaCheck, FaClose } from 'react-icons/lib/fa';
 
 import { deleteCard } from '../actions/cards';
 import editUserCard from '../actions/userCards';
@@ -79,6 +80,31 @@ class ZeroCard extends Component {
         </Row>
     ) : null;
 
+    renderIcons = () => {
+        const {
+            card: {
+                published,
+                card_stats: {
+                    co2_reduction,
+                    waste_reduction,
+                    water_use_reduction,
+                },
+            },
+        } = this.props;
+        const waste = waste_reduction ? <FaTrash color="green" /> : <FaTrash color="red" />;;
+        const co = co2_reduction ? <FaCloud color="green" /> : <FaCloud color="red" />;;
+        const water = water_use_reduction ? <FaTint color="green" /> : <FaTint color="red" />;
+        const approved = published ? <FaCheck color="green" /> : <FaClose color="red" />;
+        return (
+            <Fragment>
+                {waste}
+                {co}
+                {water}
+                {approved}
+            </Fragment>
+        );
+    };
+
     render = () => {
         const {
             card: {
@@ -99,7 +125,6 @@ class ZeroCard extends Component {
 
         const { visible } = this.state;
         const actionBtns = [];
-        const extra = published ? <Icon type="check" /> : <Icon type="close" />;
         if (admin) {
             actionBtns.push(<Icon type="edit" key={`edit-${slug}`} onClick={this.goToEditCard} />);
             actionBtns.push(<Icon type="delete" key={`delete-${slug}`} onClick={this.delCard} />);
@@ -152,7 +177,7 @@ class ZeroCard extends Component {
         actionBtns.push(<Icon type="eye-o" key={`see-${slug}`} onClick={this.see} />);
         return (
             <Col span={24} className="zerocard">
-                <Card title={title} actions={actionBtns} extra={extra} hoverable>
+                <Card title={title} actions={actionBtns} extra={admin ? this.renderIcons() : null} hoverable>
                     <Col span={19}>
                         <Row>{description}</Row>
                     </Col>
