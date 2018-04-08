@@ -32,7 +32,7 @@ class AdminUser extends React.Component {
         return (
             <Layout>
                 <Sider>
-                    <AdminMenu />
+                    <AdminMenu selectedMenu="adminUsers" />
                 </Sider>
                 <Content>
                     <Row>

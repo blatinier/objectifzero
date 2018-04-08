@@ -177,7 +177,7 @@ class ZeroCard extends Component {
         actionBtns.push(<Icon type="eye-o" key={`see-${slug}`} onClick={this.see} />);
         return (
             <Col span={24} className="zerocard">
-                <Card title={title} actions={actionBtns} extra={admin ? this.renderIcons() : null}>
+                <Card title={title} actions={actionBtns} extra={admin ? this.renderIcons() : null} hoverable>
                     <Col span={19}>
                         <Row>{description}</Row>
                     </Col>
