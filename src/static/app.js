@@ -11,7 +11,6 @@ import './app.css';
 const { Header, Footer } = Layout;
 
 class App extends Component {
-
     state = {};
 
     goTo = url => () => this.props.dispatch(push(url));
@@ -77,7 +76,13 @@ class App extends Component {
                             <a onClick={this.goTo('/')}>Enjoy Zero Déchet</a>
                         </Col>
                         <Col span={6}>
-                            <Menu className="main-menu" onClick={this.handleMenu} selectedKeys={[selectedMenu]} theme="dark" mode="horizontal">
+                            <Menu
+                                className="main-menu"
+                                onClick={this.handleMenu}
+                                selectedKeys={[selectedMenu]}
+                                theme="dark"
+                                mode="horizontal"
+                            >
                                 {items}
                             </Menu>
                         </Col>
