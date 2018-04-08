@@ -14,7 +14,7 @@ class AdminMenu extends React.Component {
     };
 
     render = () => (
-        <Menu theme="dark" onClick={this.handleMenu}>
+        <Menu theme="dark" onClick={this.handleMenu} defaultSelectedKeys={[this.props.selectedMenu]}>
             <Menu.Item key="adminUsers"><Icon type="user" /> Utilisateurs</Menu.Item>
             <Menu.Item key="adminCards"><Icon type="credit-card" /> Cartes</Menu.Item>
         </Menu>
@@ -23,6 +23,7 @@ class AdminMenu extends React.Component {
 
 AdminMenu.propTypes = {
     dispatch: PropTypes.func.isRequired,
+    selectedMenu: PropTypes.string,
 };
 
 const mapDispatchToProps = dispatch => ({ dispatch });

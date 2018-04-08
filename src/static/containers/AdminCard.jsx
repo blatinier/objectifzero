@@ -32,7 +32,7 @@ class AdminCard extends React.Component {
         }
         return (
             <Layout>
-                <Sider><AdminMenu /></Sider>
+                <Sider><AdminMenu selectedMenu="adminCards" /></Sider>
                 <Content>
                     <Row>
                         <a onClick={this.goToAddCard}>
