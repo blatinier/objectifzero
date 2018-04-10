@@ -147,8 +147,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class UserCard(models.Model):
-    user = models.ForeignKey(User)
-    card = models.ForeignKey(Card)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
     status = models.CharField(max_length=16,
                               choices=CARDS_STATUS,
                               default='NOT_STARTED')

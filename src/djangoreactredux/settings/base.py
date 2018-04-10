@@ -63,14 +63,10 @@ ROOT_URLCONF = 'djangoreactredux.urls'
 
 WSGI_APPLICATION = 'djangoreactredux.wsgi.application'
 
-LANGUAGE_CODE = 'en-us'
-
+LANGUAGE_CODE = 'fr-fr'
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 AUTH_USER_MODEL = 'users.User'
