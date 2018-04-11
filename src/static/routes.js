@@ -4,6 +4,7 @@ import {
     Home, Login, Register, Dashboard,
     AdminUser, AdminUserAdd,
     AdminCard, AdminCardAdd,
+    Profile,
     NotFound,
 } from './containers';
 import requireAuthentication from './utils/requireAuthentication';
@@ -15,6 +16,7 @@ export default(
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/dashboard" component={requireAuthentication(Dashboard)} />
+        <Route path="/profile" component={requireAuthentication(Profile)} />
         <Route path="/zw-admin/user-add" component={requireStaff(AdminUserAdd)} />
         <Route path="/zw-admin/user-edit/:username" component={requireStaff(AdminUserAdd)} />
         <Route path="/zw-admin/user" component={requireStaff(AdminUser)} />
@@ -23,5 +25,4 @@ export default(
         <Route path="/zw-admin/card" component={requireStaff(AdminCard)} />
         <Route path="*" component={NotFound} />
     </Switch>
-
 );
