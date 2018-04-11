@@ -25,4 +25,7 @@ urlpatterns = [
     url(_(r'^user/(?P<username>.*)/$'),
         users.views.UserRUDView.as_view(),
         name='fetch_user'),
+    url(_(r'^list_friends/$'),
+        users.views.UserFriendsView.as_view(),
+        name='list_friends'),
 ]

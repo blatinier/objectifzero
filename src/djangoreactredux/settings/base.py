@@ -27,7 +27,9 @@ INSTALLED_APPS = (
     'users',
     'cards',
     'user_cards',
-    'base'
+    'base',
+    'notifications',
+    'teams',
 )
 
 MIDDLEWARE_CLASSES = (

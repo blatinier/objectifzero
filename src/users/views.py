@@ -5,7 +5,8 @@ from knox.models import AuthToken
 from rest_framework import status
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.generics import GenericAPIView
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
+from rest_framework.generics import (RetrieveUpdateDestroyAPIView, ListAPIView,
+                                     ListCreateAPIView)
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
@@ -104,3 +105,15 @@ class UserRUDView(RetrieveUpdateDestroyAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAdminUser,)
     lookup_field = "username"
+
+
+class UserFriendsView(ListAPIView):
+    """ User friends list """
+    serializer_class = UserSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        """Process GET request and return user friends."""
+        user = self.request.user
+        return Response(self.get_serializer(user).friends, status=status.HTTP_200_OK)
