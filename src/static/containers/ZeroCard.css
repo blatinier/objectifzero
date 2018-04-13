@@ -1,7 +1,7 @@
 .ant-rate-star {
     cursor: pointer;
     min-width: 25px;
-    text-align: center;
+    text-align: left;
 }
 
 .zerocard {

@@ -1,5 +1,6 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
+from rest_framework.exceptions import ErrorDetail
 
 from users.serializers import UserRegistrationSerializer, UserSerializer
 from lib.testutils import CustomTestCase
@@ -8,19 +9,10 @@ from tests.python.users.test_models import UserFactory
 
 class UserRegistrationSerializerTest(CustomTestCase, APITestCase):
     INVALID_DATA_DICT = [
-        {'data': {'email': 'test1@mailinator.com',
-                  'password': 'test',
-                  'username': 'test user 1'},
-         'error': ('email', ['Please use a different email address provider.']),
-         'label': 'Invalid email.',
-         'method': 'POST',
-         'status': status.HTTP_400_BAD_REQUEST
-         },
-
         {'data': {'email': 'test1@gmail',
                   'password': 'test',
                   'username': 'test user 2'},
-         'error': ('email', ['Enter a valid email address.']),
+         'error': ('email', [ErrorDetail(string='Saisissez une adresse email valable.', code='invalid')]),
          'label': 'Bad email format.',
          'method': 'POST',
          'status': status.HTTP_400_BAD_REQUEST

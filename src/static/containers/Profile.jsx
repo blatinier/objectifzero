@@ -1,65 +1,49 @@
 import React from 'react';
-import { connect } from 'react-refetch';
 import PropTypes from 'prop-types';
-import { Card } from 'antd';
+import { Route } from 'react-router';
+import { Link } from 'react-router-dom';
+import { Layout, Menu } from 'antd';
 
-import withRedirectOnLogout from '../utils/withRedirectOnLogout';
+import requireAuthentication from '../utils/requireAuthentication';
+import ProfileInformation from './ProfileInformation';
+import ProfileFriends from './ProfileFriends';
+import ProfileNotifications from './ProfileNotifications';
 
-import './Profile.css';
+const { Sider, Content } = Layout;
 
-class Profile extends React.Component {
-    updateProfile = key => (val) => {
-        this.props.updateProfile(key, val);
-    }
-
-    render = () => {
-        const { fetchProfile } = this.props;
-        if (fetchProfile.pending) {
-            return (
-                <div className="profile-side-block">
-                    <p className="text-center">Loading profile...</p>;
-                </div>
-            );
-        } else if (fetchProfile.fulfilled) {
-            const {
-                pseudo, email,
-            } = fetchProfile.value;
-            return (
-                <div className="profile-side-block">
-                    <Card>
-                        <Card.Meta title={pseudo} description={email} />
-                    </Card>
-                </div>
-            );
-        }
-        return null;
-    }
-}
+const Profile = ({ match }) => (
+    <Layout>
+        <Sider>
+            <Menu theme="dark" defaultSelectedKeys={['information']}>
+                <Menu.Item key="information">
+                    <Link to={`${match.url}/information`} className="nav-text">
+                        Information
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="friends">
+                    <Link to={`${match.url}/friends`} className="nav-text">
+                        Amis
+                    </Link>
+                </Menu.Item>
+                 <Menu.Item key="notifications">
+                    <Link to={`${match.url}/notifications`} className="nav-text">
+                        Notifications
+                    </Link>
+                </Menu.Item>
+            </Menu>
+        </Sider>
+        <Content>
+            <Route path={`${match.url}/information`} component={requireAuthentication(ProfileInformation)} />
+            <Route path={`${match.url}/friends`} component={requireAuthentication(ProfileFriends)} />
+            <Route path={`${match.url}/notifications`} component={requireAuthentication(ProfileNotifications)} />
+        </Content>
+    </Layout>
+);
 
 Profile.propTypes = {
-    updateProfile: PropTypes.func.isRequired,
-    fetchProfile: PropTypes.shape().isRequired,
+    match: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+    }),
 };
 
-export default connect(({ token }) => ({
-    fetchProfile: {
-        url: '/api/v1/users/profile/',
-        force: true,
-        headers: {
-            Accept: 'application/json',
-            Authorization: `Token ${token}`,
-        },
-    },
-    updateProfile: (field, value) => ({
-        fetchProfile: {
-            url: '/api/v1/users/profile/',
-            method: 'POST',
-            body: JSON.stringify({ [field]: value }),
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Token ${token}`,
-            },
-        },
-    }),
-}))(withRedirectOnLogout(Profile, { refetchFunc: 'fetchProfile' }));
+export default Profile;

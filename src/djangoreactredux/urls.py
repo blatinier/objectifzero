@@ -1,18 +1,18 @@
 from django.conf import settings
-from django.conf.urls import include, url
+from django.urls import include, path, re_path
 from django.contrib import admin
 from django.views.decorators.cache import cache_page
 
 from base.views import IndexView
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^api/v1/users/', include('users.urls', namespace='users')),
-    url(r'^api/v1/cards/', include('cards.urls', namespace='cards')),
-    url(r'^api/v1/user_cards/', include('user_cards.urls', namespace='user_cards')),
-    url(r'^api/v1/notifications/', include('notifications.urls',
-                                           namespace='notifications')),
+    path('admin/', admin.site.urls),
+    path('api/v1/users/', include(('users.urls', 'users'), namespace='users')),
+    path('api/v1/cards/', include(('cards.urls', 'cards'), namespace='cards')),
+    path('api/v1/user_cards/', include(('user_cards.urls', 'user_cards'), namespace='user_cards')),
+    path('api/v1/notifications/', include(('notifications.urls', 'notifications'),
+                                          namespace='notifications')),
 
     # catch all others because of how history is handled by react router - cache this page because it will never change
-    url(r'', cache_page(settings.PAGE_CACHE_SECONDS)(IndexView.as_view()), name='index'),
+    re_path(r'', cache_page(settings.PAGE_CACHE_SECONDS)(IndexView.as_view()), name='index'),
 ]

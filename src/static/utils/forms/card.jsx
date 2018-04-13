@@ -1,7 +1,8 @@
 import React from 'react';
-import { Icon, Input, Select, Switch, InputNumber } from 'antd';
+import { Icon, Input, Select, Switch, InputNumber, Rate } from 'antd';
 import { defaultTo } from 'lodash';
 import Schema from 'async-validator';
+import FaMoney from 'react-icons/lib/fa/money';
 
 import HelpLink from './components/helpLink';
 import Sources from './components/sources';
@@ -35,7 +36,7 @@ const wasteReductionScoreField = {
         required: true,
         message: 'Saisissez un score de réduction des déchets',
     }],
-    component: <InputNumber min={0} max={10} />,
+    component: <Rate allowHalf character={<Icon type="delete" />} />,
 };
 
 const difficultyScoreField = {
@@ -45,7 +46,7 @@ const difficultyScoreField = {
         required: true,
         message: 'Saisissez un score de difficulté',
     }],
-    component: <InputNumber min={0} max={10} />,
+    component: <Rate allowHalf character={<Icon type="tool" />} />,
 };
 
 const costScoreField = {
@@ -55,7 +56,7 @@ const costScoreField = {
         required: true,
         message: 'Saisissez un score de coût',
     }],
-    component: <InputNumber min={0} max={10} />,
+    component: <Rate allowHalf character={ <FaMoney /> } />,
 };
 
 const publishedField = {

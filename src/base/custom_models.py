@@ -8,6 +8,9 @@ class ListField(models.Field):
     def __init__(self, *args, **kwargs):
         super(ListField, self).__init__(*args, **kwargs)
 
+    def db_type(self, connection):
+        return 'text'
+
     def from_db_value(self, value, expression, connexion, context):
         return self.to_python(value)
 

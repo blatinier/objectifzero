@@ -56,9 +56,12 @@ class Card(models.Model):
     card_stats = models.ForeignKey(CardStat, blank=True, null=True,
                                    on_delete=models.PROTECT)
     # Scores
-    waste_reduction_score = models.PositiveSmallIntegerField()
-    difficulty_score = models.PositiveSmallIntegerField()
-    cost_score = models.SmallIntegerField()
+    waste_reduction_score = models.DecimalField(blank=True, null=True,
+                                                decimal_places=1, max_digits=2)
+    difficulty_score = models.DecimalField(blank=True, null=True,
+                                           decimal_places=1, max_digits=2)
+    cost_score = models.DecimalField(blank=True, null=True,
+                                     decimal_places=1, max_digits=2)
 
     # External links
     help_links = ListField(blank=True, null=True)
