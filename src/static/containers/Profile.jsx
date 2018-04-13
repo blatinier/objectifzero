@@ -7,6 +7,7 @@ import { Layout, Menu } from 'antd';
 import requireAuthentication from '../utils/requireAuthentication';
 import ProfileInformation from './ProfileInformation';
 import ProfileFriends from './ProfileFriends';
+import ProfileFriendsAdd from './ProfileFriendsAdd';
 import ProfileNotifications from './ProfileNotifications';
 
 const { Sider, Content } = Layout;
@@ -35,6 +36,7 @@ const Profile = ({ match }) => (
         <Content>
             <Route path={`${match.url}/information`} component={requireAuthentication(ProfileInformation)} />
             <Route path={`${match.url}/friends`} component={requireAuthentication(ProfileFriends)} />
+            <Route path={`${match.url}/friends-add`} component={requireAuthentication(ProfileFriendsAdd)} />
             <Route path={`${match.url}/notifications`} component={requireAuthentication(ProfileNotifications)} />
         </Content>
     </Layout>

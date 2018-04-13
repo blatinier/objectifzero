@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { push } from 'react-router-redux';
 import { connect, PromiseState } from 'react-refetch';
 import { Row, Col, Spin, Icon } from 'antd';
 
@@ -7,7 +8,7 @@ import withRedirectOnLogout from '../utils/withRedirectOnLogout';
 
 class Friends extends Component {
     goToAddFriend = () => {
-        this.props.dispatch('/friends-add');
+        this.props.dispatch(push('/profile/friends-add'));
     };
 
     render = () => {
@@ -15,12 +16,16 @@ class Friends extends Component {
         let friendsDisplay;
         if (friendsFetch.pending) {
             friendsDisplay = (
-                <p className="text-center">
+                <Fragment>
                     <Spin size="large" />
                     Loading friends...
-                </p>
+                </Fragment>
             );
+        } else if (friendsFetch.fulfilled) {
+            console.log('### FRIENDS ', friendsFetch.value);
+            friendsDisplay ="FRIENDS LIST ";
         }
+
         return (
             <Fragment>
                 <Row>
