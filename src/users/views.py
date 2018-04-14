@@ -117,3 +117,10 @@ class UserFriendsView(ListAPIView):
         """Process GET request and return user friends."""
         user = self.request.user
         return Response(self.get_serializer(user).data['friends'], status=status.HTTP_200_OK)
+
+    def post(self, request):
+        user = self.request.user
+        friend_username = request.data['friend']
+        user.add_friend(friend_username)
+        return Response(self.get_serializer(user).data['friends'], status=status.HTTP_200_OK)
+

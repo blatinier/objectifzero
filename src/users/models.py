@@ -148,6 +148,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.username
 
+    def add_friend(self, friend_username):
+        friend = User.objects.filter(username=friend_username).first()
+        if friend:
+            self.friends.add(friend)
+            self.save()
 
 class UserCard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -26,6 +26,9 @@ urlpatterns = [
          users.views.UserRUDView.as_view(),
          name='fetch_user'),
     path(_('list_friends/'),
-        users.views.UserFriendsView.as_view(),
-        name='list_friends'),
+         users.views.UserFriendsView.as_view(),
+         name='list_friends'),
+    path(_('add-friends/'),
+         users.views.UserFriendsView.as_view(),
+         name='add-friends'),
 ]
