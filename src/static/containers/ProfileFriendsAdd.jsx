@@ -5,8 +5,9 @@ import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import { Form, Col } from 'antd';
 
-import { generateForm } from '../utils/generateForm';
 import * as actionCreators from '../actions/users';
+import { generateForm } from '../utils/generateForm';
+import { friendsAddFields } from '../utils/forms/friends';
 
 
 class ProfileFriendsAdd extends Component {
@@ -17,7 +18,7 @@ class ProfileFriendsAdd extends Component {
             form: { validateFields },
             actions: { addFriends },
         } = this.props;
-        validateields((err, values) => {
+        validateFields((err, values) => {
             if (err) {
                 return;
             }
@@ -36,7 +37,7 @@ class ProfileFriendsAdd extends Component {
 
     render = () => {
         const { form } = this.props;
-        const profileFriendsAddForm = generateForm(form, this.validateForm, this.cancelForm, {}, 'Ajouter ami');
+        const profileFriendsAddForm = generateForm(form, this.validateForm, this.cancelForm, friendsAddFields, {}, 'Ajouter ami');
         return (
             <Col span={12} offset={6}>
                 {profileFriendsAddForm}
@@ -46,7 +47,11 @@ class ProfileFriendsAdd extends Component {
 }
 
 ProfileFriendsAdd.propTypes = {
-    form: PropTypes.shape().IsRequired,
+    dispatch: PropTypes.func.isRequired,
+    form: PropTypes.shape().isRequired,
+    actions: PropTypes.shape({
+        addFriends: PropTypes.func.isRequired,
+    }).isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -58,5 +63,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const ConnectedProfileFriendsAdd = connect(mapStateToProps, mapDispatchToProps)(ProfileFriendsAdd);
-
 export default Form.create()(ConnectedProfileFriendsAdd);
