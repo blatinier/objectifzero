@@ -12,10 +12,21 @@ import ProfileNotifications from './ProfileNotifications';
 
 const { Sider, Content } = Layout;
 
-const Profile = ({ match }) => (
+const locationMapping = (pathname) => {
+    switch (pathname) {
+        case '/profile/notifications':
+            return 'notifications';
+        case '/profile/friends':
+            return 'friends';
+        default:
+            return 'information'
+    };
+};
+
+const Profile = ({ match, location }) => (
     <Layout>
         <Sider>
-            <Menu theme="dark" defaultSelectedKeys={['information']}>
+            <Menu theme="dark" selectedKeys={[locationMapping(location.pathname)]}>
                 <Menu.Item key="information">
                     <Link to={`${match.url}/information`} className="nav-text">
                         Information
@@ -45,6 +56,9 @@ const Profile = ({ match }) => (
 Profile.propTypes = {
     match: PropTypes.shape({
         url: PropTypes.string.isRequired,
+    }),
+    location: PropTypes.shape({
+        pathname: PropTypes.string.isRequired,
     }),
 };
 

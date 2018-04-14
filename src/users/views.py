@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django.utils.text import slugify
 from django_rest_logger import log
 from knox.auth import TokenAuthentication
 from knox.models import AuthToken
@@ -116,11 +117,17 @@ class UserFriendsView(ListAPIView):
     def get(self, request):
         """Process GET request and return user friends."""
         user = self.request.user
-        return Response(self.get_serializer(user).data['friends'], status=status.HTTP_200_OK)
+        return Response(self.get_serializer(user).data['friends'],
+                        status=status.HTTP_200_OK)
 
     def post(self, request):
         user = self.request.user
         friend_username = request.data['friend']
-        user.add_friend(friend_username)
-        return Response(self.get_serializer(user).data['friends'], status=status.HTTP_200_OK)
-
+        # Not sure where to put that...
+        friend = User.objects.filter(username=friend_username).first()
+        if friend:
+            Notification.objects.create(created_by=user,
+                                        destination_user=friend,
+                                        slug=slugify(friend_username))
+        return Response(self.get_serializer(user).data['friends'],
+                        status=status.HTTP_200_OK)
