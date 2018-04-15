@@ -52,18 +52,3 @@ export function deleteUser(token, username) {
             handleError(dispatch, error, constants.USER_DELETE_FAILURE);
         });
 }
-
-export function addFriends(token, values) {
-    return dispatch => {
-        dispatch(simpleEvent(constants.USER_ADD_FRIENDS_REQUEST));
-        return api('post', token, '/users/add-friends/', values)
-        .then(parseJSON)
-        .then(() => {
-            dispatch(simpleEvent(constants.USER_ADD_FRIENDS_SUCCESS));
-            dispatch(push('/profile/friends'));
-        })
-        .catch((error) => {
-            handleError(dispatch, error, constants.USER_ADD_FRIENDS_FAILURE);
-        });
-    };
-}

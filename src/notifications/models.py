@@ -10,7 +10,7 @@ NOTIFICATION_STATUSES = (
 
 class Notification(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE,
-                                   related_name='notification_created_at')
+                                   related_name='notification_created_by')
     destination_user = models.ForeignKey(User, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=1024)
     status = models.CharField(max_length=16, choices=NOTIFICATION_STATUSES,

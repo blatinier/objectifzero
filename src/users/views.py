@@ -119,15 +119,3 @@ class UserFriendsView(ListAPIView):
         user = self.request.user
         return Response(self.get_serializer(user).data['friends'],
                         status=status.HTTP_200_OK)
-
-    def post(self, request):
-        user = self.request.user
-        friend_username = request.data['friend']
-        # Not sure where to put that...
-        friend = User.objects.filter(username=friend_username).first()
-        if friend:
-            Notification.objects.create(created_by=user,
-                                        destination_user=friend,
-                                        slug=slugify(friend_username))
-        return Response(self.get_serializer(user).data['friends'],
-                        status=status.HTTP_200_OK)

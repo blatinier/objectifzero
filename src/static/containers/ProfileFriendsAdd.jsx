@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import { Form, Col } from 'antd';
 
-import * as actionCreators from '../actions/users';
+import * as actionCreators from '../actions/notifications';
 import { generateForm } from '../utils/generateForm';
 import { friendsAddFields } from '../utils/forms/friends';
 
@@ -16,13 +16,13 @@ class ProfileFriendsAdd extends Component {
         const {
             token,
             form: { validateFields },
-            actions: { addFriends },
+            actions: { createFriendNotification },
         } = this.props;
         validateFields((err, values) => {
             if (err) {
                 return;
             }
-            addFriends(token, values);
+            createFriendNotification(token, values);
         });
     };
 
@@ -50,7 +50,7 @@ ProfileFriendsAdd.propTypes = {
     dispatch: PropTypes.func.isRequired,
     form: PropTypes.shape().isRequired,
     actions: PropTypes.shape({
-        addFriends: PropTypes.func.isRequired,
+        createFriendNotification: PropTypes.func.isRequired,
     }).isRequired,
 };
 

@@ -9,10 +9,9 @@ class NotificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notification
-        fields = ('slug', 'created_by', 'destination_user', 'status')
+        fields = ('created_by', 'destination_user', 'slug', 'status')
 
     def create(self, data):
-        import ipdb; ipdb.set_trace()
         notification = Notification.objects.create(
                 slug=slugify(data['destination_user']), **data)
         return notification
