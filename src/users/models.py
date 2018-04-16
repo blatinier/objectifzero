@@ -104,7 +104,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     activation_key = models.UUIDField(unique=True, default=uuid.uuid4)  # email
 
     # Friendship
-    friends = models.ManyToManyField('self')
+    friends = models.ManyToManyField('self', blank=True)
 
     # Zero Waste fields
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default=GENDER_MALE, blank=True, null=True)
