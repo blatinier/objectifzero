@@ -37,7 +37,6 @@ class ProfileNotifications extends Component {
             );
         } else if (notificationsFetch.fulfilled) {
             const notifications = notificationsFetch.value.results;
-            console.log('### NOTIFICATIONS ', notifications);
             notificationsDisplay = notifications.map(
                 notif => (
                     <Card key={notif.slug}>
