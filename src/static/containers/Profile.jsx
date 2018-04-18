@@ -17,12 +17,14 @@ const locationMapping = (pathname) => {
     switch (pathname) {
         case '/profile/notifications':
             menu = 'notifications';
+            break;
         case '/profile/friends':
         case '/profile/friends-add':
             menu = 'friends';
+            break;
         default:
             menu = 'information';
-    };
+    }
     return menu;
 };
 
@@ -59,10 +61,10 @@ const Profile = ({ match, location }) => (
 Profile.propTypes = {
     match: PropTypes.shape({
         url: PropTypes.string.isRequired,
-    }),
+    }).isRequired,
     location: PropTypes.shape({
         pathname: PropTypes.string.isRequired,
-    }),
+    }).isRequired,
 };
 
 export default Profile;

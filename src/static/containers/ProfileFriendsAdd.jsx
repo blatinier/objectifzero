@@ -37,7 +37,7 @@ class ProfileFriendsAdd extends Component {
     render = () => {
         const { form } = this.props;
         const profileFriendsAddForm = generateForm(form, this.validateForm, this.cancelForm,
-                                                   friendsAddFields, {}, 'Ajouter ami');
+            friendsAddFields, {}, 'Ajouter ami');
         return (
             <Col span={12} offset={6}>
                 {profileFriendsAddForm}
@@ -48,7 +48,7 @@ class ProfileFriendsAdd extends Component {
 
 ProfileFriendsAdd.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    token: Propypes.string.isRequired,
+    token: PropTypes.string.isRequired,
     form: PropTypes.shape().isRequired,
     actions: PropTypes.shape({
         createFriendNotification: PropTypes.func.isRequired,

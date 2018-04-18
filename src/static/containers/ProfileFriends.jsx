@@ -73,7 +73,7 @@ Friends.propTypes = {
     friendsFetch: PropTypes.instanceOf(PromiseState).isRequired,
     actions: PropTypes.shape({
         removeFriend: PropTypes.func.isRequired,
-    }),
+    }).isRequired,
 };
 
 const mapStateToProps = state => ({

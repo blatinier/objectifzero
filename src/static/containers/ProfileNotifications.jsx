@@ -54,26 +54,27 @@ class ProfileNotifications extends Component {
                     </Card>
                 ));
         }
-
+        const notificationTitle = "Requête d'amis";
         return (
             <Row>
                 <Col className="container" offset={5} span={14}>
-                    <h1>Requête d'amis</h1>
+                    <h1>
+                        {notificationTitle}
+                    </h1>
                     {notificationsDisplay}
                 </Col>
             </Row>
         );
-   };
+    };
 }
 
 ProfileNotifications.propTypes = {
-    dispatch: PropTypes.func.isRequired,
     token: PropTypes.string.isRequired,
     notificationsFetch: PropTypes.instanceOf(PromiseState).isRequired,
     actions: PropTypes.shape({
         acceptFriendNotification: PropTypes.func.isRequired,
         rejectFriendNotification: PropTypes.func.isRequired,
-    }),
+    }).isRequired,
 };
 
 const mapStateToProps = state => ({
