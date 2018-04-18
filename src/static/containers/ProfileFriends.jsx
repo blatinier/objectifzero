@@ -44,20 +44,11 @@ class Friends extends Component {
 Friends.propTypes = {
     dispatch: PropTypes.func.isRequired,
     friendsFetch: PropTypes.instanceOf(PromiseState).isRequired,
-    notificationsFetch: PropTypes.instanceOf(PromiseState).isRequired,
 };
 
 export default connect(({ token }) => ({
     friendsFetch: {
         url: '/api/v1/users/list_friends/',
-        force: true,
-        headers: {
-            Accept: 'application/json',
-            Authorization: `Token ${token}`,
-        },
-    },
-    notificationsFetch: {
-        url: '/api/v1/notifications/list/',
         force: true,
         headers: {
             Accept: 'application/json',

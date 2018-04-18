@@ -17,3 +17,31 @@ export function createFriendNotification(token, values) {
         });
     };
 }
+
+export function acceptFriendNotification(token, slug) {
+    return dispatch => {
+        dispatch(simpleEvent(constants.NOTIFICATION_FRIEND_ACCEPT_REQUEST));
+        return api('post', token, `/notifications/accept/${slug}/`)
+        .then(() => {
+            dispatch(simpleEvent(constants.NOTIFICATION_FRIEND_ACCEPT_SUCCESS));
+            dispatch(push('/profile/friends'));
+        })
+        .catch((error) => {
+            handleError(dispatch, error, constants.NOTIFICATION_FRIEND_ACCEPT_FAILURE);
+        });
+    };
+}
+
+export function rejectFriendNotification(token, slug) {
+    return dispatch => {
+        dispatch(simpleEvent(constants.NOTIFICATION_FRIEND_REJECT_REQUEST));
+        return api('post', token, `/notifications/reject/${slug}/`)
+        .then(() => {
+            dispatch(simpleEvent(constants.NOTIFICATION_FRIEND_REJECT_SUCCESS));
+            dispatch(push('/profile/friends'));
+        })
+        .catch((error) => {
+            handleError(dispatch, error, constants.NOTIFICATION_FRIEND_REJECT_FAILURE);
+        });
+    };
+}

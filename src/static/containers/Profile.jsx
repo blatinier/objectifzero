@@ -17,6 +17,7 @@ const locationMapping = (pathname) => {
         case '/profile/notifications':
             return 'notifications';
         case '/profile/friends':
+        case '/profile/friends-add':
             return 'friends';
         default:
             return 'information'

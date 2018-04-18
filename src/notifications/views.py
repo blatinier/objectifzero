@@ -13,9 +13,13 @@ from users.models import User
 class NotificationListCreateView(ListCreateAPIView):
     """ List notifications """
     serializer_class = NotificationSerializer
-    queryset = Notification.objects.get_queryset().order_by('-created_at')
     authentication_classes = (TokenAuthentication, )
     permission_classes = (IsAuthenticated, )
+
+    def get_queryset(self):
+        user = self.request.user
+        return Notification.objects.filter(destination_user=user,
+                                           status='PENDING')
 
     def post(self, request):
         user = request.user
@@ -32,7 +36,15 @@ class NotificationListCreateView(ListCreateAPIView):
 class NotificationRUDView(RetrieveUpdateDestroyAPIView):
     """ Notification management """
     serializer_class = NotificationSerializer
-    queryset = Notification.objects.all()
     authentication_classes = (TokenAuthentication, )
     permission_classes = (IsAuthenticated, )
-    lookup_field = 'slug'
+
+    def post(self, request, action, slug):
+        user = request.user
+        notification = Notification.objects.filter(destination_user=user,
+                status='PENDING', slug=slug).first()
+        if notification:
+            if action == 'reject':
+                notification.reject()
+            elif action == 'accept':
+                notification.accept()

@@ -8,7 +8,7 @@ urlpatterns = [
     path(_('list-add/'),
          NotificationListCreateView.as_view(),
          name='create_notifications'),
-    path(_('notification/<slug:slug>/'),
+    path(_('<action>/<slug:slug>/'),
          NotificationRUDView.as_view(),
          name='update_notification'),
 ]

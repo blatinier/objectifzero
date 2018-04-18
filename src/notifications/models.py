@@ -17,3 +17,17 @@ class Notification(models.Model):
                               default='PENDING', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def accept(self):
+        self.status = 'ACCEPTED'
+        user1 = self.created_by
+        user2 = self.destination_user
+        user1.friends.add(user2)
+        user2.friends.add(user1)
+        user1.save()
+        user2.save()
+        self.save()
+
+    def reject(self):
+        self.status = 'REJECTED'
+        self.save()
