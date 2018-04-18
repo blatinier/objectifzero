@@ -1,0 +1,2 @@
+[production]
+www.latinier.fr ansible_user=meianki ansible_become_method=sudo ansible_become=true branch=master

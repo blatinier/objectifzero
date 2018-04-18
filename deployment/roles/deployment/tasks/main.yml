@@ -1,0 +1,66 @@
+- name: Initialize the deploy
+  deploy_helper:
+    path: /var/www/objectifzero-react
+
+- name: Download the project archive
+  get_url:
+    url: https://api.github.com/repos/blatinier/objectifzero/tarball/{{ branch }}
+    dest: '{{ deploy_helper.new_release_path }}.tar'
+
+- name: Create release directory
+  file:
+    path: '{{ deploy_helper.new_release_path }}'
+    state: directory
+
+- name: Extract the project archive
+  unarchive:
+    copy: false
+    src: '{{ deploy_helper.new_release_path }}.tar'
+    dest: '{{ deploy_helper.new_release_path }}'
+    extra_opts: '--strip-components=1'
+
+- name: Remove the project archive
+  file:
+    path: '{{ deploy_helper.new_release_path }}.tar'
+    state: absent
+
+- name: Install JS dependencies
+  command: yarn install --production=false
+  args:
+    chdir: '{{ deploy_helper.new_release_path }}'
+
+- name: Build front
+  command: yarn prod
+  args:
+    chdir: '{{ deploy_helper.new_release_path }}'
+
+- name: Install python dependencies
+  pip:
+    requirements: '{{ deploy_helper.new_release_path }}/py-requirements/prod.txt'
+    virtualenv: '{{ deploy_helper.new_release_path }}/virtualenv'
+    virtualenv_command: /usr/bin/python3.5 -m virtualenv
+
+- name: Clean release
+  file:
+    path: '{{ deploy_helper.new_release_path }}/src/djangoreactredux/settings'
+    state: absent
+
+- name: Link settings
+  file:
+    src: '{{ deploy_helper.project_path }}/settings'
+    dest: '{{ deploy_helper.new_release_path }}/src/djangoreactredux/settings'
+    state: link
+
+- name: Migrate database
+  command: ./manage.py migrate
+  args:
+    chdir: '{{ deploy_helper.new_release_path }}/src'
+
+- name: Finalize the deploy
+  deploy_helper:
+    path: '{{ deploy_helper.project_path }}'
+    release: '{{ deploy_helper.new_release }}'
+    state: finalize
+
+- name: Restart gunicorn
+  command: supervisorctl restart gunicorn-zero
