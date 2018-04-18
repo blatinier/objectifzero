@@ -85,7 +85,7 @@ const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(actionCreators, dispatch),
 });
 
-const ConnectedProfileNotifications = reduxConnect(mapStateToProps, mapDispatchToProps)(ProfileNotifications)
+const ConnectedProfileNotifications = reduxConnect(mapStateToProps, mapDispatchToProps)(ProfileNotifications);
 
 export default connect(({ token }) => ({
     notificationsFetch: {

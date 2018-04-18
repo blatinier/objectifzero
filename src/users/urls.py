@@ -28,4 +28,7 @@ urlpatterns = [
     path(_('list_friends/'),
          users.views.UserFriendsView.as_view(),
          name='list_friends'),
+    path(_('remove_friend/'),
+        users.views.UserFriendsRUDView.as_view(),
+        name='remove_friend'),
 ]

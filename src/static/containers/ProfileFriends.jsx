@@ -1,14 +1,25 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { connect as reduxConnect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import { connect, PromiseState } from 'react-refetch';
-import { Row, Col, Spin, Icon } from 'antd';
+import { Row, Col, Spin, Icon, Card, Button } from 'antd';
 
 import withRedirectOnLogout from '../utils/withRedirectOnLogout';
+import * as actionCreators from '../actions/users';
 
 class Friends extends Component {
     goToAddFriend = () => {
         this.props.dispatch(push('/profile/friends-add'));
+    };
+
+    removeFriend = (friendId) => () => {
+        const {
+            token,
+            actions: { removeFriend },
+        } = this.props;
+        removeFriend(token, friendId);
     };
 
     render = () => {
@@ -22,8 +33,21 @@ class Friends extends Component {
                 </Fragment>
             );
         } else if (friendsFetch.fulfilled) {
-            console.log('### FRIENDS ', friendsFetch.value);
-            friendsDisplay ="FRIENDS LIST ";
+            const friends = friendsFetch.value;
+            friendsDisplay = friends.map(friend => (
+                <Card key={friend.id}>
+                    <Row>
+                        <Col span={18} offset={2}>
+                            {friend.username}
+                        </Col>
+                        <Col span={2}>
+                            <Button type="danger" onClick={this.removeFriend(friend.id)}>
+                                Supprimer
+                            </Button>
+                        </Col>
+                    </Row>
+                </Card>
+            ));
         }
 
         return (
@@ -34,7 +58,9 @@ class Friends extends Component {
                     </a>
                 </Row>
                 <Row>
-                    <Col>{friendsDisplay}</Col>
+                    <Col className="container" offset={5} span={14}>
+                        {friendsDisplay}
+                    </Col>
                 </Row>
             </Fragment>
         );
@@ -43,8 +69,22 @@ class Friends extends Component {
 
 Friends.propTypes = {
     dispatch: PropTypes.func.isRequired,
+    token: PropTypes.string.isRequired,
     friendsFetch: PropTypes.instanceOf(PromiseState).isRequired,
+    actions: PropTypes.shape({
+        removeFriend: PropTypes.func.isRequired,
+    }),
 };
+
+const mapStateToProps = state => ({
+    token: state.auth.token,
+});
+
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(actionCreators, dispatch),
+});
+
+const ConnectedFriends = reduxConnect(mapStateToProps, mapDispatchToProps)(Friends);
 
 export default connect(({ token }) => ({
     friendsFetch: {
@@ -55,4 +95,4 @@ export default connect(({ token }) => ({
             Authorization: `Token ${token}`,
         },
     },
-}))(withRedirectOnLogout(Friends, { refetchFunc: 'friendsFetch' }));
+}))(withRedirectOnLogout(ConnectedFriends, { refetchFunc: 'friendsFetch' }));

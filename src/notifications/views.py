@@ -48,3 +48,4 @@ class NotificationRUDView(RetrieveUpdateDestroyAPIView):
                 notification.reject()
             elif action == 'accept':
                 notification.accept()
+        return Response(status=status.HTTP_200_OK)

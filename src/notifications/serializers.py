@@ -18,10 +18,3 @@ class NotificationSerializer(serializers.ModelSerializer):
         notification = Notification.objects.create(
                 slug=slugify(data['destination_user']), **data)
         return notification
-
-    def update(self, instance, validated_data):
-        import ipdb; ipdb.set_trace()
-        instance.slug = slugify(instance.destination_user)
-        instance.save()
-        # /!\ UPDATE FRIENDS USER
-        return instance

@@ -39,8 +39,16 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return value
 
 
+class FriendUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', )
+
+
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
+    friends = FriendUserSerializer(many=True)
 
     class Meta:
         model = User

@@ -119,3 +119,21 @@ class UserFriendsView(ListAPIView):
         user = self.request.user
         return Response(self.get_serializer(user).data['friends'],
                         status=status.HTTP_200_OK)
+
+
+class UserFriendsRUDView(RetrieveUpdateDestroyAPIView):
+    """ User Friends management """
+    serializer_class = UserSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request):
+        user = request.user
+        friend_id = request.data
+        friend = User.objects.filter(id=friend_id).first()
+        # Friends are deleted on both sides
+        user.friends.remove(friend)
+        friend.friends.remove(user)
+        user.save()
+        friend.save()
+        return Response(status=status.HTTP_200_OK)
