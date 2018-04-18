@@ -14,7 +14,7 @@ class Friends extends Component {
         this.props.dispatch(push('/profile/friends-add'));
     };
 
-    removeFriend = (friendId) => () => {
+    removeFriend = friendId => () => {
         const {
             token,
             actions: { removeFriend },

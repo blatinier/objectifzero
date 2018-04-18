@@ -14,7 +14,8 @@ class NotificationSerializer(serializers.ModelSerializer):
         model = Notification
         fields = ('created_by', 'destination_user', 'slug', 'status')
 
-    def create(self, data):
+    @classmethod
+    def create(cls, data):
         notification = Notification.objects.create(
                 slug=slugify(data['destination_user']), **data)
         return notification

@@ -13,15 +13,17 @@ import ProfileNotifications from './ProfileNotifications';
 const { Sider, Content } = Layout;
 
 const locationMapping = (pathname) => {
+    let menu;
     switch (pathname) {
         case '/profile/notifications':
-            return 'notifications';
+            menu = 'notifications';
         case '/profile/friends':
         case '/profile/friends-add':
-            return 'friends';
+            menu = 'friends';
         default:
-            return 'information'
+            menu = 'information';
     };
+    return menu;
 };
 
 const Profile = ({ match, location }) => (

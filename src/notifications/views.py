@@ -39,7 +39,8 @@ class NotificationRUDView(RetrieveUpdateDestroyAPIView):
     authentication_classes = (TokenAuthentication, )
     permission_classes = (IsAuthenticated, )
 
-    def post(self, request, action, slug):
+    @classmethod
+    def post(cls, request, action, slug):
         user = request.user
         notification = Notification.objects.filter(destination_user=user,
                 status='PENDING', slug=slug).first()

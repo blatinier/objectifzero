@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404
-from django.utils.text import slugify
 from django_rest_logger import log
 from knox.auth import TokenAuthentication
 from knox.models import AuthToken
@@ -127,7 +126,8 @@ class UserFriendsRUDView(RetrieveUpdateDestroyAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def delete(self, request):
+    @classmethod
+    def delete(cls, request):
         user = request.user
         friend_id = request.data
         friend = User.objects.filter(id=friend_id).first()
