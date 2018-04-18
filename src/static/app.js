@@ -45,6 +45,7 @@ class App extends Component {
             const urlMap = {
                 admin: '/zw-admin/user',
                 dashboard: '/dashboard',
+                profile: '/profile/information',
                 register: '/register',
                 login: '/login',
             };
@@ -62,6 +63,7 @@ class App extends Component {
                 items.push(<Menu.Item key="admin"><Icon type="lock" /> Admin</Menu.Item>);
             }
             items.push(<Menu.Item key="dashboard">Dashboard</Menu.Item>);
+            items.push(<Menu.Item key="profile">Profile</Menu.Item>);
             items.push(<Menu.Item key="logout">Déconnexion</Menu.Item>);
         } else {
             items.push(<Menu.Item key="register">Inscription</Menu.Item>);

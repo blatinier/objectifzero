@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect, PromiseState } from 'react-refetch';
 import { push } from 'react-router-redux';
@@ -10,7 +10,7 @@ import withRedirectOnLogout from '../utils/withRedirectOnLogout';
 
 const { Sider, Content } = Layout;
 
-class AdminUser extends React.Component {
+class AdminUser extends Component {
     goToAddUser = () => {
         this.props.dispatch(push('/zw-admin/user-add'));
     }
