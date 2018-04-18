@@ -108,3 +108,16 @@ export const editUserFields = [
         ],
     },
 ];
+
+export const profileFields = [
+    {
+        items: [
+            usernameField,
+            emailField,
+            hasGardenField,
+            homeOwnerField,
+            doSmokeField,
+            genderField,
+        ],
+    },
+]

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-refetch';
 import PropTypes from 'prop-types';
-import { Card } from 'antd';
+import { Spin, Form } from 'antd';
 
 import withRedirectOnLogout from '../utils/withRedirectOnLogout';
+import { generateForm } from '../utils/generateForm';
+import { profileFields } from '../utils/forms/user';
 
 import './ProfileInformation.css';
 
@@ -12,34 +14,50 @@ class Profile extends Component {
         this.props.updateProfile(key, val);
     }
 
+    validateProfile = (e) => {
+        e.preventDefault();
+        console.log('### VALIDATE PROFILE');
+    };
+
     render = () => {
-        const { fetchProfile } = this.props;
+        const { fetchProfile, form } = this.props;
+        let profileDisplay;
         if (fetchProfile.pending) {
-            return (
-                <div className="profile-side-block">
-                    <p className="text-center">Loading profile...</p>;
+            profileDisplay = (
+                <div className="text-center">
+                    <Spin size="large" />
+                    Récupération du profil...
                 </div>
             );
         } else if (fetchProfile.fulfilled) {
             const {
-                pseudo, email,
+                username, email, has_garden, home_owner, do_smoke, gender,
             } = fetchProfile.value;
-            return (
-                <div className="profile-side-block">
-                    <Card>
-                        <Card.Meta title={pseudo} description={email} />
-                    </Card>
-                </div>
-            );
+            const initialData = {
+                username,
+                email,
+                has_garden,
+                home_owner,
+                do_smoke,
+                gender,
+            };
+            profileDisplay = generateForm(form, this.validateProfile, null, profileFields, initialData, 'Editer');
         }
-        return null;
+        return (
+            <div className="profile-side-block">
+                {profileDisplay}
+            </div>
+        );
     }
 }
 
 Profile.propTypes = {
     updateProfile: PropTypes.func.isRequired,
     fetchProfile: PropTypes.shape().isRequired,
+    form: PropTypes.shape().isRequired,
 };
+
+const ProfileWithForm = Form.create()(Profile)
 
 export default connect(({ token }) => ({
     fetchProfile: {
@@ -62,4 +80,4 @@ export default connect(({ token }) => ({
             },
         },
     }),
-}))(withRedirectOnLogout(Profile, { refetchFunc: 'fetchProfile' }));
+}))(withRedirectOnLogout(ProfileWithForm, { refetchFunc: 'fetchProfile' }));

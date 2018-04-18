@@ -49,6 +49,17 @@ export const generateForm = (form, onSubmit, onCancel, fieldSets, initialData, b
 
 
     }
+    let cancelButton;
+    if (onCancel) {
+        cancelButton = (
+            <Button
+                onClick={onCancel}
+                size="large"
+            >
+                Annuler
+            </Button>
+        );
+    }
     return (
         <Form onSubmit={onSubmit}>
             {fields}
@@ -60,12 +71,7 @@ export const generateForm = (form, onSubmit, onCancel, fieldSets, initialData, b
             >
                 {buttonName}
             </Button>
-            <Button
-                onClick={onCancel}
-                size="large"
-            >
-                Annuler
-            </Button>
-        </Form>
+            {cancelButton}
+       </Form>
     );
 }
