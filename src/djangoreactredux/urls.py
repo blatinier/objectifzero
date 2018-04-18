@@ -10,6 +10,8 @@ urlpatterns = [
     path('api/v1/users/', include(('users.urls', 'users'), namespace='users')),
     path('api/v1/cards/', include(('cards.urls', 'cards'), namespace='cards')),
     path('api/v1/user_cards/', include(('user_cards.urls', 'user_cards'), namespace='user_cards')),
+    path('api/v1/notifications/', include(('notifications.urls', 'notifications'),
+                                          namespace='notifications')),
 
     # catch all others because of how history is handled by react router - cache this page because it will never change
     re_path(r'', cache_page(settings.PAGE_CACHE_SECONDS)(IndexView.as_view()), name='index'),

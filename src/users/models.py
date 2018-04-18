@@ -103,6 +103,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     activation_key = models.UUIDField(unique=True, default=uuid.uuid4)  # email
 
+    # Friendship
+    friends = models.ManyToManyField('self', blank=True)
+
     # Zero Waste fields
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default=GENDER_MALE, blank=True, null=True)
     has_garden = models.BooleanField(default=False)
@@ -145,6 +148,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.username
 
+    def add_friend(self, friend_username):
+        friend = User.objects.filter(username=friend_username).first()
+        if friend:
+            self.friends.add(friend)
+            self.save()
 
 class UserCard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

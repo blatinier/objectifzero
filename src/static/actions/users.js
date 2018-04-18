@@ -52,3 +52,17 @@ export function deleteUser(token, username) {
             handleError(dispatch, error, constants.USER_DELETE_FAILURE);
         });
 }
+
+export function removeFriend(token, friendId) {
+    return (dispatch) => {
+        dispatch(simpleEvent(constants.USER_REMOVE_FRIEND_REQUEST));
+        return api('delete', token, '/users/remove_friend/', friendId)
+            .then(() => {
+                dispatch(simpleEvent(constants.USER_REMOVE_FRIEND_SUCCESS));
+                dispatch(push('/profile/friends'));
+            })
+            .catch((error) => {
+                handleError(dispatch, error, constants.USER_REMOVE_FRIEND_FAILURE);
+            });
+    };
+}
