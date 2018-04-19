@@ -31,17 +31,17 @@ const passwordField = {
         message: 'Saisissez un mot de passe',
     }],
     component: <Input
-                prefix={<Icon type="lock" />}
-                type="password"
-                placeholder="Mot de passe"
-                />
+        prefix={<Icon type="lock" />}
+        type="password"
+        placeholder="Mot de passe"
+    />,
 };
 
 const isStaffField = {
     label: 'Admin',
     id: 'is_staff',
     valuePropName: 'checked',
-    component: <Switch />
+    component: <Switch />,
 };
 
 const hasGardenField = {

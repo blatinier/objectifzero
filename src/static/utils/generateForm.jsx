@@ -9,9 +9,7 @@ const FormItem = Form.Item
 const generateFormItem = (form, item, initialData) => {
     const { label = '', id = '', rules = [], component, valuePropName } = item;
     const { getFieldDecorator } = form;
-    const options = {
-        rules
-    };
+    const options = { rules };
     if (initialData) {
         options.initialValue = get(initialData, id);
     }
@@ -35,7 +33,7 @@ export const generateForm = (form, onSubmit, onCancel, fieldSets, initialData, b
     } else {
         for (const fieldSet of fieldSets) {
             const { legendName, items } = fieldSet;
-            const formItems = []
+            const formItems = [];
             for (const item of items) {
                 formItems.push(generateFormItem(form, item, initialData));
             }

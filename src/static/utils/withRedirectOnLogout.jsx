@@ -9,7 +9,7 @@ const withRedirectOnLogout = (WrappedComponent, extraData) => (
             if (funcFetch.rejected && funcFetch.meta.response.status === 401) {
                 nextProps.dispatch(authLogoutAndRedirect());
             }
-        };
+        }
 
         render = () => (<WrappedComponent {...this.props} />);
     }

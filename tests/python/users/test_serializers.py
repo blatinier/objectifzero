@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from rest_framework.exceptions import ErrorDetail
 
-from users.serializers import UserRegistrationSerializer, UserSerializer
+from users.serializers import UserRegistrationSerializer
 from lib.testutils import CustomTestCase
 from tests.python.users.test_models import UserFactory
 

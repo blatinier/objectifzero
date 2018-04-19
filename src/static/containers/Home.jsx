@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Col, Row } from 'antd';
 
 import './Home.css';
@@ -65,16 +63,4 @@ const Home = () => (
     </Col>
 );
 
-Home.defaultProps = {
-    statusText: null,
-};
-
-Home.propTypes = {
-    statusText: PropTypes.string,
-};
-
-const mapStateToProps = state => ({
-    statusText: state.auth.statusText,
-});
-
-export default connect(mapStateToProps)(Home);
+export default Home;

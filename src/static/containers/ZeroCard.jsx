@@ -91,8 +91,8 @@ class ZeroCard extends Component {
                 },
             },
         } = this.props;
-        const waste = waste_reduction ? <FaTrash color="green" /> : <FaTrash color="red" />;;
-        const co = co2_reduction ? <FaCloud color="green" /> : <FaCloud color="red" />;;
+        const waste = waste_reduction ? <FaTrash color="green" /> : <FaTrash color="red" />;
+        const co = co2_reduction ? <FaCloud color="green" /> : <FaCloud color="red" />;
         const water = water_use_reduction ? <FaTint color="green" /> : <FaTint color="red" />;
         const approved = published ? <FaCheck color="green" /> : <FaClose color="red" />;
         return (

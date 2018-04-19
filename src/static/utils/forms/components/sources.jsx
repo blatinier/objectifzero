@@ -11,7 +11,7 @@ class Sources extends Component {
         this.state = {
             sources: defaultTo(props.value, []),
         };
-    };
+    }
 
     onChange = (values) => {
         this.setState({ values });

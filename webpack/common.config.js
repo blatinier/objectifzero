@@ -8,7 +8,7 @@ const TARGET = process.env.npm_lifecycle_event;
 
 const PATHS = {
     app: path.join(__dirname, '../src/static'),
-    build: path.join(__dirname, '../src/static_dist')
+    build: path.join(__dirname, '../src/static_dist'),
 };
 
 const VENDOR = [
@@ -31,7 +31,7 @@ const common = {
     context: basePath,
     entry: {
         vendor: VENDOR,
-        app: PATHS.app
+        app: PATHS.app,
     },
     optimization: {
         splitChunks: {
@@ -40,19 +40,19 @@ const common = {
                     chunks: "initial",
                     test: path.resolve(__dirname, "node_modules"),
                     name: "vendor",
-                    enforce: true
+                    enforce: true,
                 },
                 commons: {
                     minChunks: 3,
-                    enforce: true
-                }
-            }
-        }
+                    enforce: true,
+                },
+            },
+        },
     },
     output: {
         filename: '[name].js',
         path: PATHS.build,
-        publicPath: '/static'
+        publicPath: '/static',
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -61,39 +61,39 @@ const common = {
             chunks: ['vendor', 'app'],
             chunksSortMode: 'manual',
             filename: 'index.html',
-            inject: 'body'
+            inject: 'body',
         }),
         new webpack.ProvidePlugin({
             '$': 'jquery',
             'jQuery': 'jquery',
-            'window.jQuery': 'jquery'
+            'window.jQuery': 'jquery',
         }),
         new CleanWebpackPlugin([PATHS.build], {
-            root: process.cwd()
-        })
+            root: process.cwd(),
+        }),
     ],
     resolve: {
         extensions: ['.jsx', '.js', '.json', '.css'],
-        modules: ['node_modules']
+        modules: ['node_modules'],
     },
     module: {
         rules: [
             {
                 test: /\.js[x]?$/,
                 use: {
-                    loader: 'babel-loader'
+                    loader: 'babel-loader',
                 },
-                exclude: /node_modules/
+                exclude: /node_modules/,
             },
             {
                 test: /\.jpe?g$|\.gif$|\.png$/,
-                loader: 'file-loader?name=/images/[name].[ext]?[hash]'
+                loader: 'file-loader?name=/images/[name].[ext]?[hash]',
             },
             {
                 test: /\.svg(\?.*)?$/,
-                loader: 'url-loader?name=/fonts/[name].[ext]&limit=10000&mimetype=image/svg+xml'
-            }
-        ]
+                loader: 'url-loader?name=/fonts/[name].[ext]&limit=10000&mimetype=image/svg+xml',
+            },
+        ],
     },
 };
 

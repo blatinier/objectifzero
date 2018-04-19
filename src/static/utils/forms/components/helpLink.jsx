@@ -9,9 +9,9 @@ class HelpLink extends Component {
     constructor(props) {
         super(props);
         this.state = {
-           helpLinks: defaultTo(props.value, []),
+            helpLinks: defaultTo(props.value, []),
         };
-    };
+    }
 
     onChange = (values) => {
         this.setState({ helpLinks: values });

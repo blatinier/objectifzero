@@ -21,6 +21,10 @@ class AdminMenu extends React.Component {
     );
 }
 
+AdminMenu.defaultProps = {
+    selectedMenu: 'adminUsers',
+};
+
 AdminMenu.propTypes = {
     dispatch: PropTypes.func.isRequired,
     selectedMenu: PropTypes.string,
