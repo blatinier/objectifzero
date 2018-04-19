@@ -7,14 +7,31 @@ import { Layout, Menu } from 'antd';
 import requireAuthentication from '../utils/requireAuthentication';
 import ProfileInformation from './ProfileInformation';
 import ProfileFriends from './ProfileFriends';
+import ProfileFriendsAdd from './ProfileFriendsAdd';
 import ProfileNotifications from './ProfileNotifications';
 
 const { Sider, Content } = Layout;
 
-const Profile = ({ match }) => (
+const locationMapping = (pathname) => {
+    let menu;
+    switch (pathname) {
+        case '/profile/notifications':
+            menu = 'notifications';
+            break;
+        case '/profile/friends':
+        case '/profile/friends-add':
+            menu = 'friends';
+            break;
+        default:
+            menu = 'information';
+    }
+    return menu;
+};
+
+const Profile = ({ match, location }) => (
     <Layout>
         <Sider>
-            <Menu theme="dark" defaultSelectedKeys={['information']}>
+            <Menu theme="dark" selectedKeys={[locationMapping(location.pathname)]}>
                 <Menu.Item key="information">
                     <Link to={`${match.url}/information`} className="nav-text">
                         Information
@@ -35,6 +52,7 @@ const Profile = ({ match }) => (
         <Content>
             <Route path={`${match.url}/information`} component={requireAuthentication(ProfileInformation)} />
             <Route path={`${match.url}/friends`} component={requireAuthentication(ProfileFriends)} />
+            <Route path={`${match.url}/friends-add`} component={requireAuthentication(ProfileFriendsAdd)} />
             <Route path={`${match.url}/notifications`} component={requireAuthentication(ProfileNotifications)} />
         </Content>
     </Layout>
@@ -43,7 +61,10 @@ const Profile = ({ match }) => (
 Profile.propTypes = {
     match: PropTypes.shape({
         url: PropTypes.string.isRequired,
-    }),
+    }).isRequired,
+    location: PropTypes.shape({
+        pathname: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 export default Profile;

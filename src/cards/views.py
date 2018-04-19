@@ -1,10 +1,8 @@
 from knox.auth import TokenAuthentication
-from rest_framework import status
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
+from rest_framework.permissions import IsAdminUser
 from cards.models import Card
-from cards.serializers import CardSerializer, CardShortSerializer
+from cards.serializers import CardSerializer
 
 
 class CardListCreateView(ListCreateAPIView):
