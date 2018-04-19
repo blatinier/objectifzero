@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect, PromiseState } from 'react-refetch';
-import { push } from 'react-router-redux';
 import { Col, Row } from 'antd';
 import { isArray } from 'lodash';
 

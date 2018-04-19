@@ -37,9 +37,9 @@ const common = {
         splitChunks: {
             cacheGroups: {
                 vendor: {
-                    chunks: "initial",
-                    test: path.resolve(__dirname, "node_modules"),
-                    name: "vendor",
+                    chunks: 'initial',
+                    test: path.resolve(__dirname, 'node_modules'),
+                    name: 'vendor',
                     enforce: true,
                 },
                 commons: {
@@ -65,7 +65,7 @@ const common = {
         }),
         new webpack.ProvidePlugin({
             '$': 'jquery',
-            'jQuery': 'jquery',
+            jQuery: 'jquery',
             'window.jQuery': 'jquery',
         }),
         new CleanWebpackPlugin([PATHS.build], {
@@ -104,6 +104,4 @@ switch (TARGET) {
     case 'prod':
         module.exports = merge(require('./prod.config'), common);
         break;
-    default:
-        console.log('Target configuration not found. Valid targets: "dev" or "prod".');
 }

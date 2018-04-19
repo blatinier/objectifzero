@@ -1,4 +1,5 @@
 FROM python:3.6
+LABEL maintainer="benoit@latinier.fr"
 
 WORKDIR /usr/src/objectifzero/src
 
