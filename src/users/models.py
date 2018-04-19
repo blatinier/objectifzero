@@ -84,7 +84,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         (GENDER_FEMALE, 'Female')
     )
 
-    # we want primary key to be called id so need to ignore pytlint
+    # we want primary key to be called id so need to ignore pylint
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # pylint: disable=invalid-name
 
     username = models.CharField(_('Username'), max_length=50, unique=True)

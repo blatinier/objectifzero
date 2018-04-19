@@ -106,6 +106,13 @@ class UserRUDView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAdminUser,)
     lookup_field = "username"
 
+    def delete(self, request):
+        """Delete User."""
+        import ipdb; ipdb.set_trace()
+        # Remove user information like username, ... but keep stat info
+        # soft_delete user
+        # logout
+
 
 class UserFriendsView(ListAPIView):
     """ User friends list """

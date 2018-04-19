@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-refetch';
 import PropTypes from 'prop-types';
-import { Spin, Form } from 'antd';
+import { Spin, Form, Button, Row } from 'antd';
 
 import withRedirectOnLogout from '../utils/withRedirectOnLogout';
 import { generateForm } from '../utils/generateForm';
@@ -10,6 +10,18 @@ import { profileFields } from '../utils/forms/user';
 import './ProfileInformation.css';
 
 class Profile extends Component {
+    state = {
+        editing: false,
+    }
+
+    deleteProfile = (e) => {
+        console.log('### DELETE PROFILE ');
+    }
+
+    editProfile = () => {
+        this.setState({ editing: true });
+    };
+
     updateProfile = key => (val) => {
         this.props.updateProfile(key, val);
     }
@@ -19,8 +31,21 @@ class Profile extends Component {
         console.log('### VALIDATE PROFILE');
     };
 
+    renderEditProfile = ({ username, email, has_garden, home_owner, do_smoke, gender }) => {
+        const initialData = {
+            username,
+            email,
+            has_garden,
+            home_owner,
+            do_smoke,
+            gender,
+        };
+        return generateForm(form, this.validateProfile, null, profileFields, initialData, 'Editer');
+    };
+
     render = () => {
         const { fetchProfile, form } = this.props;
+        const { editing } = this.state;
         let profileDisplay;
         if (fetchProfile.pending) {
             profileDisplay = (
@@ -30,23 +55,25 @@ class Profile extends Component {
                 </div>
             );
         } else if (fetchProfile.fulfilled) {
-            const {
-                username, email, has_garden, home_owner, do_smoke, gender,
-            } = fetchProfile.value;
-            const initialData = {
-                username,
-                email,
-                has_garden,
-                home_owner,
-                do_smoke,
-                gender,
-            };
-            profileDisplay = generateForm(form, this.validateProfile, null, profileFields, initialData, 'Editer');
+            const profile = fetchProfile.value;
+            if (editing) {
+                profileDisplay = this.renderEditProfile(profile);
+            } else {
+                profileDisplay = profile.username;
+            }
         }
+        const deleteText = "Supprimer compte!"
         return (
-            <div className="profile-side-block">
-                {profileDisplay}
-            </div>
+            <Fragment>
+                <Row>
+                    {profileDisplay}
+                </Row>
+                <Row>
+                    <Button type="danger" onClick={this.deleteProfile}>
+                        {deleteText}
+                    </Button>
+                </Row>
+            </Fragment>
         );
     }
 }
