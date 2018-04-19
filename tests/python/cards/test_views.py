@@ -4,8 +4,7 @@ from rest_framework import status
 
 from tests.python.base_test_view import BaseTestView
 
-from cards.models import Card, CardStat, DataSource
-from users.models import UserCard
+from cards.models import Card, CardStat
 from .test_models import CardFactory, CardStatFactory, DataSourceFactory
 
 
@@ -113,7 +112,7 @@ class CardsTests(BaseTestView):
         self.client.force_authenticate(user=self.staff_user)
         self.client.post(url_create, self.POST_DATA_CARD, format='json')
         # Fetch card to ensure it exists
-        card = Card.objects.get(slug='test-title')
+        Card.objects.get(slug='test-title')
         url = reverse('cards:fetch_card', kwargs={'slug': 'test-title'})
         self.client.delete(url)
         with self.assertRaises(Card.DoesNotExist):

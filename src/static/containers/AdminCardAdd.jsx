@@ -73,7 +73,6 @@ class AdminCardAdd extends Component {
 
     render() {
         const { isFetchingCard, form, cardData } = this.props;
-        let cardForm;
         let initialData = {};
         if (this.state.editing) {
             initialData = {
@@ -94,7 +93,14 @@ class AdminCardAdd extends Component {
                 },
             };
         }
-        cardForm = generateForm(form, this.validateCard, this.cancelCard, cardFields, initialData, this.state.editing ? 'Edit card!' : 'Create card!');
+        const cardForm = generateForm(
+            form,
+            this.validateCard,
+            this.cancelCard,
+            cardFields,
+            initialData,
+            this.state.editing ? 'Edit card!' : 'Create card!',
+        );
         return (
             <Layout>
                 <Sider>
@@ -119,6 +125,7 @@ class AdminCardAdd extends Component {
 
 AdminCardAdd.defaultProps = {
     match: null,
+    cardData: {},
 };
 
 AdminCardAdd.propTypes = {

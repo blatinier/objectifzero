@@ -40,7 +40,7 @@ class AdminUserAdd extends Component {
             form: { resetFields },
             dispatch,
         } = this.props;
-        this.props.form.resetFields();
+        resetFields();
         dispatch(push('/zw-admin/user'));
     };
 

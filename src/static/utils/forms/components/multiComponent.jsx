@@ -10,7 +10,7 @@ class MultiComponent extends Component {
         this.state = {
             values: defaultTo(props.values, []),
         };
-    };
+    }
 
     addItem = () => {
         const { values } = this.state;
@@ -52,7 +52,6 @@ class MultiComponent extends Component {
                         onBlur={onChangeFunc}
                     />
                 );
-                break;
             case "sources":
                 return (
                     <fieldset>
@@ -77,7 +76,6 @@ class MultiComponent extends Component {
                         </Radio.Group>
                     </fieldset>
                 );
-                break;
             default:
                 return undefined;
         }
@@ -107,7 +105,6 @@ class MultiComponent extends Component {
                 </Button>
             </Fragment>
         );
-
     }
 }
 

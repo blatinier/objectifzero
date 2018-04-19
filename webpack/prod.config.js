@@ -7,11 +7,11 @@ module.exports = {
             test: /\.css$/,
             use: [
                 MiniCssExtractPlugin.loader,
-                'css-loader'
-            ]
+                'css-loader',
+            ],
         }],
     },
     plugins: [
-        new MiniCssExtractPlugin('styles/[name].css')
-    ]
+        new MiniCssExtractPlugin('styles/[name].css'),
+    ],
 };
