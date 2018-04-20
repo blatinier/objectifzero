@@ -2,7 +2,6 @@ import React, { Fragment, Component } from 'react';
 import { defaultTo } from 'lodash';
 import { Button, Icon, Row, Col, Input, Radio } from 'antd';
 
-
 class MultiComponent extends Component {
 
     constructor(props) {

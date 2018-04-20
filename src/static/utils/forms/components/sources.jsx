@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { cloneDeep, defaultTo } from 'lodash';
+import { defaultTo } from 'lodash';
 
 import MultiComponent from './multiComponent';
 

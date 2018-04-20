@@ -44,8 +44,6 @@ export const generateForm = (form, onSubmit, onCancel, fieldSets, initialData, b
                 </fieldset>
             );
         }
-
-
     }
     return (
         <Form onSubmit={onSubmit}>

@@ -3,7 +3,6 @@ import { defaultTo } from 'lodash';
 
 import MultiComponent from './multiComponent';
 
-
 class HelpLink extends Component {
 
     constructor(props) {

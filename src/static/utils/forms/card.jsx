@@ -56,7 +56,7 @@ const costScoreField = {
         required: true,
         message: 'Saisissez un score de coût',
     }],
-    component: <Rate allowHalf character={ <FaMoney /> } />,
+    component: <Rate allowHalf character={<FaMoney />} />,
 };
 
 const publishedField = {
@@ -134,7 +134,7 @@ const sourcesField = {
             validator: (rule, values, cb) => {
                 for (let value of values) {
                     if (value.name.length === 0 || value.link.length === 0) {
-                        cb('Au moins une des sources est incorrecte : le nom et le lien sont requis')
+                        cb('Au moins une des sources est incorrecte : le nom et le lien sont requis');
                     }
                     const urlValidator = new Schema({ link: { type: 'url' } });
                     urlValidator.validate({ link: value.link }, (error) => {
