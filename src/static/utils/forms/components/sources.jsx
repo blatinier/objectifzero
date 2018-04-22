@@ -1,8 +1,8 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { defaultTo } from 'lodash';
 
 import MultiComponent from './multiComponent';
-
 
 class Sources extends Component {
 
@@ -34,5 +34,10 @@ class Sources extends Component {
         );
     }
 }
+
+Sources.propTypes = {
+    value: PropTypes.arrayOf({}).isRequired,
+    onChange: PropTypes.func.isRequired,
+};
 
 export default Sources;
