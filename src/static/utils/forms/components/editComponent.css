@@ -1,0 +1,11 @@
+.edit-component:hover .edit {
+  display: block;
+}
+
+.edit {
+  display: none;
+}
+
+.edit-icon {
+  cursor: pointer;
+}

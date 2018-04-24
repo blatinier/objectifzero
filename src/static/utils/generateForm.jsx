@@ -25,7 +25,7 @@ const generateFormItem = (form, item, initialData) => {
     );
 };
 
-export const generateForm = (form, onSubmit, onCancel, fieldSets, initialData, buttonName) => {
+export const generateFields = (form, fieldSets, initialData) => {
     const fields = [];
     if (fieldSets.length === 1) {
         const items = fieldSets[0].items;
@@ -46,9 +46,12 @@ export const generateForm = (form, onSubmit, onCancel, fieldSets, initialData, b
                 </fieldset>
             );
         }
-
-
     }
+    return fields;
+
+}
+
+export const generateForm = (form, onSubmit, onCancel, fieldSets, initialData, buttonName) => {
     let cancelButton;
     if (onCancel) {
         cancelButton = (
@@ -62,7 +65,7 @@ export const generateForm = (form, onSubmit, onCancel, fieldSets, initialData, b
     }
     return (
         <Form onSubmit={onSubmit}>
-            {fields}
+            {generateFields(form, fieldSets, initialData)}
             <Button
                 className="validate-form"
                 htmlType="submit"

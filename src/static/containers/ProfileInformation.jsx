@@ -26,21 +26,25 @@ class Profile extends Component {
         this.props.updateProfile(key, val);
     }
 
+    cancelProfile = () => {
+        const { form } = this.props;
+        form.resetFields();
+        // REFRESH?
+    }
+
     validateProfile = (e) => {
         e.preventDefault();
         console.log('### VALIDATE PROFILE');
     };
 
-    renderEditProfile = ({ username, email, has_garden, home_owner, do_smoke, gender }) => {
-        const initialData = {
-            username,
-            email,
-            has_garden,
-            home_owner,
-            do_smoke,
-            gender,
-        };
-        return generateForm(form, this.validateProfile, null, profileFields, initialData, 'Editer');
+    renderEditProfile = () => {
+        return (
+            <ModalWithForm
+                ref={(form) => { this.formEdit = form; }}
+                visible={editing}
+
+            />
+        );
     };
 
     render = () => {
@@ -55,12 +59,16 @@ class Profile extends Component {
                 </div>
             );
         } else if (fetchProfile.fulfilled) {
-            const profile = fetchProfile.value;
-            if (editing) {
-                profileDisplay = this.renderEditProfile(profile);
-            } else {
-                profileDisplay = profile.username;
-            }
+            const { username, email, has_garden, home_owner, do_smoke, gender } = fetchProfile.value;
+            const initialData = {
+                username,
+                email,
+                has_garden,
+                home_owner,
+                do_smoke,
+                gender,
+            };
+           profileDisplay = generateForm(form, this.validateProfile, null, profileFields, initialData, 'Editer');
         }
         const deleteText = "Supprimer compte!"
         return (
