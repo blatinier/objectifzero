@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-refetch';
 import PropTypes from 'prop-types';
-import { Spin, Form, Button, Row } from 'antd';
+import { Spin, Form, Button, Row, Col, Icon } from 'antd';
 
 import withRedirectOnLogout from '../utils/withRedirectOnLogout';
 import { generateForm } from '../utils/generateForm';
 import { profileFields } from '../utils/forms/user';
+import ShortUser from './ShortUser';
 
 import './ProfileInformation.css';
 
@@ -29,7 +30,7 @@ class Profile extends Component {
     cancelProfile = () => {
         const { form } = this.props;
         form.resetFields();
-        // REFRESH?
+        this.setState({ editing: false });
     }
 
     validateProfile = (e) => {
@@ -37,15 +38,34 @@ class Profile extends Component {
         console.log('### VALIDATE PROFILE');
     };
 
-    renderEditProfile = () => {
-        return (
-            <ModalWithForm
-                ref={(form) => { this.formEdit = form; }}
-                visible={editing}
-
-            />
-        );
+    renderEditProfile = ({ username, email, has_garden, home_owner, do_smoke, gender }) => {
+        const { form } = this.props;
+        const initialData = {
+            username,
+            email,
+            has_garden,
+            home_owner,
+            do_smoke,
+            gender,
+        };
+        return generateForm(form, this.validateProfile, this.cancelProfile, profileFields, initialData, 'Editer');
     };
+
+    renderProfile = (user) => (
+        <Row gutter={6} type="flex" justify="space-around" align="middle" className="edit-card">
+            <Col span={20} offset={2}>
+                <ShortUser
+                    admin={false}
+                    user={user}
+                />
+            </Col>
+            <Col span={2}>
+                <div className="edit" onClick={this.editProfile}>
+                    <Icon className="edit-icon" type="edit" />
+                </div>
+            </Col>
+        </Row>
+    );
 
     render = () => {
         const { fetchProfile, form } = this.props;
@@ -59,16 +79,12 @@ class Profile extends Component {
                 </div>
             );
         } else if (fetchProfile.fulfilled) {
-            const { username, email, has_garden, home_owner, do_smoke, gender } = fetchProfile.value;
-            const initialData = {
-                username,
-                email,
-                has_garden,
-                home_owner,
-                do_smoke,
-                gender,
-            };
-           profileDisplay = generateForm(form, this.validateProfile, null, profileFields, initialData, 'Editer');
+            const user = fetchProfile.value;
+            if (editing) {
+                profileDisplay = this.renderEditProfile(user);
+            } else {
+                profileDisplay = this.renderProfile(user);
+            }
         }
         const deleteText = "Supprimer compte!"
         return (
@@ -76,7 +92,7 @@ class Profile extends Component {
                 <Row>
                     {profileDisplay}
                 </Row>
-                <Row>
+                <Row type="flex" justify="space-around" className="delete-button">
                     <Button type="danger" onClick={this.deleteProfile}>
                         {deleteText}
                     </Button>

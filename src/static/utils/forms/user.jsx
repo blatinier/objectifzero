@@ -1,8 +1,6 @@
 import React from 'react';
 import { Icon, Input, Select, Switch } from 'antd';
 
-import EditComponent from './components/editComponent';
-
 const Option = Select.Option;
 
 const usernameField = {
@@ -15,22 +13,13 @@ const usernameField = {
     component: <Input prefix={<Icon type="user" />} placeholder="Username" />,
 };
 
-const usernameEditField = {
-    label: 'Username',
-    id: 'username',
-    rules: [{
-        required: true,
-        message: 'Saisissez un nom d\'utilisateur',
-    }],
-    component: <EditComponent type="input" componentProps={{ prefix: <Icon type="user" />, placeholder: "Username" }} />
-};
-
 const emailField = {
     label: 'Email',
     id: 'email',
     rules: [{
         required: true,
         message: 'Saisissez un email',
+        type: 'email',
     }],
     component: <Input prefix={<Icon type="mail" />} placeholder="Email" />,
 };
@@ -124,7 +113,7 @@ export const editUserFields = [
 export const profileFields = [
     {
         items: [
-            usernameEditField,
+            usernameField,
             emailField,
             hasGardenField,
             homeOwnerField,
