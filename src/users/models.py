@@ -154,6 +154,14 @@ class User(AbstractBaseUser, PermissionsMixin):
             self.friends.add(friend)
             self.save()
 
+    def reset_fields(self):
+        self.login = ''
+        self.first_name = ''
+        self.last_name = ''
+        self.email = ''
+        self.friends.clear()
+
+
 class UserCard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     card = models.ForeignKey(Card, on_delete=models.CASCADE)

@@ -66,3 +66,18 @@ export function removeFriend(token, friendId) {
             });
     };
 }
+
+export function archiveUser(token) {
+    return dispatch => {
+        dispatch(simpleEvent(constants.USER_ARCHIVE_REQUEST));
+        return api('delete', token, '/users/archive/')
+            .then(parseJSON)
+            .then(() => {
+                dispatch(simpleEvent(constants.USER_ARCHIVE_SUCCESS));
+                dispatch(push('/profile/information'));
+            })
+            .catch((error) => {
+                handleError(dispatch, error, constants.USER_ARCHIVE_FAILURE);
+            });
+    };
+}

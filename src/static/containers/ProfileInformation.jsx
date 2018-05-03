@@ -1,8 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-refetch';
+import { connect as connectRedux } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
-import { Spin, Form, Button, Row, Col, Icon } from 'antd';
+import { Spin, Form, Button, Row, Col, Icon, Modal } from 'antd';
 
+import * as actionCreators from '../actions/users';
+import { authLogoutAndRedirect } from '../actions/auth';
 import withRedirectOnLogout from '../utils/withRedirectOnLogout';
 import { generateForm } from '../utils/generateForm';
 import { profileFields } from '../utils/forms/user';
@@ -10,13 +14,34 @@ import ShortUser from './ShortUser';
 
 import './ProfileInformation.css';
 
+const confirm = Modal.confirm;
+
 class Profile extends Component {
     state = {
         editing: false,
     }
 
+    showConfirm = () => {
+        const {
+            token,
+            actions: { archiveUser }
+        } = this.props;
+        const title = 'Suppression de compte';
+        const content = 'En supprimant votre compte, toutes vos informations personnelles seront effacées et vous serez redirigé vers la page de login';
+        confirm({
+            title,
+            content,
+            onOk() {
+                return newPromise(() => {
+                    archiveUser(token);
+                    authLogoutAndRedirect();
+                }).catch(() => console.log('An error occured while archiving a user'));
+            },
+            onCancel() {},
+        });
+    }
+
     deleteProfile = (e) => {
-        console.log('### DELETE PROFILE ');
     }
 
     editProfile = () => {
@@ -69,7 +94,7 @@ class Profile extends Component {
 
     render = () => {
         const { fetchProfile, form } = this.props;
-        const { editing } = this.state;
+        const { editing, showDeleteModal } = this.state;
         let profileDisplay;
         if (fetchProfile.pending) {
             profileDisplay = (
@@ -93,7 +118,7 @@ class Profile extends Component {
                     {profileDisplay}
                 </Row>
                 <Row type="flex" justify="space-around" className="delete-button">
-                    <Button type="danger" onClick={this.deleteProfile}>
+                    <Button type="danger" onClick={this.showConfirm}>
                         {deleteText}
                     </Button>
                 </Row>
@@ -103,12 +128,26 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
+    token: PropTypes.string.isRequired,
     updateProfile: PropTypes.func.isRequired,
     fetchProfile: PropTypes.shape().isRequired,
     form: PropTypes.shape().isRequired,
+    actions: PropTypes.shape({
+        archiveUser: PropTypes.func.isRequired,
+    }).isRequired,
 };
 
-const ProfileWithForm = Form.create()(Profile)
+const mapStateToProps = state => ({
+    token: state.auth.token,
+});
+
+const mapDispatchToProps = dispatch => ({
+    actions: bindActionCreators(actionCreators, dispatch),
+});
+
+const ConnectedProfile = connectRedux(mapStateToProps, mapDispatchToProps)(Profile);
+
+const ProfileWithForm = Form.create()(ConnectedProfile)
 
 export default connect(({ token }) => ({
     fetchProfile: {

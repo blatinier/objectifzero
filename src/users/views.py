@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.generics import GenericAPIView
 from rest_framework.generics import (RetrieveUpdateDestroyAPIView, ListAPIView,
-                                     ListCreateAPIView)
+                                     ListCreateAPIView, DestroyAPIView)
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
@@ -27,6 +27,7 @@ class UserRegisterView(AtomicMixin, CreateModelMixin, GenericAPIView):
 
 class UserLoginView(GenericAPIView):
     serializer_class = UserSerializer
+    queryset = User.objects.filter(is_active=True)
     authentication_classes = (BasicAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -72,6 +73,7 @@ class UserEmailConfirmationStatusView(GenericAPIView):
 class UserProfileView(GenericAPIView):
     """Return user profile data."""
     serializer_class = UserSerializer
+    queryset = User.objects.filter(is_active=True)
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -106,17 +108,11 @@ class UserRUDView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAdminUser,)
     lookup_field = "username"
 
-    def delete(self, request):
-        """Delete User."""
-        import ipdb; ipdb.set_trace()
-        # Remove user information like username, ... but keep stat info
-        # soft_delete user
-        # logout
-
 
 class UserFriendsView(ListAPIView):
     """ User friends list """
     serializer_class = UserSerializer
+    queryset = User.objects.filter(is_active=True)
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -130,6 +126,7 @@ class UserFriendsView(ListAPIView):
 class UserFriendsRUDView(RetrieveUpdateDestroyAPIView):
     """ User Friends management """
     serializer_class = UserSerializer
+    queryset = User.objects.filter(is_active=True)
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -143,4 +140,20 @@ class UserFriendsRUDView(RetrieveUpdateDestroyAPIView):
         friend.friends.remove(user)
         user.save()
         friend.save()
+        return Response(status=status.HTTP_200_OK)
+
+
+class UserArchiveView(DestroyAPIView):
+    """ Archive current user """
+    serializer_class = UserSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+
+    @classmethod
+    def delete(cls, request):
+        user = request.user
+        user.is_active = False
+        user.reset_fields()
+        user.save()
         return Response(status=status.HTTP_200_OK)
