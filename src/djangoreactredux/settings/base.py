@@ -6,7 +6,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))  # remove
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'enjoyzerodechet.fr', 'www.enjoyzerodechet.fr']
 
 PAGE_CACHE_SECONDS = 60
 
