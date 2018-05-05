@@ -72,7 +72,7 @@ class ZeroCard extends Component {
             <ul className="data-sources">
                 {data_sources.map(ds => (
                     <li key={ds.name}>
-                        <Badge status={('VERIFIED' === ds.status) ? 'success' : 'warning'} />
+                        <Badge status={(ds.status === 'VERIFIED') ? 'success' : 'warning'} />
                         <a href={ds.link}>{ds.name}</a>
                     </li>
                 ))}
@@ -110,7 +110,7 @@ class ZeroCard extends Component {
             card: {
                 slug, status, title, description,
                 waste_reduction_score, cost_score,
-                difficulty_score, help_links, published,
+                difficulty_score, help_links,
                 card_stats: {
                     co2_reduction,
                     waste_reduction,
@@ -188,7 +188,7 @@ class ZeroCard extends Component {
                             defaultValue={waste_reduction_score}
                             character={<Icon type="delete" />}
                         />
-                        <Rate disabled allowHalf defaultValue={cost_score} character={ <FaMoney /> } />
+                        <Rate disabled allowHalf defaultValue={cost_score} character={<FaMoney />} />
                         <Rate disabled allowHalf defaultValue={difficulty_score} character={<Icon type="tool" />} />
                     </Col>
                 </Card>
@@ -215,7 +215,7 @@ class ZeroCard extends Component {
                                 disabled
                                 allowHalf
                                 defaultValue={cost_score}
-                                character={ <FaMoney /> }
+                                character={<FaMoney />}
                             />
                             <Rate
                                 disabled
@@ -246,10 +246,10 @@ ZeroCard.defaultProps = {
 ZeroCard.propTypes = {
     admin: PropTypes.bool.isRequired,
     userview: PropTypes.bool.isRequired,
-    status: PropTypes.string,
     card: PropTypes.shape({
         slug: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
+        status: PropTypes.string.isRequired,
         description: PropTypes.string.isRequired,
         waste_reduction_score: PropTypes.number.isRequired,
         difficulty_score: PropTypes.number.isRequired,
