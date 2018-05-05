@@ -4,7 +4,7 @@ import { get } from 'lodash';
 
 import './Form.css';
 
-const FormItem = Form.Item
+const FormItem = Form.Item;
 
 const generateFormItem = (form, item, initialData) => {
     const { label = '', id = '', rules = [], component, valuePropName } = item;
@@ -64,4 +64,4 @@ export const generateForm = (form, onSubmit, onCancel, fieldSets, initialData, b
             </Button>
         </Form>
     );
-}
+};

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Fragment, Component } from 'react';
 import { defaultTo } from 'lodash';
 import { Button, Icon, Row, Col, Input, Radio } from 'antd';
@@ -10,19 +11,6 @@ class MultiComponent extends Component {
             values: defaultTo(props.values, []),
         };
     }
-
-    addItem = () => {
-        const { values } = this.state;
-        const { defaultValue } = this.props;
-        values.push(defaultValue);
-        this.setState({ values });
-    };
-
-    removeItem = (index) => () => {
-        const { values } = this.state;
-        values.splice(index, 1);
-        this.setState({ values });
-    };
 
     onChange = index => (evt) => {
         const { values } = this.state;
@@ -38,10 +26,23 @@ class MultiComponent extends Component {
         this.props.onChange(values);
     };
 
+    addItem = () => {
+        const { values } = this.state;
+        const { defaultValue } = this.props;
+        values.push(defaultValue);
+        this.setState({ values });
+    };
+
+    removeItem = index => () => {
+        const { values } = this.state;
+        values.splice(index, 1);
+        this.setState({ values });
+    };
+
     buildComponent = (value, index, onChangeFunc) => {
         const { type, placeholder } = this.props;
         switch (type) {
-            case "input":
+            case 'input':
                 return (
                     <Input
                         id={index}
@@ -51,7 +52,7 @@ class MultiComponent extends Component {
                         onBlur={onChangeFunc}
                     />
                 );
-            case "sources":
+            case 'sources':
                 return (
                     <fieldset>
                         Nom
@@ -106,5 +107,17 @@ class MultiComponent extends Component {
         );
     }
 }
+
+MultiComponent.defaultProps = {
+    values: [],
+    defaultValue: {},
+};
+
+MultiComponent.propTypes = {
+    values: PropTypes.arrayOf({}),
+    defaultValue: PropTypes.shape({}),
+    onChange: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired,
+};
 
 export default MultiComponent;
