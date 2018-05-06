@@ -1,7 +1,7 @@
 {
-  "name": "enjoy-zero-waste",
+  "name": "enjoy-zero-dechet",
   "version": "1.0.0",
-  "description": "Enjoy zero waste app",
+  "description": "Enjoy zero dechet app",
   "scripts": {
     "dev": "webpack --mode development --progress --display-error-details --config webpack/common.config.js --watch",
     "prod": "webpack --mode production --progress -p --config webpack/common.config.js",

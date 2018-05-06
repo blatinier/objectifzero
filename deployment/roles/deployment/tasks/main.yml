@@ -25,7 +25,7 @@
     state: absent
 
 - name: Install JS dependencies
-  command: yarn install --production=false
+  command: yarn install --production=true
   args:
     chdir: '{{ deploy_helper.new_release_path }}'
 
@@ -39,22 +39,31 @@
     requirements: '{{ deploy_helper.new_release_path }}/py-requirements/prod.txt'
     virtualenv: '{{ deploy_helper.new_release_path }}/virtualenv'
     virtualenv_command: /usr/bin/python3.5 -m virtualenv
+    virtualenv_python: python3.5
 
 - name: Clean release
+  with_items:
+    - prod.py
+    - gunicorn.py
   file:
-    path: '{{ deploy_helper.new_release_path }}/src/djangoreactredux/settings'
+    path: '{{ deploy_helper.new_release_path }}/src/djangoreactredux/settings/{{item}}'
     state: absent
 
 - name: Link settings
+  with_items:
+    - prod.py
+    - gunicorn.py
   file:
-    src: '{{ deploy_helper.project_path }}/settings'
-    dest: '{{ deploy_helper.new_release_path }}/src/djangoreactredux/settings'
+    src: '{{ deploy_helper.project_path }}/settings/{{item}}'
+    dest: '{{ deploy_helper.new_release_path }}/src/djangoreactredux/settings/{{item}}'
     state: link
 
 - name: Migrate database
-  command: ./manage.py migrate
-  args:
-    chdir: '{{ deploy_helper.new_release_path }}/src'
+  django_manage:
+    command: migrate
+    app_path: '{{ deploy_helper.new_release_path }}/src'
+    virtualenv: '{{ deploy_helper.new_release_path }}/virtualenv'
+
 
 - name: Finalize the deploy
   deploy_helper:
