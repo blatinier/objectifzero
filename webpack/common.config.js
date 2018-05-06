@@ -3,8 +3,22 @@ const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const TARGET = process.env.npm_lifecycle_event;
+
+let SERVER_URL;
+
+if (TARGET === 'dev') {
+    try {
+        const config = require('./custom_config.js');
+        SERVER_URL = config.serverUrl;
+    } catch (e) {
+        SERVER_URL = 'http://127.0.0.1:8042';
+    }
+} else {
+    SERVER_URL = 'http://www.enjoyzerodechet.fr';
+}
 
 const PATHS = {
     app: path.join(__dirname, '../src/static'),
@@ -71,6 +85,10 @@ const common = {
         new CleanWebpackPlugin([PATHS.build], {
             root: process.cwd(),
         }),
+        new MiniCssExtractPlugin('styles/[name].css'),
+        new webpack.DefinePlugin({
+            'process.env.SERVER_URL': JSON.stringify(SERVER_URL),
+        }),
     ],
     resolve: {
         extensions: ['.jsx', '.js', '.json', '.css'],
@@ -93,15 +111,19 @@ const common = {
                 test: /\.svg(\?.*)?$/,
                 loader: 'url-loader?name=/fonts/[name].[ext]&limit=10000&mimetype=image/svg+xml',
             },
+            {
+                test: /\.css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                ],
+            },
         ],
     },
 };
 
-switch (TARGET) {
-    case 'dev':
-        module.exports = merge(require('./dev.config'), common);
-        break;
-    case 'prod':
-        module.exports = merge(require('./prod.config'), common);
-        break;
+if (TARGET === 'dev') {
+    common.devtool = 'source-map'; // 'cheap-module-eval-source-map'
 }
+
+module.exports = common;
