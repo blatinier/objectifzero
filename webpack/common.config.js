@@ -17,7 +17,7 @@ if (TARGET === 'dev') {
         SERVER_URL = 'http://127.0.0.1:8042';
     }
 } else {
-    SERVER_URL = 'http://www.enjoyzerodechet.fr';
+    SERVER_URL = 'https://www.enjoyzerodechet.fr';
 }
 
 const PATHS = {
