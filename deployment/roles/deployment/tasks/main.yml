@@ -25,7 +25,7 @@
     state: absent
 
 - name: Install JS dependencies
-  command: yarn install --production=true
+  command: yarn install
   args:
     chdir: '{{ deploy_helper.new_release_path }}'
 
