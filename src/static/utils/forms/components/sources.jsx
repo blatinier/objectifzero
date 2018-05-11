@@ -5,7 +5,6 @@ import { defaultTo } from 'lodash';
 import MultiComponent from './multiComponent';
 
 class Sources extends Component {
-
     constructor(props) {
         super(props);
         this.state = {

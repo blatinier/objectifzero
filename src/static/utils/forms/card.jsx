@@ -26,7 +26,7 @@ const descriptionField = {
         required: true,
         message: 'Saisissez une description',
     }],
-    component: <Input type="textarea" rows={4} placeholder="Description" />,
+    component: <Input.TextArea rows={6} placeholder="Description" />,
 };
 
 const wasteReductionScoreField = {
@@ -72,9 +72,9 @@ const helpLinkField = {
     rules: [
         {
             // Only take input which have been written
-            transform: value => value ? (value.filter(link => link.length > 0)) : [],
+            transform: value => value ? (value.filter(link => (link.length > 0))) : [],
             validator: (rule, value, cb) => {
-                for (let link of value) {
+                for (const link of value) {
                     const urlValidator = new Schema({ link: { type: 'url' } });
                     urlValidator.validate({ link }, (errors) => {
                         if (errors) {
@@ -132,7 +132,7 @@ const sourcesField = {
         {
             transform: value => defaultTo(value, []),
             validator: (rule, values, cb) => {
-                for (let value of values) {
+                for (const value of values) {
                     if (value.name.length === 0 || value.link.length === 0) {
                         cb('Au moins une des sources est incorrecte : le nom et le lien sont requis');
                     }
