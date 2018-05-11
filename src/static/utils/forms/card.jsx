@@ -7,7 +7,8 @@ import FaMoney from 'react-icons/lib/fa/money';
 import HelpLink from './components/helpLink';
 import Sources from './components/sources';
 
-const Option = Select.Option;
+const { Option } = Select;
+const { TextArea } = Input;
 
 const titleField = {
     label: 'Titre',
@@ -26,7 +27,7 @@ const descriptionField = {
         required: true,
         message: 'Saisissez une description',
     }],
-    component: <Input.TextArea rows={6} placeholder="Description" />,
+    component: <TextArea rows={6} placeholder="Description" />,
 };
 
 const wasteReductionScoreField = {
