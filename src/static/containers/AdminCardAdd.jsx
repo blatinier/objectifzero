@@ -107,7 +107,7 @@ class AdminCardAdd extends Component {
         return (
             <Layout>
                 <Sider>
-                    <AdminMenu />
+                    <AdminMenu selectedMenu="adminCards" />
                 </Sider>
                 <Content>
                     {(isFetchingCard === true) ?
