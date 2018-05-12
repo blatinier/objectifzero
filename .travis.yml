@@ -18,4 +18,3 @@ script:
   - py.test -c pytest_ci.ini tests/
   - bandit -r src
   - npm run lintjs
-  - npm run nsp

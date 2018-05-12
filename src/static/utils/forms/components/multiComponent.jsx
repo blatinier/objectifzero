@@ -4,7 +4,6 @@ import { defaultTo } from 'lodash';
 import { Button, Icon, Row, Col, Input, Radio } from 'antd';
 
 class MultiComponent extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -84,7 +83,7 @@ class MultiComponent extends Component {
     render = () => {
         const { values } = this.state;
         const items = values.map((value, index) => (
-            <Row key={index}>
+            <Row key={`multi-component-row-${value}`}>
                 <Col span={12}>
                     {this.buildComponent(value, index, this.onChange(index))}
                 </Col>
