@@ -12,8 +12,13 @@ import geek from '../images/geek.svg';
 
 const Home = () => (
     <Col span={20} offset={2}>
-        <Row>
-            <Col span={14} offset={2} className="home-block">
+        <Row align="middle" type="flex">
+            <Col
+                xs={{ span: 24, offset: 0 }}
+                sm={{ span: 18, offset: 0 }}
+                xl={{ span: 14, offset: 2 }}
+                className="home-block"
+            >
                 <h2>Enjoy zéro déchets</h2>
                 <p>
                     Parce que tous les gestes comptent !
@@ -23,15 +28,29 @@ const Home = () => (
                     <b> Enjoy zéro déchet</b>
                 </p>
             </Col>
-            <Col span={4} offset={2} className="home-img">
+            <Col
+                xs={{ span: 0, offset: 0 }}
+                sm={{ span: 4, offset: 2 }}
+                className="home-img"
+            >
                 <img src={hummingbird} alt="" />
             </Col>
         </Row>
-        <Row>
-            <Col span={4} offset={2} className="home-img">
+        <Row align="middle" type="flex">
+            <Col
+                xs={{ span: 0, offset: 0 }}
+                sm={{ span: 4, offset: 0 }}
+                xl={{ span: 4, offset: 2 }}
+                className="home-img"
+            >
                 <img src={cheerleader} alt="" />
             </Col>
-            <Col span={14} offset={2} className="home-block">
+            <Col
+                xs={{ span: 24, offset: 0 }}
+                sm={{ span: 18, offset: 2 }}
+                xl={{ span: 14, offset: 2 }}
+                className="home-block"
+            >
                 <h2>Restez motivés !</h2>
                 <p>
                     Il est toujours plus facile de voir ce qui ne va pas.
@@ -41,8 +60,13 @@ const Home = () => (
                 </p>
             </Col>
         </Row>
-        <Row>
-            <Col span={14} offset={2} className="home-block">
+        <Row align="middle" type="flex">
+            <Col
+                xs={{ span: 24, offset: 0 }}
+                sm={{ span: 18, offset: 0 }}
+                xl={{ span: 14, offset: 2 }}
+                className="home-block"
+            >
                 <h2>Des pistes d&apos;amélioration adaptées à votre style de vie</h2>
                 <p>
                     Le zéro déchet est une démarche passionnante mais il est
@@ -53,13 +77,18 @@ const Home = () => (
                     amis, votre famille. Rejoignez nous !
                 </p>
             </Col>
-            <Col span={4} offset={2} className="home-img">
+            <Col
+                xs={{ span: 0, offset: 0 }}
+                sm={{ span: 4, offset: 2 }}
+                className="home-img"
+            >
                 <Col span={12}><img src={cook} alt="" /></Col>
                 <Col span={12}><img src={pet} alt="" /></Col>
                 <Col span={12}><img src={surf} alt="" /></Col>
                 <Col span={12}><img src={geek} alt="" /></Col>
             </Col>
         </Row>
+        <Row>&nbsp;</Row>
     </Col>
 );
 

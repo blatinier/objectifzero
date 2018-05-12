@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 
 import requireAuthentication from '../utils/requireAuthentication';
 import ProfileInformation from './ProfileInformation';
@@ -34,16 +34,19 @@ const Profile = ({ match, location }) => (
             <Menu theme="dark" selectedKeys={[locationMapping(location.pathname)]}>
                 <Menu.Item key="information">
                     <Link to={`${match.url}/information`} className="nav-text">
+                        <Icon type="profile" />
                         Information
                     </Link>
                 </Menu.Item>
                 <Menu.Item key="friends">
                     <Link to={`${match.url}/friends`} className="nav-text">
+                        <Icon type="team" />
                         Amis
                     </Link>
                 </Menu.Item>
-                 <Menu.Item key="notifications">
+                <Menu.Item key="notifications">
                     <Link to={`${match.url}/notifications`} className="nav-text">
+                        <Icon type="notification" />
                         Notifications
                     </Link>
                 </Menu.Item>

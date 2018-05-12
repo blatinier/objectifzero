@@ -9,6 +9,26 @@
 }
 
 .main-footer {
-    background-color: #cccccc;
+    background-color: #dddddd;
     text-align: center;
+}
+
+.ant-layout-sider, .ant-menu-dark, .ant-menu-dark .ant-menu-sub,
+.ant-layout-header {
+    background-color: #b7eb8f;
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected,
+.ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected {
+    background-color: #73d13d;
+}
+
+.ant-menu-dark.ant-menu-horizontal {
+    border-bottom-color: #95de64;
+}
+
+.ant-menu-dark .ant-menu-item, .ant-menu-dark .ant-menu-item-group-title,
+.ant-menu-dark .ant-menu-item > a {
+    color: #1890ff;
+    font-weight: bold;
 }

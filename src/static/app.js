@@ -10,6 +10,19 @@ import './app.css';
 
 const { Header, Footer } = Layout;
 
+const MenuItem = ({ key, icon, name }) => (
+    <Menu.Item key={key}>
+        <Col xs={24} sm={6}><Icon type={icon} /></Col>
+        <Col xs={0} sm={{ span: 16, offset: 2 }}>{name}</Col>
+    </Menu.Item>
+);
+
+MenuItem.propTypes = {
+    key: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+};
+
 class App extends Component {
     state = {};
 
@@ -60,24 +73,24 @@ class App extends Component {
         const items = [];
         if (isAuthenticated) {
             if (isStaff) {
-                items.push(<Menu.Item key="admin"><Icon type="lock" /> Admin</Menu.Item>);
+                items.push(<MenuItem key="admin" icon="tool" name="Admin" />);
             }
-            items.push(<Menu.Item key="dashboard">Dashboard</Menu.Item>);
-            items.push(<Menu.Item key="profile">Profile</Menu.Item>);
-            items.push(<Menu.Item key="logout">Déconnexion</Menu.Item>);
+            items.push(<MenuItem key="dashboard" icon="dashboard" name="Dashboard" />);
+            items.push(<MenuItem key="profile" icon="user" name="Profile" />);
+            items.push(<MenuItem key="logout" icon="logout" name="Déconnexion" />);
         } else {
-            items.push(<Menu.Item key="register">Inscription</Menu.Item>);
-            items.push(<Menu.Item key="login">Connexion</Menu.Item>);
+            items.push(<MenuItem key="register" icon="user-add" name="Inscription" />);
+            items.push(<MenuItem key="login" icon="login" name="Connexion" />);
         }
 
         return (
             <Layout className="layout">
                 <Header>
                     <Row type="flex" justify="space-between">
-                        <Col span={6}>
+                        <Col xs={0} sm={5}>
                             <a onClick={this.goTo('/')}>Enjoy Zero Déchet</a>
                         </Col>
-                        <Col span={6}>
+                        <Col sm={18}>
                             <Menu
                                 className="main-menu"
                                 onClick={this.handleMenu}
