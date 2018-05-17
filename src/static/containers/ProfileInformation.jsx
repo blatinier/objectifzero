@@ -60,7 +60,20 @@ class Profile extends Component {
 
     validateProfile = (e) => {
         e.preventDefault();
-        console.log('### VALIDATE PROFILE');
+        const {
+            token,
+            form: { validateFields },
+            actions: { editUser },
+            refreshProfile,
+        } = this.props;
+        validateFields((err, values) => {
+            if (err) {
+                return;
+            }
+            editUser(token, values.username, values);
+            this.setState({ editing: false });
+            refreshProfile();
+        });
     };
 
     renderEditProfile = ({ username, email, has_garden, home_owner, do_smoke, gender }) => {
@@ -152,20 +165,18 @@ const ProfileWithForm = Form.create()(ConnectedProfile)
 export default connect(({ token }) => ({
     fetchProfile: {
         url: '/api/v1/users/profile/',
-        force: true,
         headers: {
             Accept: 'application/json',
             Authorization: `Token ${token}`,
         },
     },
-    updateProfile: (field, value) => ({
+    refreshProfile: () => ({
         fetchProfile: {
             url: '/api/v1/users/profile/',
-            method: 'POST',
-            body: JSON.stringify({ [field]: value }),
+            force: true,
+            refreshing: true,
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json',
                 Authorization: `Token ${token}`,
             },
         },

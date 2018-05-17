@@ -48,7 +48,7 @@ class FriendUserSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField()
-    friends = FriendUserSerializer(many=True)
+    friends = FriendUserSerializer(many=True, required=False)
 
     class Meta:
         model = User

@@ -105,8 +105,19 @@ class UserRUDView(RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsAuthenticated, )
     lookup_field = "username"
+
+    def update(self, request, *args, **kwargs):
+        user = request.user
+        # Only an admin can update or a user updating its own data
+        if user.is_staff or user.username == kwargs['username']:
+            return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_staff:
+            return super().destroy(request, *args, **kwargs)
 
 
 class UserFriendsView(ListAPIView):

@@ -23,7 +23,6 @@ export function createUser(token, values) {
         .then(parseJSON)
         .then(() => {
             dispatch(simpleEvent(constants.USER_ADD_SUCCESS));
-            dispatch(push('/zw-admin/user'));
         })
         .catch((error) => {
             handleError(dispatch, error, constants.USER_ADD_FAILURE);
@@ -35,7 +34,6 @@ export function editUser(token, username, values) {
         .then(parseJSON)
         .then(() => {
             dispatch(simpleEvent(constants.USER_EDIT_SUCCESS));
-            dispatch(push('/zw-admin/user'));
         })
         .catch((error) => {
             handleError(dispatch, error, constants.USER_EDIT_FAILURE);

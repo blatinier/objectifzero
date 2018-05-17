@@ -48,6 +48,7 @@ class AdminUserAdd extends Component {
         e.preventDefault();
         const {
             token,
+            dispatch,
             form: { validateFields },
             actions: { editUser, createUser },
         } = this.props;
@@ -59,6 +60,7 @@ class AdminUserAdd extends Component {
             } else {
                 createUser(token, values);
             }
+            dispatch(push('/zw-admin/user'));
         });
     };
 
