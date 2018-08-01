@@ -1,8 +1,8 @@
-Django==2.0.5
-django-extensions==2.0.7
+Django==2.0.7
+django-extensions==2.1.0
 
 # PostgresSQL
-psycopg2==2.7.4
+psycopg2==2.7.5
 
 # serve files
 whitenoise==3.3.1
@@ -11,7 +11,7 @@ whitenoise==3.3.1
 djangorestframework==3.8.2
 
 # Sentry
-raven==6.8.0
+raven==6.9.0
 
 # for date processing
 python-dateutil==2.7.3
@@ -19,7 +19,7 @@ python-dateutil==2.7.3
 # Logging
 git+https://github.com/Seedstars/django-rest-logger.git
 
-django-rest-knox==3.1.4
+django-rest-knox==3.1.5
 
 # For image fields
-Pillow==5.1.0
+Pillow==5.2.0
