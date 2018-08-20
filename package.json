@@ -6,7 +6,9 @@
     "dev": "webpack --mode development --progress --display-error-details --config webpack/common.config.js --watch",
     "prod": "webpack --mode production --progress -p --config webpack/common.config.js",
     "lintjs": "eslint -c .eslintrc src/static",
-    "nsp": "nsp check"
+    "nsp": "nsp check",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
