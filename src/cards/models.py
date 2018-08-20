@@ -48,6 +48,7 @@ class CardStat(models.Model):
 class Card(models.Model):
     slug = models.SlugField(max_length=1024)
     title = models.CharField(max_length=1024)
+    category = models.CharField(max_length=1024)
     description = models.TextField()
     image = models.ImageField(upload_to=get_card_image_path,
                               blank=True,

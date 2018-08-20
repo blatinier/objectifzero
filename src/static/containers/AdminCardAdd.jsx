@@ -60,6 +60,9 @@ class AdminCardAdd extends Component {
             const clonedValues = cloneDeep(values);
             if (this.state.editing) {
                 const { slug } = this.props.match.params;
+                if (!clonedValues.help_links) {
+                    clonedValues.help_links = [];
+                }
                 editCard(token, slug, clonedValues);
             } else {
                 createCard(token, clonedValues);
@@ -104,7 +107,7 @@ class AdminCardAdd extends Component {
         return (
             <Layout>
                 <Sider>
-                    <AdminMenu />
+                    <AdminMenu selectedMenu="adminCards" />
                 </Sider>
                 <Content>
                     {(isFetchingCard === true) ?
