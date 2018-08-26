@@ -1,5 +1,5 @@
 Django==2.1
-django-extensions==2.1.0
+django-extensions==2.1.1
 
 # PostgresSQL
 psycopg2-binary==2.7.5
