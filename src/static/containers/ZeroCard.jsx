@@ -111,6 +111,7 @@ class ZeroCard extends Component {
                 slug, status, title, description,
                 waste_reduction_score, cost_score,
                 difficulty_score, help_links,
+                category,
                 card_stats: {
                     co2_reduction,
                     waste_reduction,
@@ -177,7 +178,7 @@ class ZeroCard extends Component {
         actionBtns.push(<Icon type="eye-o" key={`see-${slug}`} onClick={this.see} />);
         return (
             <Col span={24} className="zerocard">
-                <Card title={title} actions={actionBtns} extra={admin ? this.renderIcons() : null} hoverable>
+                <Card title={`[${category}] ${title}`} actions={actionBtns} extra={admin ? this.renderIcons() : null} hoverable>
                     <Col span={19}>
                         <Row>{description}</Row>
                     </Col>
