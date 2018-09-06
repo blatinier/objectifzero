@@ -37,7 +37,7 @@ const categoryField = {
         required: true,
         message: 'Saisissez une catégorie',
     }],
-    component: <TextArea rows={6} placeholder="catégorie" />,
+    component: <Input placeholder="catégorie" />,
 };
 
 const wasteReductionScoreField = {
