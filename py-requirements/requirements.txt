@@ -14,7 +14,7 @@ djangorestframework==3.9.0
 raven==6.9.0
 
 # for date processing
-python-dateutil==2.7.4
+python-dateutil==2.7.5
 
 # Logging
 git+https://github.com/Seedstars/django-rest-logger.git
