@@ -60,6 +60,9 @@ class AdminCardAdd extends Component {
             const clonedValues = cloneDeep(values);
             if (this.state.editing) {
                 const { slug } = this.props.match.params;
+                if (!clonedValues.help_links) {
+                    clonedValues.help_links = [];
+                }
                 editCard(token, slug, clonedValues);
             } else {
                 createCard(token, clonedValues);
@@ -78,6 +81,7 @@ class AdminCardAdd extends Component {
             initialData = {
                 title: get(cardData, 'title', ''),
                 description: get(cardData, 'description', ''),
+                category: get(cardData, 'category', ''),
                 waste_reduction_score: get(cardData, 'waste_reduction_score'),
                 difficulty_score: get(cardData, 'difficulty_score'),
                 cost_score: get(cardData, 'cost_score'),
@@ -104,7 +108,7 @@ class AdminCardAdd extends Component {
         return (
             <Layout>
                 <Sider>
-                    <AdminMenu />
+                    <AdminMenu selectedMenu="adminCards" />
                 </Sider>
                 <Content>
                     {(isFetchingCard === true) ?

@@ -7,7 +7,7 @@ from cards.models import Card, CardStat, DataSource
 class CardShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
-        fields = ('slug', 'title', 'description',
+        fields = ('slug', 'title', 'description', 'category',
                   'waste_reduction_score', 'difficulty_score',
                   'cost_score', 'image')
 
@@ -38,7 +38,7 @@ class CardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Card
-        fields = ('slug', 'title', 'description',
+        fields = ('slug', 'title', 'description', 'category',
                   'waste_reduction_score', 'difficulty_score',
                   'cost_score', 'card_stats', 'help_links', 'published')
 
