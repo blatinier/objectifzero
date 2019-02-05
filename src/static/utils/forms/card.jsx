@@ -30,6 +30,16 @@ const descriptionField = {
     component: <TextArea rows={6} placeholder="Description" />,
 };
 
+const categoryField = {
+    label: 'Category',
+    id: 'category',
+    rules: [{
+        required: true,
+        message: 'Saisissez une catégorie',
+    }],
+    component: <Input placeholder="catégorie" />,
+};
+
 const wasteReductionScoreField = {
     label: 'Score de réduction des déchets',
     id: 'waste_reduction_score',
@@ -157,6 +167,7 @@ export const cardFields = [
         items: [
             titleField,
             descriptionField,
+            categoryField,
             wasteReductionScoreField,
             difficultyScoreField,
             costScoreField,

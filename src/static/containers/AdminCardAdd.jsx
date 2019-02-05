@@ -81,6 +81,7 @@ class AdminCardAdd extends Component {
             initialData = {
                 title: get(cardData, 'title', ''),
                 description: get(cardData, 'description', ''),
+                category: get(cardData, 'category', ''),
                 waste_reduction_score: get(cardData, 'waste_reduction_score'),
                 difficulty_score: get(cardData, 'difficulty_score'),
                 cost_score: get(cardData, 'cost_score'),
