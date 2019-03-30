@@ -33,7 +33,7 @@
     "body-parser": "1.18.3",
     "classnames": "^2.2.6",
     "clean-webpack-plugin": "0.1.19",
-    "css-loader": "0.28.11",
+    "css-loader": "1.0.0",
     "errorhandler": "1.5.0",
     "es6-promise": "4.2.4",
     "eslint-plugin-security": "^1.4.0",
