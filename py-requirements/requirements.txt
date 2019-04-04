@@ -2,7 +2,7 @@ Django==2.2
 django-extensions==2.1.6
 
 # PostgresSQL
-psycopg2-binary==2.7.7
+psycopg2-binary==2.8
 
 # serve files
 whitenoise==4.1.2
