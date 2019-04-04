@@ -33,7 +33,7 @@
     "body-parser": "1.18.3",
     "classnames": "^2.2.6",
     "clean-webpack-plugin": "0.1.19",
-    "css-loader": "0.28.11",
+    "css-loader": "1.0.0",
     "errorhandler": "1.5.0",
     "es6-promise": "4.2.4",
     "eslint-plugin-security": "^1.4.0",
@@ -65,7 +65,7 @@
     "webpack": "4.16.5",
     "webpack-merge": "^4.1.4",
     "whatwg-fetch": "2.0.4",
-    "yargs": "11.0.0",
+    "yargs": "12.0.2",
     "snyk": "^1.123.0"
   },
   "devDependencies": {
