@@ -22,4 +22,4 @@ git+https://github.com/Seedstars/django-rest-logger.git
 django-rest-knox==4.1.0
 
 # For image fields
-Pillow==7.1.2
+Pillow==7.2.0
