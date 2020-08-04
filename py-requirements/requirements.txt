@@ -5,7 +5,7 @@ django-extensions==3.0.3
 psycopg2-binary==2.8.5
 
 # serve files
-whitenoise==5.1.0
+whitenoise==5.2.0
 
 # Rest Framework
 djangorestframework==3.11.0
