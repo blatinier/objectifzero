@@ -18,7 +18,7 @@
   "dependencies": {
     "antd": "3.8.2",
     "async-validator": "^1.8.2",
-    "autoprefixer": "8.4.1",
+    "autoprefixer": "9.0.0",
     "babel-core": "6.26.3",
     "babel-loader": "7.1.5",
     "babel-plugin-react-display-name": "2.0.0",
