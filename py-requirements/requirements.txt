@@ -1,4 +1,4 @@
-Django==2.0.7
+Django==3.2.23
 django-extensions==2.1.0
 
 # PostgresSQL
@@ -22,4 +22,4 @@ git+https://github.com/Seedstars/django-rest-logger.git
 django-rest-knox==3.1.5
 
 # For image fields
-Pillow==5.2.0
+Pillow==10.0.0
